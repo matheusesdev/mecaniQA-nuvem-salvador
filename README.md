@@ -2,28 +2,28 @@
 
 Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
-## Escopo desta sessao
+## Escopo desta sessão
 
-Este estado do repositorio corresponde somente ao Encontro 1 (26/08/2026): empacotamento e validacao isolada da API Java, do MySQL e do Redis com Docker.
+Este estado do repositório corresponde somente ao Encontro 1 (26/08/2026): empacotamento e validação isolada da API Java, do MySQL e do Redis com Docker.
 
-Ainda nao fazem parte desta sessao: Docker Compose, Kubernetes, K9s, Terraform e a apresentacao final.
+Ainda não fazem parte desta sessão: Docker Compose, Kubernetes, K9s, Terraform e a apresentação final.
 
 ## Equipe registrada no guia
 
-- Matheus Espirito Santo dos Santos - Desenvolvedor Piloto
-- Albert Santos Soares - Copiloto (Revisor de Logica) e Analista de Qualidade (QA)
-- Rafael Pires Araujo - Arquiteto de Software / Documentador
+- Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
+- Albert Santos Soares - Copiloto (Revisor de Lógica) e Analista de Qualidade (QA)
+- Rafael Pires Araújo - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
 
-## Decisao tecnica da equipe
+## Decisão técnica da equipe
 
-A API usa `eclipse-temurin:17-jdk-alpine`, conforme decidido no brainstorm. A imagem fornece o JDK 17 e usa Alpine Linux. O container documenta a porta `8080`, e a aplicacao Java e o processo principal por meio de `ENTRYPOINT ["java", "-jar", "app.jar"]`.
+A API usa `eclipse-temurin:17-jdk-alpine`, conforme decidido no brainstorm. A imagem fornece o JDK 17 e usa Alpine Linux. O contêiner documenta a porta `8080`, e a aplicação Java é o processo principal por meio do `ENTRYPOINT ["java", "-jar", "app.jar"]`.
 
-## Pre-requisito
+## Pré-requisito
 
-- Docker Engine ou Docker Desktop em execucao.
+- Docker Engine ou Docker Desktop em execução.
 
-Os comandos abaixo devem ser executados na raiz do repositorio.
+Os comandos abaixo devem ser executados na raiz do repositório.
 
 ## 1. API Java
 
@@ -59,13 +59,13 @@ Construir a imagem:
 docker build -t mecaniqa-mysql:encontro1 ./mysql
 ```
 
-Executar isoladamente com persistencia em volume nomeado:
+Executar isoladamente com persistência em volume nomeado:
 
 ```bash
 docker run --name mecaniqa-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mecaniqa_root -e MYSQL_DATABASE=mecaniqa -v mecaniqa-mysql-data:/var/lib/mysql -d mecaniqa-mysql:encontro1
 ```
 
-Validar o ciclo de vida e a saude:
+Validar o ciclo de vida e a saúde:
 
 ```bash
 docker ps --filter name=mecaniqa-mysql
@@ -73,7 +73,7 @@ docker inspect --format '{{.State.Health.Status}}' mecaniqa-mysql
 docker logs mecaniqa-mysql
 ```
 
-> A senha acima e apenas para desenvolvimento local. Nao deve ser reutilizada em producao.
+> A senha acima é apenas para desenvolvimento local. Não deve ser reutilizada em produção.
 
 ## 3. Redis
 
@@ -83,20 +83,20 @@ Construir a imagem:
 docker build -t mecaniqa-redis:encontro1 ./redis
 ```
 
-Executar isoladamente com persistencia em volume nomeado:
+Executar isoladamente com persistência em volume nomeado:
 
 ```bash
 docker run --name mecaniqa-redis -p 6379:6379 -v mecaniqa-redis-data:/data -d mecaniqa-redis:encontro1
 ```
 
-Validar a saude e a resposta do servico:
+Validar a saúde e a resposta do serviço:
 
 ```bash
 docker inspect --format '{{.State.Health.Status}}' mecaniqa-redis
 docker exec mecaniqa-redis redis-cli ping
 ```
 
-A resposta esperada do ultimo comando e `PONG`.
+A resposta esperada do último comando é `PONG`.
 
 ## Encerrar os testes
 
@@ -105,4 +105,4 @@ docker stop mecaniqa-api mecaniqa-mysql mecaniqa-redis
 docker rm mecaniqa-api mecaniqa-mysql mecaniqa-redis
 ```
 
-Os volumes nomeados permanecem preservados para demonstrar persistencia. A remocao deles nao faz parte deste roteiro.
+Os volumes nomeados permanecem preservados para demonstrar persistência. A remoção deles não faz parte deste roteiro.
