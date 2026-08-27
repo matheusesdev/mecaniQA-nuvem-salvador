@@ -11,10 +11,9 @@ Ainda nao fazem parte desta sessao: Docker Compose, Kubernetes, K9s, Terraform e
 ## Equipe registrada no guia
 
 - Matheus Espirito Santo dos Santos - Desenvolvedor Piloto
-- Albert Santos Soares - Analista de Qualidade (QA)
+- Albert Santos Soares - Copiloto (Revisor de Logica) e Analista de Qualidade (QA)
 - Rafael Pires Araujo - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
-- Copiloto - nao informado no guia da sessao
 
 ## Decisao tecnica da equipe
 
