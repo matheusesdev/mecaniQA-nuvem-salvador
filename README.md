@@ -4,16 +4,29 @@ Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
 ## Escopo desta sessão
 
-Este estado do repositório corresponde somente ao Encontro 1 (26/08/2026): empacotamento e validação isolada da API Java, do MySQL e do Redis com Docker.
+Este estado do repositório contempla os encontros de 26/08/2026 e 02/09/2026:
 
-Ainda não fazem parte desta sessão: Docker Compose, Kubernetes, K9s, Terraform e a apresentação final.
+- empacotamento isolado da API Java, do MySQL e do Redis;
+- orquestração dos três serviços com Docker Compose;
+- comunicação pelo DNS interno do Docker (`db` e `redis`);
+- persistência estruturada por volumes nomeados.
 
-## Equipe registrada no guia
+Kubernetes, K9s, Terraform e a apresentação final ainda não fazem parte desta sessão.
+
+## Equipe registrada no guia - 26/08
 
 - Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
 - Albert Santos Soares - Copiloto (Revisor de Lógica) e Analista de Qualidade (QA)
 - Rafael Pires Araújo - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
+
+## Equipe registrada no guia - 02/09
+
+- Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
+- Rafael Pires Araújo - Copiloto
+- Albert Santos Soares - Arquiteto de Software / Documentador
+- Juan Pablo Barros Carvalho - Scrum Master
+- QA - não preenchido no guia
 
 ## Decisão técnica da equipe
 
@@ -106,3 +119,87 @@ docker rm mecaniqa-api mecaniqa-mysql mecaniqa-redis
 ```
 
 Os volumes nomeados permanecem preservados para demonstrar persistência. A remoção deles não faz parte deste roteiro.
+
+## 4. Entrega do Encontro 2 - Docker Compose
+
+Construir e iniciar todo o ecossistema com um único comando:
+
+```bash
+docker compose up --build -d
+```
+
+O Compose cria uma rede interna compartilhada. Nela, a API resolve o MySQL pelo nome
+`db` e o Redis pelo nome `redis`, sem IPs fixos. A API só é iniciada depois que os
+health checks dos dois serviços indicam que eles estão prontos.
+
+Verificar os três contêineres:
+
+```bash
+docker compose ps
+```
+
+Testar a API e a comunicação entre as camadas:
+
+```bash
+curl http://localhost:8080/health
+```
+
+Resposta esperada:
+
+```json
+{"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
+```
+
+O endpoint retorna HTTP 503 e identifica a dependência como `DOWN` se a API não
+conseguir abrir uma conexão com o MySQL ou o Redis pelos nomes internos.
+
+Os dados ficam fora do ciclo de vida dos contêineres nos volumes `mysql_data` e
+`redis_data`. Para reiniciar os serviços preservando os volumes:
+
+```bash
+docker compose down
+docker compose up -d
+```
+
+Para acompanhar a inicialização e diagnosticar erros:
+
+```bash
+docker compose logs -f
+```
+
+## Requisitos do encontro de 02/09 e evidências
+
+| Requisito | Implementação | Resultado |
+| --- | --- | --- |
+| Subir API, MySQL e Redis juntos | Os serviços `api`, `db` e `redis` estão no `docker-compose.yml` | Ambiente iniciado com `docker compose up --build -d` |
+| Usar DNS interno, sem IP fixo | A API recebe `DB_HOST=db` e `REDIS_HOST=redis` | Nomes resolvidos na rede compartilhada |
+| Aguardar as dependências | MySQL e Redis possuem health checks e a API usa `depends_on: condition: service_healthy` | API inicia depois das dependências saudáveis |
+| Testar a comunicação entre as camadas | `/health` abre conexões com MySQL e Redis usando host e porta configurados | HTTP 200 com MySQL e Redis em estado `UP` |
+| Preservar os dados | Volumes nomeados em `/var/lib/mysql` e `/data` | Dados permanecem fora do ciclo de vida dos contêineres |
+
+### Teste integrado executado
+
+Com os três contêineres ativos, foi executado:
+
+```powershell
+curl.exe http://localhost:8080/health
+```
+
+Resultado obtido:
+
+```json
+{"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
+```
+
+Esse resultado confirma simultaneamente que a API responde na porta publicada
+`8080`, que os nomes `db` e `redis` são resolvidos pelo DNS interno e que as portas
+dos dois serviços podem ser alcançadas pela API.
+
+### Observações de escopo
+
+- A verificação atual comprova conectividade TCP entre as camadas; operações de
+  negócio, consultas SQL e comandos Redis serão responsabilidade da evolução da API.
+- As credenciais declaradas são exclusivas para o ambiente didático local e não
+  devem ser usadas em produção.
+- A remoção completa dos volumes com `docker compose down -v` apaga os dados e,
+  por isso, não faz parte do procedimento normal de encerramento.
