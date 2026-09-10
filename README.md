@@ -4,14 +4,14 @@ Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
 ## Escopo desta sessão
 
-Este estado do repositório contempla os encontros de 26/08/2026 e 02/09/2026:
+Este repositório contempla os encontros de 26/08, 02/09 e 09/09/2026:
 
 - empacotamento isolado da API Java, do MySQL e do Redis;
 - orquestração dos três serviços com Docker Compose;
 - comunicação pelo DNS interno do Docker (`db` e `redis`);
 - persistência estruturada por volumes nomeados.
 
-Kubernetes, K9s, Terraform e a apresentação final ainda não fazem parte desta sessão.
+A entrega de 09/09 inclui Kubernetes e K9s. Terraform e a apresentação final ficam para etapas posteriores.
 
 ## Equipe registrada no guia - 26/08
 
@@ -203,3 +203,109 @@ dos dois serviços podem ser alcançadas pela API.
   devem ser usadas em produção.
 - A remoção completa dos volumes com `docker compose down -v` apaga os dados e,
   por isso, não faz parte do procedimento normal de encerramento.
+
+## 5. Entrega do Encontro 3 - Kubernetes (09/09/2026)
+
+Branch: `entrega-kubernetes-09-09`. Piloto: Juan Pablo; copiloto: Matheus Santos,
+conforme o guia. Demais papéis não preenchidos no documento.
+
+| Componente | Deployment / Service | Persistência | Acesso |
+| --- | --- | --- | --- |
+| API Java | api | Sem estado; não requer PVC | NodePort 30080 → porta 8080 |
+| MySQL | mysql | mysql-data, 1 GiB em /var/lib/mysql | ClusterIP, mysql:3306 |
+| Redis | redis | redis-data, 1 GiB em /data, AOF habilitado | ClusterIP, redis:6379 |
+
+Os recursos ficam no namespace `mecaniqa`. Os Deployments mantêm uma réplica e
+recriam Pods que falham. MySQL e Redis usam estratégia `Recreate` para evitar
+instâncias concorrentes escrevendo no mesmo volume durante atualizações.
+Cada contêiner tem requests e limits de CPU e memória. A readiness da API consulta
+`/health` (conectividade TCP aos dois bancos); startup e liveness verificam sua
+porta, evitando reinícios da API causados por indisponibilidade dos bancos.
+O Secret contém uma senha exclusivamente didática. A API atual verifica TCP;
+não autentica no MySQL nem executa operações de negócio.
+
+### Cluster local reproduzível no Windows
+
+Pré-requisitos: Docker Desktop em modo Linux, kubectl, Kind e K9s.
+O script exige por padrão uma reserva de 8 GiB livres na unidade de
+`LOCALAPPDATA`, onde fica o disco do Docker nesta máquina, para evitar a repetição
+das falhas de armazenamento observadas. A reserva pode ser ajustada com
+`-MinimumFreeDiskGB` se o armazenamento do Docker estiver configurado de outra forma.
+As ferramentas desta execução estão em `.local/bin/` (ignoradas pelo Git).
+Instalação em outra máquina: obtenha os binários Windows amd64 nas páginas
+oficiais de [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/) e
+[K9s](https://github.com/derailed/k9s/releases) e confira seus checksums.
+Coloque Kind em `.local/bin/kind.exe` e K9s em `.local/bin/k9s/k9s.exe`.
+
+Na raiz do projeto, execute:
+
+```powershell
+./scripts/deploy-local.ps1
+$env:KUBECONFIG = Join-Path (Get-Location) '.local/kubeconfig'
+kubectl --context kind-mecaniqa get nodes
+curl.exe --fail http://localhost:18080/health
+.local/bin/k9s/k9s.exe --kubeconfig .local/kubeconfig --context kind-mecaniqa -n mecaniqa --readonly
+```
+
+O script constrói as três imagens, cria o cluster `mecaniqa` definido em
+`infra/kind.yaml`, carrega as imagens no runtime do Kind, valida no servidor,
+aplica os manifestos e aguarda os rollouts. O kubeconfig fica apenas em `.local/`.
+A porta 18080 do computador encaminha para o NodePort 30080, sem depender de
+port-forward. O bind em localhost é adequado à demonstração nesta máquina.
+As imagens mantêm a tag `encontro1` dos Dockerfiles já existentes; depois de
+reconstruí-las, carregue-as novamente e reinicie os Deployments para atualizar Pods.
+
+Resposta esperada:
+
+```json
+{"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
+```
+
+### Aplicação manual em outro cluster
+
+Confira o contexto antes de aplicar. Publique as imagens em um registry acessível
+aos nós e ajuste `image` nos manifestos, ou carregue-as no runtime de todos os nós.
+O cluster precisa de uma StorageClass padrão para provisionar os PVCs.
+
+```powershell
+kubectl config current-context
+kubectl get storageclass
+kubectl apply -f k8s/namespace.yaml
+kubectl apply --dry-run=server -f k8s/
+kubectl apply -f k8s/
+kubectl -n mecaniqa rollout status deployment/mysql --timeout=300s
+kubectl -n mecaniqa rollout status deployment/redis --timeout=300s
+kubectl -n mecaniqa rollout status deployment/api --timeout=300s
+kubectl -n mecaniqa get deploy,pods,svc,pvc
+```
+
+A API fica disponível em `http://<IP-acessível-do-nó>:30080/health` se a rede
+permitir. Em nuvem com controlador de LoadBalancer, o Service da API pode usar
+`type: LoadBalancer`; consulte o endereço em `kubectl -n mecaniqa get svc api`.
+MySQL e Redis permanecem internos.
+
+### Inspeção e diagnóstico
+
+No K9s, use `:deploy`, `:pods`, `:svc`, `:pvc` e `:events`; selecione um Pod e use
+`l` para logs e `d` para detalhes. Use `:q` para sair. CPU e memória dependem de
+Metrics Server disponível; ausência de métricas não significa consumo zero.
+Veja os [comandos oficiais do K9s](https://k9scli.io/topics/commands/).
+
+```powershell
+kubectl -n mecaniqa get endpointslices
+kubectl -n mecaniqa get events --sort-by=.metadata.creationTimestamp
+kubectl -n mecaniqa logs deployment/api --tail=50
+kubectl -n mecaniqa describe pods
+kubectl -n mecaniqa top pods
+```
+
+Para `CrashLoopBackOff`, examine também `kubectl logs <pod> --previous -n mecaniqa`.
+Para PVC `Pending`, verifique StorageClass e eventos; para `ImagePullBackOff`,
+confira imagem, runtime e acesso ao registry. Os probes seguem o comportamento
+explicado na [documentação Kubernetes](https://kubernetes.io/docs/concepts/workloads/pods/probes/).
+
+Os PVCs sobrevivem à recriação dos Pods. No Kind, seus dados ficam no contêiner
+do nó: remover o cluster também remove essa persistência local. Não exclua o
+namespace ou os PVCs para encerrar uma demonstração que deve preservar dados.
+
+As evidências da execução ficam em `docs/validacao-kubernetes.md`.
