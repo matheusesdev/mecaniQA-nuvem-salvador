@@ -2,7 +2,33 @@
 
 Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
-## Escopo desta sessão
+Última revisão documental: **06/10/2026**. Branch desta revisão:
+`ajuste-readme-oat1-2026-10-06`.
+
+## Entregas por data e requisitos do professor
+
+As datas abaixo correspondem aos encontros solicitados no caderno. A existência
+dos arquivos e dos registros históricos não comprova a data de submissão ao professor.
+
+| Encontro | Solicitado no caderno | Implementação e registros disponíveis |
+| --- | --- | --- |
+| 26/08/2026 — Docker | Repositório da equipe e convite ao professor; Dockerfiles para Java, MySQL e Redis; build e execução isolada | Repositório e três Dockerfiles presentes; comandos de build e execução descritos neste README. Convite ao professor e evidências completas dos testes isolados ainda precisam de confirmação. |
+| 02/09/2026 — Docker Compose | Integrar os três builds, configurar rede e volumes, iniciar o ambiente com um comando e testar a comunicação | Compose com três serviços, DNS interno, rede compartilhada e volumes nomeados; resposta integrada registrada anteriormente neste README. |
+| 09/09/2026 — Kubernetes | Deployments e Services dos três serviços; aplicação no cluster; inspeção pelo K9s, métricas e eventuais CrashLoopBackOff | Manifestos presentes; registro histórico de aplicação, conectividade, persistência, recuperação da API e inspeção de Pods no K9s. Coleta de métricas e análise de gargalos não estão comprovadas. |
+
+## Ajustes documentais de 06/10/2026
+
+- Descrição da API alinhada ao código: `/health` verifica conexões TCP; não grava dados nem executa operações de negócio.
+- Roteiro isolado da API corrigido para HTTP 503 quando os bancos estão inacessíveis; explicado o estado `unhealthy` nesse cenário.
+- Registro Kubernetes organizado para separar os resultados históricos das tentativas com impedimentos e da conferência atual.
+- Criado `docs/respostas-caderno.md` com seis respostas para os campos de decisão e pendências de preenchimento. O Word original permanece sem alteração; nomes e papéis aguardam confirmação.
+- Preservados os nomes e as funções da equipe registrados neste repositório.
+- Verificadas a configuração do Compose e a integridade do diff. Testes dos serviços e métricas não foram reexecutados porque o Docker Engine estava inacessível.
+
+Esta revisão altera documentação. Os arquivos da API, Dockerfiles, Compose e
+manifestos Kubernetes mantêm a implementação existente.
+
+## Escopo do projeto
 
 Este repositório contempla os encontros de 26/08, 02/09 e 09/09/2026:
 
@@ -11,22 +37,28 @@ Este repositório contempla os encontros de 26/08, 02/09 e 09/09/2026:
 - comunicação pelo DNS interno do Docker (`db` e `redis`);
 - persistência estruturada por volumes nomeados.
 
-A entrega de 09/09 inclui Kubernetes e K9s. Terraform e a apresentação final ficam para etapas posteriores.
+A entrega de 09/09 inclui Kubernetes e K9s. O caderno enviado contém somente esses três encontros. Existe uma apresentação em `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`; sua presença não comprova apresentação em aula.
 
-## Equipe registrada no guia - 26/08
+A API implementa `/health`: verifica conectividade TCP com MySQL e Redis e retorna HTTP 200 quando ambos estão acessíveis ou HTTP 503 quando alguma dependência está indisponível. Não executa consultas SQL, comandos Redis ou gravação de telemetria. Os testes de persistência registrados foram realizados diretamente nos bancos.
+
+As respostas para os campos de decisão e as pendências de preenchimento do caderno estão em [respostas-caderno.md](docs/respostas-caderno.md).
+
+## Equipe registrada no README - 26/08 (a confirmar)
 
 - Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
 - Albert Santos Soares - Copiloto (Revisor de Lógica) e Analista de Qualidade (QA)
 - Rafael Pires Araújo - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
 
-## Equipe registrada no guia - 02/09
+## Equipe registrada no README - 02/09 (a confirmar)
 
 - Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
 - Rafael Pires Araújo - Copiloto
 - Albert Santos Soares - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
 - QA - não preenchido no guia
+
+Esses registros são informações preexistentes do repositório. O caderno enviado em 06/10/2026 tem a maioria dos papéis vazios e apresenta o nome Lucas Almeida Silva no primeiro encontro. Confirmar os participantes e seus papéis antes de preencher ou substituir nomes no caderno.
 
 ## Decisão técnica da equipe
 
@@ -55,14 +87,16 @@ docker run --name mecaniqa-api -p 8080:8080 mecaniqa-api:encontro1
 Em outro terminal, validar a resposta:
 
 ```bash
-curl http://localhost:8080/health
+curl.exe -i http://localhost:8080/health
 ```
 
-Resposta esperada:
+Resposta esperada no teste isolado, sem MySQL e Redis acessíveis: HTTP `503 Service Unavailable`.
 
 ```json
-{"status":"UP","service":"mecaniqa-api"}
+{"status":"DOWN","service":"mecaniqa-api","mysql":"DOWN","redis":"DOWN"}
 ```
+
+A resposta demonstra que o servidor HTTP está funcionando, mas as dependências estão indisponíveis. Nesse teste, o health check do contêiner fica `unhealthy`, pois consulta o mesmo endpoint. Para obter HTTP 200 e os três componentes em `UP`, execute o ambiente integrado com Docker Compose. `EXPOSE` documenta a porta; a publicação no host é feita por `-p 8080:8080`.
 
 ## 2. MySQL
 
@@ -177,7 +211,7 @@ docker compose logs -f
 | Testar a comunicação entre as camadas | `/health` abre conexões com MySQL e Redis usando host e porta configurados | HTTP 200 com MySQL e Redis em estado `UP` |
 | Preservar os dados | Volumes nomeados em `/var/lib/mysql` e `/data` | Dados permanecem fora do ciclo de vida dos contêineres |
 
-### Teste integrado executado
+### Teste integrado registrado anteriormente
 
 Com os três contêineres ativos, foi executado:
 
@@ -191,14 +225,15 @@ Resultado obtido:
 {"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
 ```
 
-Esse resultado confirma simultaneamente que a API responde na porta publicada
+Esse resultado registrado confirma simultaneamente que a API responde na porta publicada
 `8080`, que os nomes `db` e `redis` são resolvidos pelo DNS interno e que as portas
 dos dois serviços podem ser alcançadas pela API.
 
 ### Observações de escopo
 
 - A verificação atual comprova conectividade TCP entre as camadas; operações de
-  negócio, consultas SQL e comandos Redis serão responsabilidade da evolução da API.
+  negócio, consultas SQL e comandos Redis não estão implementados na API.
+- Volumes e PVCs configurados preservam dados armazenados pelos bancos quando reutilizados. A configuração sozinha não comprova um teste de gravação e recuperação; a evidência histórica do Kubernetes está em `docs/validacao-kubernetes.md`.
 - As credenciais declaradas são exclusivas para o ambiente didático local e não
   devem ser usadas em produção.
 - A remoção completa dos volumes com `docker compose down -v` apaga os dados e,
@@ -207,7 +242,7 @@ dos dois serviços podem ser alcançadas pela API.
 ## 5. Entrega do Encontro 3 - Kubernetes (09/09/2026)
 
 Branch: `entrega-kubernetes-09-09`. Piloto: Juan Pablo; copiloto: Matheus Santos,
-conforme o guia. Demais papéis não preenchidos no documento.
+conforme o registro anterior do repositório, a confirmar pela equipe. O caderno enviado não preenche esses papéis.
 
 | Componente | Deployment / Service | Persistência | Acesso |
 | --- | --- | --- | --- |
@@ -309,3 +344,11 @@ do nó: remover o cluster também remove essa persistência local. Não exclua o
 namespace ou os PVCs para encerrar uma demonstração que deve preservar dados.
 
 As evidências da execução ficam em `docs/validacao-kubernetes.md`.
+
+### Pendências da conferência de 06/10/2026
+
+- O Docker Engine está inacessível nesta conferência; builds, testes isolados e testes integrados não foram reexecutados.
+- O arquivo Compose passou em `docker compose config --quiet`; isso valida a configuração, não a execução dos serviços.
+- Não há evidência registrada de coleta de CPU/memória pelo K9s. Verifique `kubectl get apiservice v1beta1.metrics.k8s.io` e `kubectl -n mecaniqa top pods` com o cluster disponível; registre os valores observados e inspecione `:pods` e `:events` no K9s. Ausência de métricas deve ser registrada como pendência.
+- Para `CrashLoopBackOff`, registre os Pods afetados e seus logs; se não houver ocorrências na inspeção, registre essa ausência com data e contexto.
+- Confirmar o convite ao professor e registrar as saídas dos builds e testes isolados de API, MySQL e Redis.

@@ -2,9 +2,17 @@
 
 Branch criada: `entrega-kubernetes-09-09`.
 
-## Estado mais recente — retomada de 10/09/2026
+## Conferência atual — 06/10/2026
 
-### Validação concluída
+O Docker Engine está inacessível (pipe `dockerDesktopLinuxEngine` ausente).
+Na conferência anterior desta sessão, o acesso ao cluster pelo kubeconfig local
+também foi recusado. Os testes em execução não foram repetidos nesta revisão.
+Os resultados abaixo são registros históricos preexistentes, não resultados
+obtidos em 06/10/2026. Não há evidência registrada de coleta de CPU/memória no K9s.
+
+## Resultado de validação registrado — retomada de 10/09/2026
+
+### Execução bem-sucedida descrita no registro anterior
 
 Com 4,94 GiB livres, o script foi executado com `-MinimumFreeDiskGB 4`. As três
 imagens foram reconstruídas a partir do cache e o cluster Kind `mecaniqa` foi
@@ -39,6 +47,17 @@ foi encerrada normalmente com `:q`. As advertências de readiness da API e start
 do MySQL nos eventos ocorreram durante a inicialização/recriação e foram seguidas
 por rollouts bem-sucedidos.
 
+Esses testes de persistência utilizaram comandos diretamente no MySQL e no Redis.
+A API apenas verificou conectividade TCP. O registro de Pods `Running` no K9s
+não comprova coleta de métricas nem análise de gargalos.
+
+## Histórico de tentativas com impedimentos
+
+Os trechos seguintes foram preservados do registro anterior. Suas referências
+a atividades pendentes descrevem aquelas tentativas, não invalidam por si só
+a execução bem-sucedida acima. A ordem cronológica de todos os trechos não está
+comprovada; a revisão atual não atribui novas datas nem novos resultados a eles.
+
 Na nova tentativa solicitada, o Docker respondeu a `docker info`, mas a proteção
 do script interrompeu a execução com 3,27 GiB livres em C:, abaixo da reserva
 configurada de 8 GiB. Nenhum build ou aplicação foi iniciado por essa execução.
@@ -61,8 +80,7 @@ O script agora verifica uma reserva operacional de 8 GiB livres na unidade de
 `LOCALAPPDATA` antes dos builds, da criação do cluster e da carga de imagens.
 Esse valor é uma margem para esta máquina, não um requisito universal do Kind;
 pode ser ajustado pelo parâmetro `MinimumFreeDiskGB`. O parser PowerShell e
-`git diff --check` aceitaram a alteração. O histórico abaixo registra as tentativas
-anteriores e não substitui este estado mais recente.
+`git diff --check` aceitaram a alteração naquela revisão.
 
 ## Implementação
 
@@ -72,7 +90,7 @@ anteriores e não substitui este estado mais recente.
 - Probes, requests/limits e estratégia Recreate para os bancos.
 - Script `scripts/deploy-local.ps1` para construir, carregar, aplicar e validar.
 
-## Execução e impedimento
+## Histórico — execução e impedimento
 
 O kubectl v1.34.1 está instalado, mas não havia contexto configurado.
 Kind v0.33.0 e K9s v0.51.0 foram baixados dos repositórios oficiais para
@@ -103,7 +121,7 @@ Não houve aplicação em cluster, teste HTTP externo, teste de persistência,
 inspeção de Pods no K9s nem coleta de métricas. Resultados esperados no README
 não representam testes executados nesta etapa.
 
-## Retomada
+## Histórico — retomadas com impedimentos
 
 Na tentativa seguinte, a reinicialização normal autorizada foi executada com
 `docker desktop restart --timeout 120`, mas terminou com `context deadline
@@ -126,6 +144,8 @@ Assim, liberar espaço por si só ainda não restabeleceu as gravações.
 O contêiner existente `degrader_api` usa a imagem `autotruck-api-api` e política
 de reinício `always`; reiniciar Docker interromperia temporariamente esse serviço.
 Nenhum cluster Kind foi encontrado e nenhum manifesto foi aplicado nesta tentativa.
+
+## Roteiro para nova validação (a executar)
 
 Libere espaço suficiente para as imagens e o disco virtual do Docker. Se os
 erros de entrada/saída persistirem, recupere o funcionamento do Docker Desktop
