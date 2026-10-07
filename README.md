@@ -5,6 +5,68 @@ Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 Última revisão documental: **06/10/2026**. Branch desta revisão:
 `ajuste-readme-oat1-2026-10-06`.
 
+## Contexto do trabalho
+
+Este projeto acadêmico integra a OAT 1 do programa de trainee da MecâniQA Tech,
+startup apresentada no enunciado como fornecedora de um sistema SaaS de gestão
+e diagnóstico automotivo para oficinas mecânicas. O cenário proposto utiliza
+uma aplicação Java, MySQL para dados transacionais e Redis para armazenamento
+de alta velocidade, em uma infraestrutura local instável com esgotamento de recursos.
+
+A equipe Salvador atua no papel de Engenheiros Cloud/DevOps para construir
+uma fundação conteinerizada e resiliente: empacotar os serviços separadamente,
+orquestrar o ambiente local, configurar comunicação e persistência e declarar
+os recursos Kubernetes. A especificação geral também solicita configuração
+inicial de provisionamento com Terraform, ainda ausente neste repositório.
+
+A implementação Java deste repositório é uma API de verificação de conectividade
+para demonstrar a infraestrutura. As funcionalidades de gestão e diagnóstico
+descritas no cenário do produto não estão implementadas nesta API.
+
+## Membros do time Salvador
+
+- Matheus Espírito Santo dos Santos
+- Albert Santos Soares
+- Rafael Pires Araújo
+- Juan Pablo Barros Carvalho
+
+As funções registradas por encontro estão preservadas nas seções de equipe
+abaixo. O documento geral prevê cinco integrantes por time e exige que exceções
+sejam registradas e autorizadas pelo orientador. Este README registra os quatro
+nomes existentes no projeto; a autorização dessa composição precisa ser confirmada.
+
+## Organização das sessões
+
+Conforme a estrutura de sessões fornecida pelo professor, o trabalho segue
+SCRUM, com distribuição de papéis, brainstorm de Fatos, Questões e Ideias,
+modelagem e cenários de teste, execução em dupla, validação pelo QA e fechamento
+da documentação. Os papéis são Desenvolvedor Piloto, Co-Piloto, Analista de
+Qualidade, Arquiteto de Software / Documentador e Scrum Master / Apresentador.
+Boards, relatórios, cenários de teste e repositório são os registros de avaliação
+previstos; esta descrição da dinâmica não comprova a realização de cada atividade.
+
+## Requisitos gerais da OAT 1 e situação do repositório
+
+| Requisito da especificação geral | Situação na revisão de 06/10/2026 |
+| --- | --- |
+| Repositório `mecaniQA-nuvem-<nome_do_time>` | Nome conforme o padrão: `mecaniQA-nuvem-salvador`. |
+| README com contexto e nomes dos membros | Contexto e quatro integrantes registrados neste documento, com funções por encontro preservadas. |
+| Dockerfiles de Java, MySQL e Redis | Presentes em `api/`, `mysql/` e `redis/`. |
+| Compose com os serviços, rede e persistência | Presente em `docker-compose.yml`; configuração validada nesta revisão. |
+| Manifestos Kubernetes e configuração inicial Terraform | Manifestos em `k8s/`; não há arquivos Terraform versionados. `infra/kind.yaml` configura o cluster Kind local, não substitui Terraform. |
+| Monitoramento com K9s | Há registro histórico de inspeção de Pods; coleta de métricas não comprovada. |
+| Apresentação `mecaniQA_oat1_<nome_da_equipe>.pdf` | Existe `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`, cujo nome diverge do padrão solicitado `mecaniQA_oat1_salvador.pdf`. |
+| Link na tabela de Equipes e convite ao professor `lasilva` | Confirmação pendente; não verificável pelos arquivos locais. |
+| Apresentação no modelo e submissão no Blackboard | PDF presente; conformidade com o modelo e submissão não verificadas nesta revisão. |
+
+O documento informa **19/09/2026** como prazo do entregável e **até 14/10/2026**
+para a apresentação. A apresentação deve durar no máximo sete minutos, ser feita
+por um integrante escolhido pelo professor e ser versionada e submetida no Blackboard.
+
+O professor determina que a entrega avaliada é a disponível na **branch `main`
+até a data limite**. Esta revisão está na branch de ajustes e não foi integrada
+à `main`; sua publicação não altera nem comprova o conteúdo entregue no prazo.
+
 ## Entregas por data e requisitos do professor
 
 As datas abaixo correspondem aos encontros solicitados no caderno. A existência
@@ -24,6 +86,7 @@ dos arquivos e dos registros históricos não comprova a data de submissão ao p
 - Criado `docs/respostas-caderno.md` com seis respostas para os campos de decisão e pendências de preenchimento. O Word original permanece sem alteração; nomes e papéis aguardam confirmação.
 - Preservados os nomes e as funções da equipe registrados neste repositório.
 - Verificadas a configuração do Compose e a integridade do diff. Testes dos serviços e métricas não foram reexecutados porque o Docker Engine estava inacessível.
+- Após leitura dos documentos gerais, acrescentados o contexto do produto, a dinâmica das sessões, os membros do time e os requisitos de Terraform, apresentação, prazos e branch de avaliação.
 
 Esta revisão altera documentação. Os arquivos da API, Dockerfiles, Compose e
 manifestos Kubernetes mantêm a implementação existente.
@@ -38,6 +101,10 @@ Este repositório contempla os encontros de 26/08, 02/09 e 09/09/2026:
 - persistência estruturada por volumes nomeados.
 
 A entrega de 09/09 inclui Kubernetes e K9s. O caderno enviado contém somente esses três encontros. Existe uma apresentação em `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`; sua presença não comprova apresentação em aula.
+
+A especificação geral da OAT 1 complementa o caderno e inclui Terraform e os
+requisitos de apresentação detalhados acima. A ausência desses itens não deve
+ser interpretada como uma entrega integral da OAT 1.
 
 A API implementa `/health`: verifica conectividade TCP com MySQL e Redis e retorna HTTP 200 quando ambos estão acessíveis ou HTTP 503 quando alguma dependência está indisponível. Não executa consultas SQL, comandos Redis ou gravação de telemetria. Os testes de persistência registrados foram realizados diretamente nos bancos.
 
