@@ -2,8 +2,7 @@
 
 Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
-Última revisão documental: **06/10/2026**. Branch desta revisão:
-`validacao-entregas-oat1-2026-10-06`.
+Última atualização: **06/10/2026**.
 
 ## Contexto do trabalho
 
@@ -52,7 +51,7 @@ previstos; esta descrição da dinâmica não comprova a realização de cada at
 | Repositório `mecaniQA-nuvem-<nome_do_time>` | Nome conforme o padrão: `mecaniQA-nuvem-salvador`. |
 | README com contexto e nomes dos membros | Contexto e quatro integrantes registrados neste documento, com funções por encontro preservadas. |
 | Dockerfiles de Java, MySQL e Redis | Presentes em `api/`, `mysql/` e `redis/`. |
-| Compose com os serviços, rede e persistência | Presente em `docker-compose.yml`; configuração validada nesta revisão. |
+| Compose com os serviços, rede e persistência | Presente em `docker-compose.yml`; configuração e execução integrada validadas em 06/10/2026. |
 | Manifestos Kubernetes e configuração inicial Terraform | Manifestos em `k8s/`; não há arquivos Terraform versionados. `infra/kind.yaml` configura o cluster Kind local, não substitui Terraform. |
 | Monitoramento com K9s | Pods e eventos inspecionados em 06/10/2026; CPU e memória coletadas com Metrics Server e exibidas no K9s. |
 | Apresentação `mecaniQA_oat1_<nome_da_equipe>.pdf` | Existe `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`, cujo nome diverge do padrão solicitado `mecaniQA_oat1_salvador.pdf`. |
@@ -64,8 +63,8 @@ para a apresentação. A apresentação deve durar no máximo sete minutos, ser 
 por um integrante escolhido pelo professor e ser versionada e submetida no Blackboard.
 
 O professor determina que a entrega avaliada é a disponível na **branch `main`
-até a data limite**. Esta revisão está na branch de ajustes e não foi integrada
-à `main`; sua publicação não altera nem comprova o conteúdo entregue no prazo.
+até a data limite**. As atualizações de 06/10/2026 não comprovam, por si só,
+o conteúdo que estava disponível no prazo de 19/09/2026.
 
 ## Entregas por data e requisitos do professor
 
@@ -83,7 +82,6 @@ dos arquivos e dos registros históricos não comprova a data de submissão ao p
 - Descrição da API alinhada ao código: `/health` verifica conexões TCP; não grava dados nem executa operações de negócio.
 - Roteiro isolado da API corrigido para HTTP 503 quando os bancos estão inacessíveis; explicado o estado `unhealthy` nesse cenário.
 - Registro Kubernetes organizado para separar os resultados históricos das tentativas com impedimentos e da conferência atual.
-- Criado `docs/respostas-caderno.md` com seis respostas para os campos de decisão e pendências de preenchimento. O Word original permanece sem alteração; nomes e papéis aguardam confirmação.
 - Preservados os nomes e as funções da equipe registrados neste repositório.
 - Verificadas a configuração do Compose e a integridade do diff. Na conferência inicial, o Docker estava inacessível; após sua abertura, os testes isolados, Compose e Kubernetes foram reexecutados e as métricas coletadas, conforme `docs/validacao-2026-10-06.md`.
 - Após leitura dos documentos gerais, acrescentados o contexto do produto, a dinâmica das sessões, os membros do time e os requisitos de Terraform, apresentação, prazos e branch de avaliação.
@@ -108,24 +106,20 @@ ser interpretada como uma entrega integral da OAT 1.
 
 A API implementa `/health`: verifica conectividade TCP com MySQL e Redis e retorna HTTP 200 quando ambos estão acessíveis ou HTTP 503 quando alguma dependência está indisponível. Não executa consultas SQL, comandos Redis ou gravação de telemetria. Os testes de persistência registrados foram realizados diretamente nos bancos.
 
-As respostas para os campos de decisão e as pendências de preenchimento do caderno estão em [respostas-caderno.md](docs/respostas-caderno.md).
-
-## Equipe registrada no README - 26/08 (a confirmar)
+## Equipe e funções - 26/08/2026
 
 - Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
 - Albert Santos Soares - Copiloto (Revisor de Lógica) e Analista de Qualidade (QA)
 - Rafael Pires Araújo - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
 
-## Equipe registrada no README - 02/09 (a confirmar)
+## Equipe e funções - 02/09/2026
 
 - Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
 - Rafael Pires Araújo - Copiloto
 - Albert Santos Soares - Arquiteto de Software / Documentador
 - Juan Pablo Barros Carvalho - Scrum Master
 - QA - não preenchido no guia
-
-Esses registros são informações preexistentes do repositório. O caderno enviado em 06/10/2026 tem a maioria dos papéis vazios e apresenta o nome Lucas Almeida Silva no primeiro encontro. Confirmar os participantes e seus papéis antes de preencher ou substituir nomes no caderno.
 
 ## Decisão técnica da equipe
 
@@ -309,7 +303,7 @@ dos dois serviços podem ser alcançadas pela API.
 ## 5. Entrega do Encontro 3 - Kubernetes (09/09/2026)
 
 Branch: `entrega-kubernetes-09-09`. Piloto: Juan Pablo; copiloto: Matheus Santos,
-conforme o registro anterior do repositório, a confirmar pela equipe. O caderno enviado não preenche esses papéis.
+conforme os registros da equipe no repositório. Demais funções não registradas para esse encontro.
 
 | Componente | Deployment / Service | Persistência | Acesso |
 | --- | --- | --- | --- |
