@@ -4,11 +4,11 @@ Branch criada: `entrega-kubernetes-09-09`.
 
 ## Conferência atual — 06/10/2026
 
-O Docker Engine está inacessível (pipe `dockerDesktopLinuxEngine` ausente).
-Na conferência anterior desta sessão, o acesso ao cluster pelo kubeconfig local
-também foi recusado. Os testes em execução não foram repetidos nesta revisão.
-Os resultados abaixo são registros históricos preexistentes, não resultados
-obtidos em 06/10/2026. Não há evidência registrada de coleta de CPU/memória no K9s.
+Na conferência inicial, Docker e cluster estavam inacessíveis. Após a abertura
+do Docker Desktop, o cluster voltou a responder. Os manifestos foram reaplicados,
+o endpoint respondeu HTTP 200 e as métricas foram coletadas e inspecionadas no K9s.
+O registro desta execução está em [validacao-2026-10-06.md](validacao-2026-10-06.md).
+Os resultados de 10/09 abaixo continuam preservados como histórico.
 
 ## Resultado de validação registrado — retomada de 10/09/2026
 

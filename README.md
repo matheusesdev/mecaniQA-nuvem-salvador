@@ -3,7 +3,7 @@
 Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
 Última revisão documental: **06/10/2026**. Branch desta revisão:
-`ajuste-readme-oat1-2026-10-06`.
+`validacao-entregas-oat1-2026-10-06`.
 
 ## Contexto do trabalho
 
@@ -33,7 +33,7 @@ descritas no cenário do produto não estão implementadas nesta API.
 As funções registradas por encontro estão preservadas nas seções de equipe
 abaixo. O documento geral prevê cinco integrantes por time e exige que exceções
 sejam registradas e autorizadas pelo orientador. Este README registra os quatro
-nomes existentes no projeto; a autorização dessa composição precisa ser confirmada.
+nomes existentes no projeto.
 
 ## Organização das sessões
 
@@ -54,9 +54,9 @@ previstos; esta descrição da dinâmica não comprova a realização de cada at
 | Dockerfiles de Java, MySQL e Redis | Presentes em `api/`, `mysql/` e `redis/`. |
 | Compose com os serviços, rede e persistência | Presente em `docker-compose.yml`; configuração validada nesta revisão. |
 | Manifestos Kubernetes e configuração inicial Terraform | Manifestos em `k8s/`; não há arquivos Terraform versionados. `infra/kind.yaml` configura o cluster Kind local, não substitui Terraform. |
-| Monitoramento com K9s | Há registro histórico de inspeção de Pods; coleta de métricas não comprovada. |
+| Monitoramento com K9s | Pods e eventos inspecionados em 06/10/2026; CPU e memória coletadas com Metrics Server e exibidas no K9s. |
 | Apresentação `mecaniQA_oat1_<nome_da_equipe>.pdf` | Existe `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`, cujo nome diverge do padrão solicitado `mecaniQA_oat1_salvador.pdf`. |
-| Link na tabela de Equipes e convite ao professor `lasilva` | Confirmação pendente; não verificável pelos arquivos locais. |
+| Link na tabela de Equipes e convite ao professor `lasilva` | Procedimentos de entrega previstos na especificação geral. |
 | Apresentação no modelo e submissão no Blackboard | PDF presente; conformidade com o modelo e submissão não verificadas nesta revisão. |
 
 O documento informa **19/09/2026** como prazo do entregável e **até 14/10/2026**
@@ -74,9 +74,9 @@ dos arquivos e dos registros históricos não comprova a data de submissão ao p
 
 | Encontro | Solicitado no caderno | Implementação e registros disponíveis |
 | --- | --- | --- |
-| 26/08/2026 — Docker | Repositório da equipe e convite ao professor; Dockerfiles para Java, MySQL e Redis; build e execução isolada | Repositório e três Dockerfiles presentes; comandos de build e execução descritos neste README. Convite ao professor e evidências completas dos testes isolados ainda precisam de confirmação. |
+| 26/08/2026 — Docker | Repositório da equipe e convite ao professor; Dockerfiles para Java, MySQL e Redis; build e execução isolada | Repositório e três Dockerfiles presentes; builds e testes isolados reexecutados em 06/10/2026, com resultados em `docs/validacao-2026-10-06.md`. |
 | 02/09/2026 — Docker Compose | Integrar os três builds, configurar rede e volumes, iniciar o ambiente com um comando e testar a comunicação | Compose com três serviços, DNS interno, rede compartilhada e volumes nomeados; resposta integrada registrada anteriormente neste README. |
-| 09/09/2026 — Kubernetes | Deployments e Services dos três serviços; aplicação no cluster; inspeção pelo K9s, métricas e eventuais CrashLoopBackOff | Manifestos presentes; registro histórico de aplicação, conectividade, persistência, recuperação da API e inspeção de Pods no K9s. Coleta de métricas e análise de gargalos não estão comprovadas. |
+| 09/09/2026 — Kubernetes | Deployments e Services dos três serviços; aplicação no cluster; inspeção pelo K9s, métricas e eventuais CrashLoopBackOff | Manifestos reaplicados em 06/10/2026; três Pods prontos, métricas coletadas e inspeção de Pods/eventos pelo K9s. Nenhum CrashLoopBackOff observado. Persistência e recuperação da API possuem registros históricos. |
 
 ## Ajustes documentais de 06/10/2026
 
@@ -85,7 +85,7 @@ dos arquivos e dos registros históricos não comprova a data de submissão ao p
 - Registro Kubernetes organizado para separar os resultados históricos das tentativas com impedimentos e da conferência atual.
 - Criado `docs/respostas-caderno.md` com seis respostas para os campos de decisão e pendências de preenchimento. O Word original permanece sem alteração; nomes e papéis aguardam confirmação.
 - Preservados os nomes e as funções da equipe registrados neste repositório.
-- Verificadas a configuração do Compose e a integridade do diff. Testes dos serviços e métricas não foram reexecutados porque o Docker Engine estava inacessível.
+- Verificadas a configuração do Compose e a integridade do diff. Na conferência inicial, o Docker estava inacessível; após sua abertura, os testes isolados, Compose e Kubernetes foram reexecutados e as métricas coletadas, conforme `docs/validacao-2026-10-06.md`.
 - Após leitura dos documentos gerais, acrescentados o contexto do produto, a dinâmica das sessões, os membros do time e os requisitos de Terraform, apresentação, prazos e branch de avaliação.
 
 Esta revisão altera documentação. Os arquivos da API, Dockerfiles, Compose e
@@ -412,10 +412,13 @@ namespace ou os PVCs para encerrar uma demonstração que deve preservar dados.
 
 As evidências da execução ficam em `docs/validacao-kubernetes.md`.
 
-### Pendências da conferência de 06/10/2026
+### Validação executada em 06/10/2026
 
-- O Docker Engine está inacessível nesta conferência; builds, testes isolados e testes integrados não foram reexecutados.
-- O arquivo Compose passou em `docker compose config --quiet`; isso valida a configuração, não a execução dos serviços.
-- Não há evidência registrada de coleta de CPU/memória pelo K9s. Verifique `kubectl get apiservice v1beta1.metrics.k8s.io` e `kubectl -n mecaniqa top pods` com o cluster disponível; registre os valores observados e inspecione `:pods` e `:events` no K9s. Ausência de métricas deve ser registrada como pendência.
-- Para `CrashLoopBackOff`, registre os Pods afetados e seus logs; se não houver ocorrências na inspeção, registre essa ausência com data e contexto.
-- Confirmar o convite ao professor e registrar as saídas dos builds e testes isolados de API, MySQL e Redis.
+- Docker Engine 29.7.2 acessível; três imagens construídas e serviços testados isoladamente.
+- Compose iniciado com build e espera por saúde; API, MySQL e Redis saudáveis e `/health` com HTTP 200.
+- Manifestos Kubernetes validados no servidor e reaplicados ao contexto `kind-mecaniqa`; três Pods `1/1 Running` e PVCs `Bound`.
+- Metrics Server 0.8.1 instalado no Kind local; API de métricas disponível e CPU/memória exibidas no K9s.
+- Pods e eventos inspecionados no K9s; nenhum Pod em `CrashLoopBackOff` no momento da inspeção.
+
+Os comandos, resultados e limites desta validação estão em
+[validacao-2026-10-06.md](docs/validacao-2026-10-06.md).

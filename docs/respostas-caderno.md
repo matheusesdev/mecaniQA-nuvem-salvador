@@ -50,9 +50,8 @@ para sua porta `8080`, permitindo acesso externo. No Kind local, esse acesso
 - Confirmar os integrantes e os papéis em cada encontro. O caderno enviado
   contém campos vazios e o nome Lucas Almeida Silva no primeiro encontro,
   divergindo dos registros de equipe do README.
-- Confirmar o convite ao professor no repositório.
-- Registrar as evidências de builds e testes isolados dos três serviços.
-- Repetir a validação no ambiente disponível e registrar métricas no K9s.
+- Builds, testes isolados, Compose e inspeção de métricas no K9s foram executados
+  em 06/10/2026; consultar `validacao-2026-10-06.md`.
 
 O caderno original não foi alterado. As respostas estão prontas para transcrição;
 os nomes e papéis não foram inferidos.
