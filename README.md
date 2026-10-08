@@ -416,3 +416,32 @@ As evidências da execução ficam em `docs/validacao-kubernetes.md`.
 
 Os comandos, resultados e limites desta validação estão em
 [validacao-2026-10-06.md](docs/validacao-2026-10-06.md).
+
+## Entrega inicial de métricas IoT e Prometheus
+
+Esta etapa instrumenta um simulador local em Python com métricas Prometheus,
+e usa um Deployment e Service ClusterIP para coletá-las no Prometheus. O simulador
+processa leituras sintéticas de temperatura e falhas elétricas; ele não envia
+telemetria para a API Java, MySQL ou Redis. Esta demonstração com uma réplica
+comprova instrumentação e coleta de carga sintética, não capacidade para milhares
+de sensores reais simultâneos.
+
+O guia com arquitetura, arquivos, pré-requisitos, métricas, consultas PromQL,
+limitações e board de Fatos, Questões e Ideias está em
+[docs/projeto-metricas.md](docs/projeto-metricas.md). A validação desta entrega
+fica registrada separadamente em [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
+
+Com Docker Desktop, Kind e kubectl instalados, execute na raiz do repositório:
+
+```powershell
+./scripts/deploy-local.ps1
+kubectl --context kind-mecaniqa -n mecaniqa get deploy,pods,svc,pvc
+kubectl --context kind-mecaniqa -n mecaniqa port-forward service/prometheus 9090:9090
+```
+
+Abra `http://localhost:9090` e consulte `up{job="iot-simulator"}`,
+`sum(iot_readings_total)` e `sum(rate(iot_readings_total[1m]))`.
+Para reconstruir a imagem com a mesma tag e atualizar os Pods, carregue a imagem
+nova no Kind e execute `kubectl --context kind-mecaniqa -n mecaniqa rollout restart
+deployment/simulator`. Após alterar o ConfigMap, reinicie o Prometheus com
+`kubectl --context kind-mecaniqa -n mecaniqa rollout restart deployment/prometheus`.

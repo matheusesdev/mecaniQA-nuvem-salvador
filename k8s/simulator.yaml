@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulator
+  namespace: mecaniqa
+  labels:
+    app: simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simulator
+  template:
+    metadata:
+      labels:
+        app: simulator
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: simulator
+          image: mecaniqa-simulator:metrics-v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: metrics
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: READINGS_PER_SECOND
+              value: "1"
+            - name: PEAK_MULTIPLIER
+              value: "5"
+            - name: PEAK_MODE
+              value: scheduled
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          startupProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulator
+  namespace: mecaniqa
+  labels:
+    app: simulator
+spec:
+  type: ClusterIP
+  selector:
+    app: simulator
+  ports:
+    - name: metrics
+      port: 8000
+      targetPort: metrics
+      protocol: TCP
