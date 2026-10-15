@@ -1,43 +1,23 @@
 # MecaniQA Nuvem Salvador
 
-## OAT 2 — Grafana e quatro dashboards (14/10/2026)
-
-A entrega adiciona Grafana no Kubernetes, fonte Prometheus provisionada e
-exatamente quatro dashboards exportados em JSON: CPU, Memória, Erro na aplicação
-e Sucesso na aplicação. Consulte o [guia e respostas do caderno](docs/entrega-2026-10-14.md),
-o [roteiro para gravação](docs/roteiro-gravacao-2026-10-14.md) e o
-[registro de validação](docs/validacao-2026-10-14.md).
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-local.ps1
-$env:KUBECONFIG = Join-Path (Get-Location) '.local/kubeconfig'
-kubectl --context kind-mecaniqa -n mecaniqa port-forward service/grafana 3000:3000
-```
-
-Abra `http://localhost:3000`; o guia explica como consultar a senha do Secret local.
-Os registros da OAT 1 e de 07/10 abaixo preservam o contexto das etapas anteriores.
-
-Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
-
-Última atualização: **06/10/2026**.
+Projeto acadêmico de Cloud/DevOps desenvolvido pela equipe Salvador durante as OATs 1 e 2. O repositório registra, em ordem cronológica, a evolução de uma aplicação inicialmente conteinerizada até uma arquitetura Kubernetes monitorada por Prometheus e Grafana.
 
 ## Contexto do trabalho
 
-Este projeto acadêmico integra a OAT 1 do programa de trainee da MecâniQA Tech,
-startup apresentada no enunciado como fornecedora de um sistema SaaS de gestão
-e diagnóstico automotivo para oficinas mecânicas. O cenário proposto utiliza
-uma aplicação Java, MySQL para dados transacionais e Redis para armazenamento
-de alta velocidade, em uma infraestrutura local instável com esgotamento de recursos.
+No cenário apresentado pelo professor, a **MecâniQA - Automotive Tech** é uma startup de Feira de Santana voltada à gestão de lojas de autopeças, auto centers e oficinas mecânicas. Durante um programa de trainee, as equipes assumem o papel de profissionais responsáveis por evoluir a infraestrutura da plataforma.
 
-A equipe Salvador atua no papel de Engenheiros Cloud/DevOps para construir
-uma fundação conteinerizada e resiliente: empacotar os serviços separadamente,
-orquestrar o ambiente local, configurar comunicação e persistência e declarar
-os recursos Kubernetes. A especificação geral também solicita configuração
-inicial de provisionamento com Terraform, ainda ausente neste repositório.
+O trabalho segue uma dinâmica inspirada em SCRUM. Cada sessão síncrona dura aproximadamente 90 minutos e possui um guia, papéis definidos, discussão em equipe e uma entrega prática. O fluxo esperado inclui:
 
-A implementação Java deste repositório é uma API de verificação de conectividade
-para demonstrar a infraestrutura. As funcionalidades de gestão e diagnóstico
-descritas no cenário do produto não estão implementadas nesta API.
+1. entendimento do problema e distribuição dos papéis;
+2. brainstorm de fatos, questões e ideias;
+3. modelagem da solução e criação dos cenários de teste;
+4. implementação em dupla;
+5. testes e validação pelo QA;
+6. consolidação do código, das evidências e da apresentação.
+
+Os papéis previstos são Desenvolvedor Piloto, Co-Piloto, Analista de Qualidade (QA), Arquiteto de Software / Documentador e Scrum Master / Apresentador. Campos não preenchidos nos cadernos são mantidos como não registrados.
+
+> A MecâniQA é o cenário acadêmico fornecido para a atividade. Este repositório não representa uma plataforma comercial completa nem comprova dados reais da empresa descrita no enunciado.
 
 ## Membros do time Salvador
 
@@ -46,419 +26,233 @@ descritas no cenário do produto não estão implementadas nesta API.
 - Rafael Pires Araújo
 - Juan Pablo Barros Carvalho
 
-As funções registradas por encontro estão preservadas nas seções de equipe
-abaixo. O documento geral prevê cinco integrantes por time e exige que exceções
-sejam registradas e autorizadas pelo orientador. Este README registra os quatro
-nomes existentes no projeto.
+O documento de estrutura prevê times de cinco pessoas. Este repositório registra
+os quatro integrantes identificados nos cadernos da equipe; eventuais exceções de
+composição devem ser confirmadas com o professor.
 
-## Organização das sessões
+## Estado atual
 
-Conforme a estrutura de sessões fornecida pelo professor, o trabalho segue
-SCRUM, com distribuição de papéis, brainstorm de Fatos, Questões e Ideias,
-modelagem e cenários de teste, execução em dupla, validação pelo QA e fechamento
-da documentação. Os papéis são Desenvolvedor Piloto, Co-Piloto, Analista de
-Qualidade, Arquiteto de Software / Documentador e Scrum Master / Apresentador.
-Boards, relatórios, cenários de teste e repositório são os registros de avaliação
-previstos; esta descrição da dinâmica não comprova a realização de cada atividade.
+Até 14/10/2026, o projeto possui:
 
-## Requisitos gerais da OAT 1 e situação do repositório
+- API Java conteinerizada, com endpoint `/health`;
+- MySQL e Redis em contêineres próprios;
+- Docker Compose com rede interna e volumes persistentes;
+- Deployments, Services, PVCs, probes e limites de recursos no Kubernetes;
+- simulador Python de sensores IoT instrumentado com `prometheus-client`;
+- Prometheus coletando métricas do simulador;
+- Grafana com exatamente quatro dashboards: CPU, Memória, Erro e Sucesso;
+- scripts e registros de validação para reproduzir e auditar as entregas.
 
-| Requisito da especificação geral | Situação na revisão de 06/10/2026 |
-| --- | --- |
-| Repositório `mecaniQA-nuvem-<nome_do_time>` | Nome conforme o padrão: `mecaniQA-nuvem-salvador`. |
-| README com contexto e nomes dos membros | Contexto e quatro integrantes registrados neste documento, com funções por encontro preservadas. |
-| Dockerfiles de Java, MySQL e Redis | Presentes em `api/`, `mysql/` e `redis/`. |
-| Compose com os serviços, rede e persistência | Presente em `docker-compose.yml`; configuração e execução integrada validadas em 06/10/2026. |
-| Manifestos Kubernetes e configuração inicial Terraform | Manifestos em `k8s/`; não há arquivos Terraform versionados. `infra/kind.yaml` configura o cluster Kind local, não substitui Terraform. |
-| Monitoramento com K9s | Pods e eventos inspecionados em 06/10/2026; CPU e memória coletadas com Metrics Server e exibidas no K9s. |
-| Apresentação `mecaniQA_oat1_<nome_da_equipe>.pdf` | Existe `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`, cujo nome diverge do padrão solicitado `mecaniQA_oat1_salvador.pdf`. |
-| Link na tabela de Equipes e convite ao professor `lasilva` | Procedimentos de entrega previstos na especificação geral. |
-| Apresentação no modelo e submissão no Blackboard | PDF presente; conformidade com o modelo e submissão não verificadas nesta revisão. |
+A API Java demonstra conectividade TCP com MySQL e Redis. Ela não implementa as funções completas de gestão de oficinas, não executa consultas de negócio e não recebe os dados gerados pelo simulador IoT. O simulador e a stack de monitoração formam uma demonstração separada de observabilidade.
 
-O documento informa **19/09/2026** como prazo do entregável e **até 14/10/2026**
-para a apresentação. A apresentação deve durar no máximo sete minutos, ser feita
-por um integrante escolhido pelo professor e ser versionada e submetida no Blackboard.
+## Arquitetura atual
 
-O professor determina que a entrega avaliada é a disponível na **branch `main`
-até a data limite**. As atualizações de 06/10/2026 não comprovam, por si só,
-o conteúdo que estava disponível no prazo de 19/09/2026.
+```text
+Simulador IoT :8000 --> Prometheus :9090 --> Grafana :3000
 
-## Entregas por data e requisitos do professor
+API Java :8080 -----> MySQL :3306
+        |
+        +------------> Redis :6379
+```
 
-As datas abaixo correspondem aos encontros solicitados no caderno. A existência
-dos arquivos e dos registros históricos não comprova a data de submissão ao professor.
+No cluster, os recursos ficam no namespace `mecaniqa`. MySQL e Redis são internos (`ClusterIP`), enquanto a API usa `NodePort` 30080. No Kind local, essa porta é encaminhada para `http://localhost:18080`.
 
-| Encontro | Solicitado no caderno | Implementação e registros disponíveis |
-| --- | --- | --- |
-| 26/08/2026 — Docker | Repositório da equipe e convite ao professor; Dockerfiles para Java, MySQL e Redis; build e execução isolada | Repositório e três Dockerfiles presentes; builds e testes isolados reexecutados em 06/10/2026, com resultados em `docs/validacao-2026-10-06.md`. |
-| 02/09/2026 — Docker Compose | Integrar os três builds, configurar rede e volumes, iniciar o ambiente com um comando e testar a comunicação | Compose com três serviços, DNS interno, rede compartilhada e volumes nomeados; resposta integrada registrada anteriormente neste README. |
-| 09/09/2026 — Kubernetes | Deployments e Services dos três serviços; aplicação no cluster; inspeção pelo K9s, métricas e eventuais CrashLoopBackOff | Manifestos reaplicados em 06/10/2026; três Pods prontos, métricas coletadas e inspeção de Pods/eventos pelo K9s. Nenhum CrashLoopBackOff observado. Persistência e recuperação da API possuem registros históricos. |
+# OAT 1 — Conteinerização e orquestração
 
-## Ajustes documentais de 06/10/2026
+## 26/08/2026 — Encontro 1: Docker
 
-- Descrição da API alinhada ao código: `/health` verifica conexões TCP; não grava dados nem executa operações de negócio.
-- Roteiro isolado da API corrigido para HTTP 503 quando os bancos estão inacessíveis; explicado o estado `unhealthy` nesse cenário.
-- Registro Kubernetes organizado para separar os resultados históricos das tentativas com impedimentos e da conferência atual.
-- Preservados os nomes e as funções da equipe registrados neste repositório.
-- Verificadas a configuração do Compose e a integridade do diff. Na conferência inicial, o Docker estava inacessível; após sua abertura, os testes isolados, Compose e Kubernetes foram reexecutados e as métricas coletadas, conforme `docs/validacao-2026-10-06.md`.
-- Após leitura dos documentos gerais, acrescentados o contexto do produto, a dinâmica das sessões, os membros do time e os requisitos de Terraform, apresentação, prazos e branch de avaliação.
+### Papéis registrados
 
-Esta revisão altera documentação. Os arquivos da API, Dockerfiles, Compose e
-manifestos Kubernetes mantêm a implementação existente.
+- Piloto: Matheus Espírito Santo dos Santos
+- Co-Piloto: não preenchido no caderno
+- QA: Albert Santos Soares
+- Arquiteto / Documentador: Rafael Pires Araújo
+- Scrum Master: Juan Pablo Barros Carvalho
 
-## Escopo do projeto
+### Decisões, código e entrega
 
-Este repositório contempla os encontros de 26/08, 02/09 e 09/09/2026:
+A equipe escolheu `eclipse-temurin:17-jdk-alpine` para a aplicação Java, `EXPOSE 8080` para documentar a porta e `ENTRYPOINT ["java", "-jar", "app.jar"]` para manter a aplicação como processo principal.
 
-- empacotamento isolado da API Java, do MySQL e do Redis;
-- orquestração dos três serviços com Docker Compose;
-- comunicação pelo DNS interno do Docker (`db` e `redis`);
-- persistência estruturada por volumes nomeados.
+Foram entregues:
 
-A entrega de 09/09 inclui Kubernetes e K9s. O caderno enviado contém somente esses três encontros. Existe uma apresentação em `docs/mecaniQA-nuvem-OAT1-Salvador.pdf`; sua presença não comprova apresentação em aula.
+- Dockerfile multi-stage para a API Java em `api/Dockerfile`;
+- Dockerfiles próprios para MySQL 8.4 e Redis 7.4;
+- portas, comandos de inicialização e health checks;
+- instruções de build, execução e inspeção dos três serviços.
 
-A especificação geral da OAT 1 complementa o caderno e inclui Terraform e os
-requisitos de apresentação detalhados acima. A ausência desses itens não deve
-ser interpretada como uma entrega integral da OAT 1.
+Commit principal: `9c06378` (`feat: entrega do encontro 1 com Docker`). Ele foi registrado em 27/08/2026; o histórico não comprova publicação no mesmo dia do encontro.
 
-A API implementa `/health`: verifica conectividade TCP com MySQL e Redis e retorna HTTP 200 quando ambos estão acessíveis ou HTTP 503 quando alguma dependência está indisponível. Não executa consultas SQL, comandos Redis ou gravação de telemetria. Os testes de persistência registrados foram realizados diretamente nos bancos.
-
-## Equipe e funções - 26/08/2026
-
-- Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
-- Albert Santos Soares - Copiloto (Revisor de Lógica) e Analista de Qualidade (QA)
-- Rafael Pires Araújo - Arquiteto de Software / Documentador
-- Juan Pablo Barros Carvalho - Scrum Master
-
-## Equipe e funções - 02/09/2026
-
-- Matheus Espírito Santo dos Santos - Desenvolvedor Piloto
-- Rafael Pires Araújo - Copiloto
-- Albert Santos Soares - Arquiteto de Software / Documentador
-- Juan Pablo Barros Carvalho - Scrum Master
-- QA - não preenchido no guia
-
-## Decisão técnica da equipe
-
-A API usa `eclipse-temurin:17-jdk-alpine`, conforme decidido no brainstorm. A imagem fornece o JDK 17 e usa Alpine Linux. O contêiner documenta a porta `8080`, e a aplicação Java é o processo principal por meio do `ENTRYPOINT ["java", "-jar", "app.jar"]`.
-
-## Pré-requisito
-
-- Docker Engine ou Docker Desktop em execução.
-
-Os comandos abaixo devem ser executados na raiz do repositório.
-
-## 1. API Java
-
-Construir a imagem:
-
-```bash
+```powershell
 docker build -t mecaniqa-api:encontro1 ./api
-```
-
-Executar em primeiro plano e publicar a porta `8080`:
-
-```bash
 docker run --name mecaniqa-api -p 8080:8080 mecaniqa-api:encontro1
-```
-
-Em outro terminal, validar a resposta:
-
-```bash
 curl.exe -i http://localhost:8080/health
 ```
 
-Resposta esperada no teste isolado, sem MySQL e Redis acessíveis: HTTP `503 Service Unavailable`.
+Sem os bancos, a API responde HTTP 503 e identifica MySQL e Redis como `DOWN`. Isso demonstra que o servidor está ativo, mas suas dependências não estão.
 
-```json
-{"status":"DOWN","service":"mecaniqa-api","mysql":"DOWN","redis":"DOWN"}
-```
+## 02/09/2026 — Encontro 2: Docker Compose
 
-A resposta demonstra que o servidor HTTP está funcionando, mas as dependências estão indisponíveis. Nesse teste, o health check do contêiner fica `unhealthy`, pois consulta o mesmo endpoint. Para obter HTTP 200 e os três componentes em `UP`, execute o ambiente integrado com Docker Compose. `EXPOSE` documenta a porta; a publicação no host é feita por `-p 8080:8080`.
+### Papéis registrados
 
-## 2. MySQL
+- Piloto: Matheus Espírito Santo dos Santos
+- Co-Piloto: Rafael Pires Araújo
+- QA: não preenchido no caderno
+- Arquiteto / Documentador: Albert Santos Soares
+- Scrum Master: Juan Pablo Barros Carvalho
 
-Construir a imagem:
+### Decisões, código e entrega
 
-```bash
-docker build -t mecaniqa-mysql:encontro1 ./mysql
-```
+A API passaria a localizar os bancos pelo DNS interno do Docker, usando `db` para MySQL e `redis` para Redis, sem IPs fixos. Os dados seriam armazenados fora do ciclo de vida dos contêineres.
 
-Executar isoladamente com persistência em volume nomeado:
+Foram entregues:
 
-```bash
-docker run --name mecaniqa-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mecaniqa_root -e MYSQL_DATABASE=mecaniqa -v mecaniqa-mysql-data:/var/lib/mysql -d mecaniqa-mysql:encontro1
-```
+- `docker-compose.yml` com `api`, `db` e `redis`;
+- rede interna, `DB_HOST=db` e `REDIS_HOST=redis`;
+- health checks e espera por dependências saudáveis;
+- volumes `mysql_data` e `redis_data`;
+- inicialização do ambiente com um único comando.
 
-Validar o ciclo de vida e a saúde:
-
-```bash
-docker ps --filter name=mecaniqa-mysql
-docker inspect --format '{{.State.Health.Status}}' mecaniqa-mysql
-docker logs mecaniqa-mysql
-```
-
-> A senha acima é apenas para desenvolvimento local. Não deve ser reutilizada em produção.
-
-## 3. Redis
-
-Construir a imagem:
-
-```bash
-docker build -t mecaniqa-redis:encontro1 ./redis
-```
-
-Executar isoladamente com persistência em volume nomeado:
-
-```bash
-docker run --name mecaniqa-redis -p 6379:6379 -v mecaniqa-redis-data:/data -d mecaniqa-redis:encontro1
-```
-
-Validar a saúde e a resposta do serviço:
-
-```bash
-docker inspect --format '{{.State.Health.Status}}' mecaniqa-redis
-docker exec mecaniqa-redis redis-cli ping
-```
-
-A resposta esperada do último comando é `PONG`.
-
-## Encerrar os testes
-
-```bash
-docker stop mecaniqa-api mecaniqa-mysql mecaniqa-redis
-docker rm mecaniqa-api mecaniqa-mysql mecaniqa-redis
-```
-
-Os volumes nomeados permanecem preservados para demonstrar persistência. A remoção deles não faz parte deste roteiro.
-
-## 4. Entrega do Encontro 2 - Docker Compose
-
-Construir e iniciar todo o ecossistema com um único comando:
-
-```bash
-docker compose up --build -d
-```
-
-O Compose cria uma rede interna compartilhada. Nela, a API resolve o MySQL pelo nome
-`db` e o Redis pelo nome `redis`, sem IPs fixos. A API só é iniciada depois que os
-health checks dos dois serviços indicam que eles estão prontos.
-
-Verificar os três contêineres:
-
-```bash
-docker compose ps
-```
-
-Testar a API e a comunicação entre as camadas:
-
-```bash
-curl http://localhost:8080/health
-```
-
-Resposta esperada:
-
-```json
-{"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
-```
-
-O endpoint retorna HTTP 503 e identifica a dependência como `DOWN` se a API não
-conseguir abrir uma conexão com o MySQL ou o Redis pelos nomes internos.
-
-Os dados ficam fora do ciclo de vida dos contêineres nos volumes `mysql_data` e
-`redis_data`. Para reiniciar os serviços preservando os volumes:
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-Para acompanhar a inicialização e diagnosticar erros:
-
-```bash
-docker compose logs -f
-```
-
-## Requisitos do encontro de 02/09 e evidências
-
-| Requisito | Implementação | Resultado |
-| --- | --- | --- |
-| Subir API, MySQL e Redis juntos | Os serviços `api`, `db` e `redis` estão no `docker-compose.yml` | Ambiente iniciado com `docker compose up --build -d` |
-| Usar DNS interno, sem IP fixo | A API recebe `DB_HOST=db` e `REDIS_HOST=redis` | Nomes resolvidos na rede compartilhada |
-| Aguardar as dependências | MySQL e Redis possuem health checks e a API usa `depends_on: condition: service_healthy` | API inicia depois das dependências saudáveis |
-| Testar a comunicação entre as camadas | `/health` abre conexões com MySQL e Redis usando host e porta configurados | HTTP 200 com MySQL e Redis em estado `UP` |
-| Preservar os dados | Volumes nomeados em `/var/lib/mysql` e `/data` | Dados permanecem fora do ciclo de vida dos contêineres |
-
-### Teste integrado registrado anteriormente
-
-Com os três contêineres ativos, foi executado:
+Commit principal: `57513d8` (`feat: implementa entrega Docker Compose do encontro 2`).
 
 ```powershell
+docker compose up --build -d
+docker compose ps
 curl.exe http://localhost:8080/health
 ```
 
-Resultado obtido:
+Resposta integrada esperada:
 
 ```json
 {"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
 ```
 
-Esse resultado registrado confirma simultaneamente que a API responde na porta publicada
-`8080`, que os nomes `db` e `redis` são resolvidos pelo DNS interno e que as portas
-dos dois serviços podem ser alcançadas pela API.
+Use `docker compose down` para encerrar preservando os volumes. `docker compose down -v` remove os dados e não faz parte do fluxo normal.
 
-### Observações de escopo
+## 09/09/2026 — Encontro 3: Kubernetes e K9s
 
-- A verificação atual comprova conectividade TCP entre as camadas; operações de
-  negócio, consultas SQL e comandos Redis não estão implementados na API.
-- Volumes e PVCs configurados preservam dados armazenados pelos bancos quando reutilizados. A configuração sozinha não comprova um teste de gravação e recuperação; a evidência histórica do Kubernetes está em `docs/validacao-kubernetes.md`.
-- As credenciais declaradas são exclusivas para o ambiente didático local e não
-  devem ser usadas em produção.
-- A remoção completa dos volumes com `docker compose down -v` apaga os dados e,
-  por isso, não faz parte do procedimento normal de encerramento.
+### Papéis registrados
 
-## 5. Entrega do Encontro 3 - Kubernetes (09/09/2026)
+- Piloto: Juan Pablo
+- Co-Piloto: Matheus Santos
+- QA, Arquiteto e Scrum Master: não preenchidos no caderno
 
-Branch: `entrega-kubernetes-09-09`. Piloto: Juan Pablo; copiloto: Matheus Santos,
-conforme os registros da equipe no repositório. Demais funções não registradas para esse encontro.
+### Decisões, código e entrega
 
-| Componente | Deployment / Service | Persistência | Acesso |
-| --- | --- | --- | --- |
-| API Java | api | Sem estado; não requer PVC | NodePort 30080 → porta 8080 |
-| MySQL | mysql | mysql-data, 1 GiB em /var/lib/mysql | ClusterIP, mysql:3306 |
-| Redis | redis | redis-data, 1 GiB em /data, AOF habilitado | ClusterIP, redis:6379 |
+Deployments manteriam o estado desejado e recriariam Pods em caso de falha. MySQL e Redis seriam acessíveis somente dentro do cluster por `ClusterIP`, e a API seria exposta por `NodePort` ou `LoadBalancer`.
 
-Os recursos ficam no namespace `mecaniqa`. Os Deployments mantêm uma réplica e
-recriam Pods que falham. MySQL e Redis usam estratégia `Recreate` para evitar
-instâncias concorrentes escrevendo no mesmo volume durante atualizações.
-Cada contêiner tem requests e limits de CPU e memória. A readiness da API consulta
-`/health` (conectividade TCP aos dois bancos); startup e liveness verificam sua
-porta, evitando reinícios da API causados por indisponibilidade dos bancos.
-O Secret contém uma senha exclusivamente didática. A API atual verifica TCP;
-não autentica no MySQL nem executa operações de negócio.
+Foram entregues:
 
-### Cluster local reproduzível no Windows
+- namespace `mecaniqa`;
+- Deployments e Services para API, MySQL e Redis;
+- API em `NodePort` 30080;
+- MySQL e Redis em `ClusterIP`;
+- PVCs, probes, requests e limits;
+- cluster Kind local e inspeção por kubectl e K9s.
+
+Commit principal: `8ef39e6` (`feat: implementa entrega Kubernetes`), registrado em 10/09/2026. A execução, a recuperação de Pod e a persistência estão em [docs/validacao-kubernetes.md](docs/validacao-kubernetes.md).
+
+# OAT 2 — Monitorando a continuidade
+
+## 07/10/2026 — Encontro 1: métricas IoT e Prometheus
+
+### Papéis registrados
+
+- Piloto: Rafael Pires Araújo
+- Co-Piloto: não preenchido no caderno
+- QA: Albert Santos Soares
+- Arquiteto / Documentador: Juan Pablo Barros Carvalho
+- Scrum Master: Matheus Espírito Santo dos Santos
+
+### Decisões, código e entrega
+
+Observabilidade foi definida como acompanhar o comportamento da aplicação, não apenas verificar se o servidor está ligado. A equipe decidiu instrumentar o simulador Python com `prometheus-client`, expor `/metrics` e permitir que o Prometheus coletasse e armazenasse as séries temporais.
+
+Foram entregues:
+
+- simulador Python em `simulator/`;
+- métricas de leituras, falhas dos sensores, erros, duração, operações em andamento e janelas de pico;
+- endpoint `/metrics` na porta 8000;
+- Deployment e Service do simulador;
+- ConfigMap, PVC, Deployment e Service do Prometheus;
+- scrape do job `iot-simulator` a cada 15 segundos;
+- seis testes automatizados.
+
+Commit principal: `dcd9343` (`feat: adiciona métricas IoT e coleta Prometheus`). Veja [docs/projeto-metricas.md](docs/projeto-metricas.md) e [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
+
+## 14/10/2026 — Encontro 2: Grafana e quatro dashboards
+
+### Papéis registrados
+
+- Piloto: Matheus Espírito Santo dos Santos
+- Co-Piloto: Rafael Pires Araújo
+- QA: não preenchido no caderno
+- Arquiteto / Documentador: Albert Santos Soares (AUSENTE)
+- Scrum Master: Juan Pablo Barros Carvalho
+
+### Decisões, código e entrega
+
+A equipe decidiu provisionar exatamente quatro dashboards independentes, cada um com um painel: CPU, Memória, Erro e Sucesso. O Prometheus é a fonte de dados, e `rate()` transforma contadores acumulados em atividade recente.
+
+Foram entregues:
+
+- PVC, Deployment e Service do Grafana;
+- datasource Prometheus provisionado;
+- quatro dashboards em `grafana/dashboards/`;
+- ConfigMaps reproduzíveis;
+- exportação dos dashboards implantados;
+- capturas e respostas das APIs em `docs/evidencias/2026-10-14/`;
+- script de validação das consultas, datasource e dashboards.
+
+| Dashboard | Consulta principal | Interpretação |
+| --- | --- | --- |
+| CPU | `rate(process_cpu_seconds_total[...])` | Percentual aproximado de um núcleo do processo Python |
+| Memória | `process_resident_memory_bytes` | Memória residente do processo Python |
+| Erro | `rate(iot_processing_errors_total[...])` | Leituras rejeitadas por segundo |
+| Sucesso | `rate(iot_readings_total[...])` | Leituras processadas por segundo |
+
+Commit principal: `62faab1` (`feat: entrega OAT2 de 14/10 com Grafana e quatro dashboards`). Veja [docs/entrega-2026-10-14.md](docs/entrega-2026-10-14.md) e [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
+
+## 21/10/2026 — Próximas sessões previstas
+
+O caderno contém duas sessões futuras com a mesma data de 21/10/2026. Os campos de decisões e papéis ainda estão vazios. As próximas entregas previstas são:
+
+1. quatro alarmes no Grafana — CPU, Memória e duas métricas da aplicação;
+2. HPA baseado em CPU e memória;
+3. teste de estresse com evidências do escalonamento e dos alarmes;
+4. runbooks para os quatro alarmes;
+5. definições de SLA, SLO, SLI, RTO e RPO;
+6. documentação e evidências consolidadas na `main`.
+
+Esses itens **não estão declarados como implementados**.
+
+## Como executar o ambiente atual
 
 Pré-requisitos: Docker Desktop em modo Linux, kubectl, Kind e K9s.
-O script exige por padrão uma reserva de 8 GiB livres na unidade de
-`LOCALAPPDATA`, onde fica o disco do Docker nesta máquina, para evitar a repetição
-das falhas de armazenamento observadas. A reserva pode ser ajustada com
-`-MinimumFreeDiskGB` se o armazenamento do Docker estiver configurado de outra forma.
-As ferramentas desta execução estão em `.local/bin/` (ignoradas pelo Git).
-Instalação em outra máquina: obtenha os binários Windows amd64 nas páginas
-oficiais de [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/) e
-[K9s](https://github.com/derailed/k9s/releases) e confira seus checksums.
-Coloque Kind em `.local/bin/kind.exe` e K9s em `.local/bin/k9s/k9s.exe`.
-
-Na raiz do projeto, execute:
 
 ```powershell
-./scripts/deploy-local.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-local.ps1
 $env:KUBECONFIG = Join-Path (Get-Location) '.local/kubeconfig'
-kubectl --context kind-mecaniqa get nodes
-curl.exe --fail http://localhost:18080/health
-.local/bin/k9s/k9s.exe --kubeconfig .local/kubeconfig --context kind-mecaniqa -n mecaniqa --readonly
-```
-
-O script constrói as três imagens, cria o cluster `mecaniqa` definido em
-`infra/kind.yaml`, carrega as imagens no runtime do Kind, valida no servidor,
-aplica os manifestos e aguarda os rollouts. O kubeconfig fica apenas em `.local/`.
-A porta 18080 do computador encaminha para o NodePort 30080, sem depender de
-port-forward. O bind em localhost é adequado à demonstração nesta máquina.
-As imagens mantêm a tag `encontro1` dos Dockerfiles já existentes; depois de
-reconstruí-las, carregue-as novamente e reinicie os Deployments para atualizar Pods.
-
-Resposta esperada:
-
-```json
-{"status":"UP","service":"mecaniqa-api","mysql":"UP","redis":"UP"}
-```
-
-### Aplicação manual em outro cluster
-
-Confira o contexto antes de aplicar. Publique as imagens em um registry acessível
-aos nós e ajuste `image` nos manifestos, ou carregue-as no runtime de todos os nós.
-O cluster precisa de uma StorageClass padrão para provisionar os PVCs.
-
-```powershell
-kubectl config current-context
-kubectl get storageclass
-kubectl apply -f k8s/namespace.yaml
-kubectl apply --dry-run=server -f k8s/
-kubectl apply -f k8s/
-kubectl -n mecaniqa rollout status deployment/mysql --timeout=300s
-kubectl -n mecaniqa rollout status deployment/redis --timeout=300s
-kubectl -n mecaniqa rollout status deployment/api --timeout=300s
-kubectl -n mecaniqa get deploy,pods,svc,pvc
-```
-
-A API fica disponível em `http://<IP-acessível-do-nó>:30080/health` se a rede
-permitir. Em nuvem com controlador de LoadBalancer, o Service da API pode usar
-`type: LoadBalancer`; consulte o endereço em `kubectl -n mecaniqa get svc api`.
-MySQL e Redis permanecem internos.
-
-### Inspeção e diagnóstico
-
-No K9s, use `:deploy`, `:pods`, `:svc`, `:pvc` e `:events`; selecione um Pod e use
-`l` para logs e `d` para detalhes. Use `:q` para sair. CPU e memória dependem de
-Metrics Server disponível; ausência de métricas não significa consumo zero.
-Veja os [comandos oficiais do K9s](https://k9scli.io/topics/commands/).
-
-```powershell
-kubectl -n mecaniqa get endpointslices
-kubectl -n mecaniqa get events --sort-by=.metadata.creationTimestamp
-kubectl -n mecaniqa logs deployment/api --tail=50
-kubectl -n mecaniqa describe pods
-kubectl -n mecaniqa top pods
-```
-
-Para `CrashLoopBackOff`, examine também `kubectl logs <pod> --previous -n mecaniqa`.
-Para PVC `Pending`, verifique StorageClass e eventos; para `ImagePullBackOff`,
-confira imagem, runtime e acesso ao registry. Os probes seguem o comportamento
-explicado na [documentação Kubernetes](https://kubernetes.io/docs/concepts/workloads/pods/probes/).
-
-Os PVCs sobrevivem à recriação dos Pods. No Kind, seus dados ficam no contêiner
-do nó: remover o cluster também remove essa persistência local. Não exclua o
-namespace ou os PVCs para encerrar uma demonstração que deve preservar dados.
-
-As evidências da execução ficam em `docs/validacao-kubernetes.md`.
-
-### Validação executada em 06/10/2026
-
-- Docker Engine 29.7.2 acessível; três imagens construídas e serviços testados isoladamente.
-- Compose iniciado com build e espera por saúde; API, MySQL e Redis saudáveis e `/health` com HTTP 200.
-- Manifestos Kubernetes validados no servidor e reaplicados ao contexto `kind-mecaniqa`; três Pods `1/1 Running` e PVCs `Bound`.
-- Metrics Server 0.8.1 instalado no Kind local; API de métricas disponível e CPU/memória exibidas no K9s.
-- Pods e eventos inspecionados no K9s; nenhum Pod em `CrashLoopBackOff` no momento da inspeção.
-
-Os comandos, resultados e limites desta validação estão em
-[validacao-2026-10-06.md](docs/validacao-2026-10-06.md).
-
-## Entrega inicial de métricas IoT e Prometheus
-
-Esta etapa instrumenta um simulador local em Python com métricas Prometheus,
-e usa um Deployment e Service ClusterIP para coletá-las no Prometheus. O simulador
-processa leituras sintéticas de temperatura e falhas elétricas; ele não envia
-telemetria para a API Java, MySQL ou Redis. Esta demonstração com uma réplica
-comprova instrumentação e coleta de carga sintética, não capacidade para milhares
-de sensores reais simultâneos.
-
-O guia com arquitetura, arquivos, pré-requisitos, métricas, consultas PromQL,
-limitações e board de Fatos, Questões e Ideias está em
-[docs/projeto-metricas.md](docs/projeto-metricas.md). A validação desta entrega
-fica registrada separadamente em [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
-
-Com Docker Desktop, Kind e kubectl instalados, execute na raiz do repositório:
-
-```powershell
-./scripts/deploy-local.ps1
 kubectl --context kind-mecaniqa -n mecaniqa get deploy,pods,svc,pvc
-kubectl --context kind-mecaniqa -n mecaniqa port-forward service/prometheus 9090:9090
+curl.exe --fail http://localhost:18080/health
 ```
 
-Abra `http://localhost:9090` e consulte `up{job="iot-simulator"}`,
-`sum(iot_readings_total)` e `sum(rate(iot_readings_total[1m]))`.
-Para reconstruir a imagem com a mesma tag e atualizar os Pods, carregue a imagem
-nova no Kind e execute `kubectl --context kind-mecaniqa -n mecaniqa rollout restart
-deployment/simulator`. Após alterar o ConfigMap, reinicie o Prometheus com
-`kubectl --context kind-mecaniqa -n mecaniqa rollout restart deployment/prometheus`.
+Prometheus e Grafana:
+
+```powershell
+kubectl --context kind-mecaniqa -n mecaniqa port-forward service/prometheus 9090:9090
+kubectl --context kind-mecaniqa -n mecaniqa port-forward service/grafana 3000:3000
+```
+
+Abra `http://localhost:9090` para consultar as métricas e `http://localhost:3000` para visualizar a pasta **MecaniQA OAT 2**. A senha do Grafana fica no Secret local e não deve ser exibida em gravações ou commits.
+
+## Evidências e limites
+
+- Docker, Compose, Kubernetes e K9s: [docs/validacao-2026-10-06.md](docs/validacao-2026-10-06.md).
+- Simulador e Prometheus: [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
+- Grafana e dashboards: [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
+- CPU e memória representam o processo Python, não todo o nó.
+- A coleta estática atual foi validada com uma réplica do simulador.
+- As capturas de 14/10 representam carga sintética normal, não teste de estresse.
+- Credenciais versionadas são exclusivamente didáticas.
+
+O README distingue configuração, implementação e validação histórica; a presença de um arquivo não substitui evidência de execução.
