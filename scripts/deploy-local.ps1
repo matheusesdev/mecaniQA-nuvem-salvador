@@ -39,11 +39,13 @@ foreach ($service in @('api', 'mysql', 'redis')) {
 }
 Run $kind @('load', 'docker-image', '--name', 'mecaniqa', 'mecaniqa-simulator:metrics-v1')
 Run kubectl @('--context', 'kind-mecaniqa', 'apply', '-f', 'k8s/namespace.yaml')
+& "$PSScriptRoot/prepare-grafana.ps1"
 Run kubectl @('--context', 'kind-mecaniqa', 'apply', '--dry-run=server', '-f', 'k8s/')
 Run kubectl @('--context', 'kind-mecaniqa', 'apply', '-f', 'k8s/')
 Run kubectl @('--context', 'kind-mecaniqa', '-n', 'mecaniqa', 'rollout', 'restart', 'deployment/simulator')
 Run kubectl @('--context', 'kind-mecaniqa', '-n', 'mecaniqa', 'rollout', 'restart', 'deployment/prometheus')
-foreach ($service in @('mysql', 'redis', 'api', 'simulator', 'prometheus')) {
+Run kubectl @('--context', 'kind-mecaniqa', '-n', 'mecaniqa', 'rollout', 'restart', 'deployment/grafana')
+foreach ($service in @('mysql', 'redis', 'api', 'simulator', 'prometheus', 'grafana')) {
     Run kubectl @('--context', 'kind-mecaniqa', '-n', 'mecaniqa', 'rollout', 'status', "deployment/$service", '--timeout=300s')
 }
 Run kubectl @('--context', 'kind-mecaniqa', '-n', 'mecaniqa', 'get', 'deploy,pods,svc,pvc')

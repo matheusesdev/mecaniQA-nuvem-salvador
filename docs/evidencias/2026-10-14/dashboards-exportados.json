@@ -1,0 +1,366 @@
+[
+    {
+        "description":  "CPU do processo Python, em porcentagem de um nÃºcleo. NÃ£o representa CPU total do nÃ³ nem porcentagem do limite de 250m do contÃªiner.",
+        "editable":  false,
+        "id":  2,
+        "links":  [
+                      {
+                          "asDropdown":  true,
+                          "includeVars":  false,
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "title":  "Outros dashboards OAT 2",
+                          "type":  "dashboards"
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "description":  "CPU do processo Python, em porcentagem de um nÃºcleo. NÃ£o representa CPU total do nÃ³ nem porcentagem do limite de 250m do contÃªiner.",
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "color":  {
+                                                                              "fixedColor":  "blue",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "custom":  {
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15,
+                                                                               "lineWidth":  2,
+                                                                               "spanNulls":  false
+                                                                           },
+                                                                "min":  0,
+                                                                "unit":  "percent"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "gridPos":  {
+                                           "h":  16,
+                                           "w":  24,
+                                           "x":  0,
+                                           "y":  0
+                                       },
+                           "id":  1,
+                           "options":  {
+                                           "legend":  {
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table",
+                                                          "placement":  "bottom"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "expr":  "100 * sum(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "legendFormat":  "CPU (% de um nÃºcleo)",
+                                               "range":  true,
+                                               "refId":  "A"
+                                           }
+                                       ],
+                           "title":  "CPU",
+                           "type":  "timeseries"
+                       }
+                   ],
+        "refresh":  "15s",
+        "schemaVersion":  41,
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "time":  {
+                     "from":  "now-15m",
+                     "to":  "now"
+                 },
+        "timezone":  "America/Sao_Paulo",
+        "title":  "MecaniQA - CPU",
+        "uid":  "mecaniqa-cpu",
+        "version":  1
+    },
+    {
+        "description":  "Erros de processamento ou leituras invÃ¡lidas por segundo. Zero com coleta ativa significa ausÃªncia de erros observados. No data significa ausÃªncia de amostras. Falha detectada no veÃ­culo nÃ£o Ã© erro da aplicaÃ§Ã£o.",
+        "editable":  false,
+        "id":  3,
+        "links":  [
+                      {
+                          "asDropdown":  true,
+                          "includeVars":  false,
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "title":  "Outros dashboards OAT 2",
+                          "type":  "dashboards"
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "description":  "Erros de processamento ou leituras invÃ¡lidas por segundo. Zero com coleta ativa significa ausÃªncia de erros observados. No data significa ausÃªncia de amostras. Falha detectada no veÃ­culo nÃ£o Ã© erro da aplicaÃ§Ã£o.",
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "color":  {
+                                                                              "fixedColor":  "red",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "custom":  {
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15,
+                                                                               "lineWidth":  2,
+                                                                               "spanNulls":  false
+                                                                           },
+                                                                "min":  0,
+                                                                "unit":  "ops"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "gridPos":  {
+                                           "h":  16,
+                                           "w":  24,
+                                           "x":  0,
+                                           "y":  0
+                                       },
+                           "id":  1,
+                           "options":  {
+                                           "legend":  {
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table",
+                                                          "placement":  "bottom"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "expr":  "sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "legendFormat":  "Leituras rejeitadas/s",
+                                               "range":  true,
+                                               "refId":  "A"
+                                           }
+                                       ],
+                           "title":  "Erro na aplicaÃ§Ã£o",
+                           "type":  "timeseries"
+                       }
+                   ],
+        "refresh":  "15s",
+        "schemaVersion":  41,
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "time":  {
+                     "from":  "now-15m",
+                     "to":  "now"
+                 },
+        "timezone":  "America/Sao_Paulo",
+        "title":  "MecaniQA - Erro na aplicaÃ§Ã£o",
+        "uid":  "mecaniqa-erro",
+        "version":  1
+    },
+    {
+        "description":  "MemÃ³ria residente do processo Python em bytes. NÃ£o representa toda a memÃ³ria do contÃªiner ou do nÃ³.",
+        "editable":  false,
+        "id":  4,
+        "links":  [
+                      {
+                          "asDropdown":  true,
+                          "includeVars":  false,
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "title":  "Outros dashboards OAT 2",
+                          "type":  "dashboards"
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "description":  "MemÃ³ria residente do processo Python em bytes. NÃ£o representa toda a memÃ³ria do contÃªiner ou do nÃ³.",
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "color":  {
+                                                                              "fixedColor":  "purple",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "custom":  {
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15,
+                                                                               "lineWidth":  2,
+                                                                               "spanNulls":  false
+                                                                           },
+                                                                "min":  0,
+                                                                "unit":  "bytes"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "gridPos":  {
+                                           "h":  16,
+                                           "w":  24,
+                                           "x":  0,
+                                           "y":  0
+                                       },
+                           "id":  1,
+                           "options":  {
+                                           "legend":  {
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table",
+                                                          "placement":  "bottom"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "expr":  "sum(process_resident_memory_bytes{job=\"iot-simulator\"})",
+                                               "legendFormat":  "MemÃ³ria residente (RSS)",
+                                               "range":  true,
+                                               "refId":  "A"
+                                           }
+                                       ],
+                           "title":  "MemÃ³ria",
+                           "type":  "timeseries"
+                       }
+                   ],
+        "refresh":  "15s",
+        "schemaVersion":  41,
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "time":  {
+                     "from":  "now-15m",
+                     "to":  "now"
+                 },
+        "timezone":  "America/Sao_Paulo",
+        "title":  "MecaniQA - MemÃ³ria",
+        "uid":  "mecaniqa-memoria",
+        "version":  1
+    },
+    {
+        "description":  "Leituras vÃ¡lidas processadas localmente por segundo, somando sensores de temperatura e elÃ©tricos. Inclui diagnÃ³sticos que detectaram falhas no veÃ­culo; nÃ£o comprova gravaÃ§Ã£o na API Java ou nos bancos.",
+        "editable":  false,
+        "id":  5,
+        "links":  [
+                      {
+                          "asDropdown":  true,
+                          "includeVars":  false,
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "title":  "Outros dashboards OAT 2",
+                          "type":  "dashboards"
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "description":  "Leituras vÃ¡lidas processadas localmente por segundo, somando sensores de temperatura e elÃ©tricos. Inclui diagnÃ³sticos que detectaram falhas no veÃ­culo; nÃ£o comprova gravaÃ§Ã£o na API Java ou nos bancos.",
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "color":  {
+                                                                              "fixedColor":  "green",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "custom":  {
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15,
+                                                                               "lineWidth":  2,
+                                                                               "spanNulls":  false
+                                                                           },
+                                                                "min":  0,
+                                                                "unit":  "ops"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "gridPos":  {
+                                           "h":  16,
+                                           "w":  24,
+                                           "x":  0,
+                                           "y":  0
+                                       },
+                           "id":  1,
+                           "options":  {
+                                           "legend":  {
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table",
+                                                          "placement":  "bottom"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "expr":  "sum(rate(iot_readings_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "legendFormat":  "Leituras processadas/s",
+                                               "range":  true,
+                                               "refId":  "A"
+                                           }
+                                       ],
+                           "title":  "Sucesso na aplicaÃ§Ã£o",
+                           "type":  "timeseries"
+                       }
+                   ],
+        "refresh":  "15s",
+        "schemaVersion":  41,
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "time":  {
+                     "from":  "now-15m",
+                     "to":  "now"
+                 },
+        "timezone":  "America/Sao_Paulo",
+        "title":  "MecaniQA - Sucesso na aplicaÃ§Ã£o",
+        "uid":  "mecaniqa-sucesso",
+        "version":  1
+    }
+]

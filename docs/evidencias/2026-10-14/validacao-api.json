@@ -1,0 +1,216 @@
+{
+    "observed_at":  "2026-10-14T21:44:10.0653565-03:00",
+    "grafana_health":  {
+                           "database":  "ok",
+                           "version":  "12.2.0",
+                           "commit":  "92f1fba9b4b6700328e99e97328d6639df8ddc3d"
+                       },
+    "datasource_health":  {
+                              "details":  {
+                                              "application":  "Prometheus",
+                                              "features":  {
+                                                               "rulerApiEnabled":  false
+                                                           }
+                                          },
+                              "message":  "Successfully queried the Prometheus API.",
+                              "status":  "OK"
+                          },
+    "dashboards":  {
+                       "value":  [
+                                     {
+                                         "id":  2,
+                                         "uid":  "mecaniqa-cpu",
+                                         "orgId":  1,
+                                         "title":  "MecaniQA - CPU",
+                                         "uri":  "db/mecaniqa-cpu",
+                                         "url":  "/d/mecaniqa-cpu/mecaniqa-cpu",
+                                         "slug":  "",
+                                         "type":  "dash-db",
+                                         "tags":  [
+                                                      "14-10-2026",
+                                                      "mecaniqa",
+                                                      "oat2"
+                                                  ],
+                                         "isStarred":  false,
+                                         "folderId":  1,
+                                         "folderUid":  "fg1943pwha03ke",
+                                         "folderTitle":  "MecaniQA OAT 2",
+                                         "folderUrl":  "/dashboards/f/fg1943pwha03ke/mecaniqa-oat-2",
+                                         "sortMeta":  0,
+                                         "isDeleted":  false
+                                     },
+                                     {
+                                         "id":  3,
+                                         "uid":  "mecaniqa-erro",
+                                         "orgId":  1,
+                                         "title":  "MecaniQA - Erro na aplicaÃ§Ã£o",
+                                         "uri":  "db/mecaniqa-erro-na-aplicacao",
+                                         "url":  "/d/mecaniqa-erro/mecaniqa-erro-na-aplicacao",
+                                         "slug":  "",
+                                         "type":  "dash-db",
+                                         "tags":  [
+                                                      "14-10-2026",
+                                                      "mecaniqa",
+                                                      "oat2"
+                                                  ],
+                                         "isStarred":  false,
+                                         "folderId":  1,
+                                         "folderUid":  "fg1943pwha03ke",
+                                         "folderTitle":  "MecaniQA OAT 2",
+                                         "folderUrl":  "/dashboards/f/fg1943pwha03ke/mecaniqa-oat-2",
+                                         "sortMeta":  0,
+                                         "isDeleted":  false
+                                     },
+                                     {
+                                         "id":  4,
+                                         "uid":  "mecaniqa-memoria",
+                                         "orgId":  1,
+                                         "title":  "MecaniQA - MemÃ³ria",
+                                         "uri":  "db/mecaniqa-memoria",
+                                         "url":  "/d/mecaniqa-memoria/mecaniqa-memoria",
+                                         "slug":  "",
+                                         "type":  "dash-db",
+                                         "tags":  [
+                                                      "14-10-2026",
+                                                      "mecaniqa",
+                                                      "oat2"
+                                                  ],
+                                         "isStarred":  false,
+                                         "folderId":  1,
+                                         "folderUid":  "fg1943pwha03ke",
+                                         "folderTitle":  "MecaniQA OAT 2",
+                                         "folderUrl":  "/dashboards/f/fg1943pwha03ke/mecaniqa-oat-2",
+                                         "sortMeta":  0,
+                                         "isDeleted":  false
+                                     },
+                                     {
+                                         "id":  5,
+                                         "uid":  "mecaniqa-sucesso",
+                                         "orgId":  1,
+                                         "title":  "MecaniQA - Sucesso na aplicaÃ§Ã£o",
+                                         "uri":  "db/mecaniqa-sucesso-na-aplicacao",
+                                         "url":  "/d/mecaniqa-sucesso/mecaniqa-sucesso-na-aplicacao",
+                                         "slug":  "",
+                                         "type":  "dash-db",
+                                         "tags":  [
+                                                      "14-10-2026",
+                                                      "mecaniqa",
+                                                      "oat2"
+                                                  ],
+                                         "isStarred":  false,
+                                         "folderId":  1,
+                                         "folderUid":  "fg1943pwha03ke",
+                                         "folderTitle":  "MecaniQA OAT 2",
+                                         "folderUrl":  "/dashboards/f/fg1943pwha03ke/mecaniqa-oat-2",
+                                         "sortMeta":  0,
+                                         "isDeleted":  false
+                                     }
+                                 ],
+                       "Count":  4
+                   },
+    "queries":  [
+                    {
+                        "query":  "100 * sum(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[1m]))",
+                        "dashboard":  "mecaniqa-cpu",
+                        "response":  {
+                                         "status":  "success",
+                                         "data":  {
+                                                      "resultType":  "vector",
+                                                      "result":  [
+                                                                     {
+                                                                         "metric":  {
+
+                                                                                    },
+                                                                         "value":  [
+                                                                                       1792025049.700,
+                                                                                       "0.08889481520990296"
+                                                                                   ]
+                                                                     }
+                                                                 ]
+                                                  }
+                                     }
+                    },
+                    {
+                        "query":  "sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[1m]))",
+                        "dashboard":  "mecaniqa-erro",
+                        "response":  {
+                                         "status":  "success",
+                                         "data":  {
+                                                      "resultType":  "vector",
+                                                      "result":  [
+                                                                     {
+                                                                         "metric":  {
+
+                                                                                    },
+                                                                         "value":  [
+                                                                                       1792025049.837,
+                                                                                       "0"
+                                                                                   ]
+                                                                     }
+                                                                 ]
+                                                  }
+                                     }
+                    },
+                    {
+                        "query":  "sum(process_resident_memory_bytes{job=\"iot-simulator\"})",
+                        "dashboard":  "mecaniqa-memoria",
+                        "response":  {
+                                         "status":  "success",
+                                         "data":  {
+                                                      "resultType":  "vector",
+                                                      "result":  [
+                                                                     {
+                                                                         "metric":  {
+
+                                                                                    },
+                                                                         "value":  [
+                                                                                       1792025049.943,
+                                                                                       "30552064"
+                                                                                   ]
+                                                                     }
+                                                                 ]
+                                                  }
+                                     }
+                    },
+                    {
+                        "query":  "sum(rate(iot_readings_total{job=\"iot-simulator\"}[1m]))",
+                        "dashboard":  "mecaniqa-sucesso",
+                        "response":  {
+                                         "status":  "success",
+                                         "data":  {
+                                                      "resultType":  "vector",
+                                                      "result":  [
+                                                                     {
+                                                                         "metric":  {
+
+                                                                                    },
+                                                                         "value":  [
+                                                                                       1792025050.050,
+                                                                                       "1.0000666711114075"
+                                                                                   ]
+                                                                     }
+                                                                 ]
+                                                  }
+                                     }
+                    }
+                ],
+    "simulator_up":  {
+                         "status":  "success",
+                         "data":  {
+                                      "resultType":  "vector",
+                                      "result":  [
+                                                     {
+                                                         "metric":  {
+                                                                        "__name__":  "up",
+                                                                        "instance":  "simulator.mecaniqa.svc.cluster.local:8000",
+                                                                        "job":  "iot-simulator"
+                                                                    },
+                                                         "value":  [
+                                                                       1792025050.059,
+                                                                       "1"
+                                                                   ]
+                                                     }
+                                                 ]
+                                  }
+                     }
+}

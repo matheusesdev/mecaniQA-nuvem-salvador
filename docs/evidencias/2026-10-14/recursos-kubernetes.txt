@@ -1,0 +1,29 @@
+﻿NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/api          1/1     1            1           9m6s
+deployment.apps/grafana      1/1     1            1           12m
+deployment.apps/mysql        1/1     1            1           9m4s
+deployment.apps/prometheus   1/1     1            1           12m
+deployment.apps/redis        1/1     1            1           9m2s
+deployment.apps/simulator    1/1     1            1           12m
+
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/api-df7f9b654-h4tn8           1/1     Running   0          9m6s
+pod/grafana-7bb7d47b54-v7jfx      1/1     Running   0          8m55s
+pod/mysql-755dc77787-d2rr6        1/1     Running   0          9m4s
+pod/prometheus-5778df58d7-7hdbk   1/1     Running   0          8m55s
+pod/redis-8696fc58f-5mpxc         1/1     Running   0          9m2s
+pod/simulator-7dfb558967-ct48h    1/1     Running   0          9m
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/api          NodePort    10.96.213.154   <none>        8080:30080/TCP   9m6s
+service/grafana      ClusterIP   10.96.207.147   <none>        3000/TCP         12m
+service/mysql        ClusterIP   10.96.189.41    <none>        3306/TCP         9m4s
+service/prometheus   ClusterIP   10.96.101.232   <none>        9090/TCP         12m
+service/redis        ClusterIP   10.96.28.64     <none>        6379/TCP         9m2s
+service/simulator    ClusterIP   10.96.248.205   <none>        8000/TCP         12m
+
+NAME                                    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/grafana-data      Bound    pvc-6380572d-a0b5-4ece-b839-175a13a70f59   1Gi        RWO            standard       <unset>                 12m
+persistentvolumeclaim/mysql-data        Bound    pvc-7ad9da7a-d0f2-4bb4-b130-fdb230bc5519   1Gi        RWO            standard       <unset>                 9m4s
+persistentvolumeclaim/prometheus-data   Bound    pvc-1a430065-515c-49ec-9589-f9ba3fedcf70   5Gi        RWO            standard       <unset>                 12m
+persistentvolumeclaim/redis-data        Bound    pvc-3dd69208-ce14-4a7a-96a7-8b8bcdb506b2   1Gi        RWO            standard       <unset>                 9m2s

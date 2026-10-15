@@ -1,0 +1,91 @@
+{
+    "id":  null,
+    "uid":  "mecaniqa-cpu",
+    "title":  "MecaniQA - CPU",
+    "description":  "CPU do processo Python, em porcentagem de um núcleo. Não representa CPU total do nó nem porcentagem do limite de 250m do contêiner.",
+    "tags":  [
+                 "mecaniqa",
+                 "oat2",
+                 "14-10-2026"
+             ],
+    "timezone":  "America/Sao_Paulo",
+    "schemaVersion":  41,
+    "version":  1,
+    "editable":  false,
+    "refresh":  "15s",
+    "time":  {
+                 "to":  "now",
+                 "from":  "now-15m"
+             },
+    "links":  [
+                  {
+                      "keepTime":  true,
+                      "tags":  [
+                                   "oat2"
+                               ],
+                      "includeVars":  false,
+                      "type":  "dashboards",
+                      "title":  "Outros dashboards OAT 2",
+                      "asDropdown":  true
+                  }
+              ],
+    "panels":  [
+                   {
+                       "options":  {
+                                       "legend":  {
+                                                      "placement":  "bottom",
+                                                      "calcs":  [
+                                                                    "lastNotNull",
+                                                                    "max"
+                                                                ],
+                                                      "displayMode":  "table"
+                                                  },
+                                       "tooltip":  {
+                                                       "mode":  "single"
+                                                   }
+                                   },
+                       "id":  1,
+                       "type":  "timeseries",
+                       "description":  "CPU do processo Python, em porcentagem de um núcleo. Não representa CPU total do nó nem porcentagem do limite de 250m do contêiner.",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "mecaniqa-prometheus"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "custom":  {
+                                                                           "spanNulls":  false,
+                                                                           "lineWidth":  2,
+                                                                           "drawStyle":  "line",
+                                                                           "fillOpacity":  15
+                                                                       },
+                                                            "color":  {
+                                                                          "fixedColor":  "blue",
+                                                                          "mode":  "fixed"
+                                                                      },
+                                                            "min":  0,
+                                                            "unit":  "percent"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "editorMode":  "code",
+                                           "legendFormat":  "CPU (% de um núcleo)",
+                                           "expr":  "100 * sum(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                           "refId":  "A",
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "CPU",
+                       "gridPos":  {
+                                       "y":  0,
+                                       "w":  24,
+                                       "x":  0,
+                                       "h":  16
+                                   }
+                   }
+               ]
+}

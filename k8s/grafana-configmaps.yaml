@@ -1,0 +1,406 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning
+  namespace: mecaniqa
+data:
+  prometheus.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: mecaniqa-prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus.mecaniqa.svc.cluster.local:9090
+        isDefault: true
+        editable: false
+        jsonData:
+          timeInterval: 15s
+          httpMethod: POST
+  provider.yaml: |
+    apiVersion: 1
+    providers:
+      - name: mecaniqa-oat2
+        orgId: 1
+        folder: MecaniQA OAT 2
+        type: file
+        disableDeletion: false
+        editable: false
+        updateIntervalSeconds: 15
+        options:
+          path: /var/lib/grafana/dashboards
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: mecaniqa
+data:
+  cpu.json: |
+    {
+        "id":  null,
+        "uid":  "mecaniqa-cpu",
+        "title":  "MecaniQA - CPU",
+        "description":  "CPU do processo Python, em porcentagem de um núcleo. Não representa CPU total do nó nem porcentagem do limite de 250m do contêiner.",
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "timezone":  "America/Sao_Paulo",
+        "schemaVersion":  41,
+        "version":  1,
+        "editable":  false,
+        "refresh":  "15s",
+        "time":  {
+                     "to":  "now",
+                     "from":  "now-15m"
+                 },
+        "links":  [
+                      {
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "includeVars":  false,
+                          "type":  "dashboards",
+                          "title":  "Outros dashboards OAT 2",
+                          "asDropdown":  true
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "options":  {
+                                           "legend":  {
+                                                          "placement":  "bottom",
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "id":  1,
+                           "type":  "timeseries",
+                           "description":  "CPU do processo Python, em porcentagem de um núcleo. Não representa CPU total do nó nem porcentagem do limite de 250m do contêiner.",
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "custom":  {
+                                                                               "spanNulls":  false,
+                                                                               "lineWidth":  2,
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15
+                                                                           },
+                                                                "color":  {
+                                                                              "fixedColor":  "blue",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "min":  0,
+                                                                "unit":  "percent"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "legendFormat":  "CPU (% de um núcleo)",
+                                               "expr":  "100 * sum(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "refId":  "A",
+                                               "range":  true
+                                           }
+                                       ],
+                           "title":  "CPU",
+                           "gridPos":  {
+                                           "y":  0,
+                                           "w":  24,
+                                           "x":  0,
+                                           "h":  16
+                                       }
+                       }
+                   ]
+    }
+  erro.json: |
+    {
+        "id":  null,
+        "uid":  "mecaniqa-erro",
+        "title":  "MecaniQA - Erro na aplicação",
+        "description":  "Erros de processamento ou leituras inválidas por segundo. Zero com coleta ativa significa ausência de erros observados. No data significa ausência de amostras. Falha detectada no veículo não é erro da aplicação.",
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "timezone":  "America/Sao_Paulo",
+        "schemaVersion":  41,
+        "version":  1,
+        "editable":  false,
+        "refresh":  "15s",
+        "time":  {
+                     "to":  "now",
+                     "from":  "now-15m"
+                 },
+        "links":  [
+                      {
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "includeVars":  false,
+                          "type":  "dashboards",
+                          "title":  "Outros dashboards OAT 2",
+                          "asDropdown":  true
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "options":  {
+                                           "legend":  {
+                                                          "placement":  "bottom",
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "id":  1,
+                           "type":  "timeseries",
+                           "description":  "Erros de processamento ou leituras inválidas por segundo. Zero com coleta ativa significa ausência de erros observados. No data significa ausência de amostras. Falha detectada no veículo não é erro da aplicação.",
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "custom":  {
+                                                                               "spanNulls":  false,
+                                                                               "lineWidth":  2,
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15
+                                                                           },
+                                                                "color":  {
+                                                                              "fixedColor":  "red",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "min":  0,
+                                                                "unit":  "ops"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "legendFormat":  "Leituras rejeitadas/s",
+                                               "expr":  "sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "refId":  "A",
+                                               "range":  true
+                                           }
+                                       ],
+                           "title":  "Erro na aplicação",
+                           "gridPos":  {
+                                           "y":  0,
+                                           "w":  24,
+                                           "x":  0,
+                                           "h":  16
+                                       }
+                       }
+                   ]
+    }
+  memoria.json: |
+    {
+        "id":  null,
+        "uid":  "mecaniqa-memoria",
+        "title":  "MecaniQA - Memória",
+        "description":  "Memória residente do processo Python em bytes. Não representa toda a memória do contêiner ou do nó.",
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "timezone":  "America/Sao_Paulo",
+        "schemaVersion":  41,
+        "version":  1,
+        "editable":  false,
+        "refresh":  "15s",
+        "time":  {
+                     "to":  "now",
+                     "from":  "now-15m"
+                 },
+        "links":  [
+                      {
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "includeVars":  false,
+                          "type":  "dashboards",
+                          "title":  "Outros dashboards OAT 2",
+                          "asDropdown":  true
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "options":  {
+                                           "legend":  {
+                                                          "placement":  "bottom",
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "id":  1,
+                           "type":  "timeseries",
+                           "description":  "Memória residente do processo Python em bytes. Não representa toda a memória do contêiner ou do nó.",
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "custom":  {
+                                                                               "spanNulls":  false,
+                                                                               "lineWidth":  2,
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15
+                                                                           },
+                                                                "color":  {
+                                                                              "fixedColor":  "purple",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "min":  0,
+                                                                "unit":  "bytes"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "legendFormat":  "Memória residente (RSS)",
+                                               "expr":  "sum(process_resident_memory_bytes{job=\"iot-simulator\"})",
+                                               "refId":  "A",
+                                               "range":  true
+                                           }
+                                       ],
+                           "title":  "Memória",
+                           "gridPos":  {
+                                           "y":  0,
+                                           "w":  24,
+                                           "x":  0,
+                                           "h":  16
+                                       }
+                       }
+                   ]
+    }
+  sucesso.json: |
+    {
+        "id":  null,
+        "uid":  "mecaniqa-sucesso",
+        "title":  "MecaniQA - Sucesso na aplicação",
+        "description":  "Leituras válidas processadas localmente por segundo, somando sensores de temperatura e elétricos. Inclui diagnósticos que detectaram falhas no veículo; não comprova gravação na API Java ou nos bancos.",
+        "tags":  [
+                     "mecaniqa",
+                     "oat2",
+                     "14-10-2026"
+                 ],
+        "timezone":  "America/Sao_Paulo",
+        "schemaVersion":  41,
+        "version":  1,
+        "editable":  false,
+        "refresh":  "15s",
+        "time":  {
+                     "to":  "now",
+                     "from":  "now-15m"
+                 },
+        "links":  [
+                      {
+                          "keepTime":  true,
+                          "tags":  [
+                                       "oat2"
+                                   ],
+                          "includeVars":  false,
+                          "type":  "dashboards",
+                          "title":  "Outros dashboards OAT 2",
+                          "asDropdown":  true
+                      }
+                  ],
+        "panels":  [
+                       {
+                           "options":  {
+                                           "legend":  {
+                                                          "placement":  "bottom",
+                                                          "calcs":  [
+                                                                        "lastNotNull",
+                                                                        "max"
+                                                                    ],
+                                                          "displayMode":  "table"
+                                                      },
+                                           "tooltip":  {
+                                                           "mode":  "single"
+                                                       }
+                                       },
+                           "id":  1,
+                           "type":  "timeseries",
+                           "description":  "Leituras válidas processadas localmente por segundo, somando sensores de temperatura e elétricos. Inclui diagnósticos que detectaram falhas no veículo; não comprova gravação na API Java ou nos bancos.",
+                           "datasource":  {
+                                              "type":  "prometheus",
+                                              "uid":  "mecaniqa-prometheus"
+                                          },
+                           "fieldConfig":  {
+                                               "defaults":  {
+                                                                "custom":  {
+                                                                               "spanNulls":  false,
+                                                                               "lineWidth":  2,
+                                                                               "drawStyle":  "line",
+                                                                               "fillOpacity":  15
+                                                                           },
+                                                                "color":  {
+                                                                              "fixedColor":  "green",
+                                                                              "mode":  "fixed"
+                                                                          },
+                                                                "min":  0,
+                                                                "unit":  "ops"
+                                                            },
+                                               "overrides":  [
+
+                                                             ]
+                                           },
+                           "targets":  [
+                                           {
+                                               "editorMode":  "code",
+                                               "legendFormat":  "Leituras processadas/s",
+                                               "expr":  "sum(rate(iot_readings_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                               "refId":  "A",
+                                               "range":  true
+                                           }
+                                       ],
+                           "title":  "Sucesso na aplicação",
+                           "gridPos":  {
+                                           "y":  0,
+                                           "w":  24,
+                                           "x":  0,
+                                           "h":  16
+                                       }
+                       }
+                   ]
+    }

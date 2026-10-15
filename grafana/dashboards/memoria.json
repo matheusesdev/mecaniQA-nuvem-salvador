@@ -1,0 +1,91 @@
+{
+    "id":  null,
+    "uid":  "mecaniqa-memoria",
+    "title":  "MecaniQA - Memória",
+    "description":  "Memória residente do processo Python em bytes. Não representa toda a memória do contêiner ou do nó.",
+    "tags":  [
+                 "mecaniqa",
+                 "oat2",
+                 "14-10-2026"
+             ],
+    "timezone":  "America/Sao_Paulo",
+    "schemaVersion":  41,
+    "version":  1,
+    "editable":  false,
+    "refresh":  "15s",
+    "time":  {
+                 "to":  "now",
+                 "from":  "now-15m"
+             },
+    "links":  [
+                  {
+                      "keepTime":  true,
+                      "tags":  [
+                                   "oat2"
+                               ],
+                      "includeVars":  false,
+                      "type":  "dashboards",
+                      "title":  "Outros dashboards OAT 2",
+                      "asDropdown":  true
+                  }
+              ],
+    "panels":  [
+                   {
+                       "options":  {
+                                       "legend":  {
+                                                      "placement":  "bottom",
+                                                      "calcs":  [
+                                                                    "lastNotNull",
+                                                                    "max"
+                                                                ],
+                                                      "displayMode":  "table"
+                                                  },
+                                       "tooltip":  {
+                                                       "mode":  "single"
+                                                   }
+                                   },
+                       "id":  1,
+                       "type":  "timeseries",
+                       "description":  "Memória residente do processo Python em bytes. Não representa toda a memória do contêiner ou do nó.",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "mecaniqa-prometheus"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "custom":  {
+                                                                           "spanNulls":  false,
+                                                                           "lineWidth":  2,
+                                                                           "drawStyle":  "line",
+                                                                           "fillOpacity":  15
+                                                                       },
+                                                            "color":  {
+                                                                          "fixedColor":  "purple",
+                                                                          "mode":  "fixed"
+                                                                      },
+                                                            "min":  0,
+                                                            "unit":  "bytes"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "editorMode":  "code",
+                                           "legendFormat":  "Memória residente (RSS)",
+                                           "expr":  "sum(process_resident_memory_bytes{job=\"iot-simulator\"})",
+                                           "refId":  "A",
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Memória",
+                       "gridPos":  {
+                                       "y":  0,
+                                       "w":  24,
+                                       "x":  0,
+                                       "h":  16
+                                   }
+                   }
+               ]
+}

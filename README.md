@@ -1,5 +1,22 @@
 # MecaniQA Nuvem Salvador
 
+## OAT 2 — Grafana e quatro dashboards (14/10/2026)
+
+A entrega adiciona Grafana no Kubernetes, fonte Prometheus provisionada e
+exatamente quatro dashboards exportados em JSON: CPU, Memória, Erro na aplicação
+e Sucesso na aplicação. Consulte o [guia e respostas do caderno](docs/entrega-2026-10-14.md),
+o [roteiro para gravação](docs/roteiro-gravacao-2026-10-14.md) e o
+[registro de validação](docs/validacao-2026-10-14.md).
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-local.ps1
+$env:KUBECONFIG = Join-Path (Get-Location) '.local/kubeconfig'
+kubectl --context kind-mecaniqa -n mecaniqa port-forward service/grafana 3000:3000
+```
+
+Abra `http://localhost:3000`; o guia explica como consultar a senha do Secret local.
+Os registros da OAT 1 e de 07/10 abaixo preservam o contexto das etapas anteriores.
+
 Entrega da equipe Salvador para a OAT 1 de Docker, Docker Compose e Kubernetes.
 
 Última atualização: **06/10/2026**.

@@ -1,0 +1,91 @@
+{
+    "id":  null,
+    "uid":  "mecaniqa-sucesso",
+    "title":  "MecaniQA - Sucesso na aplicação",
+    "description":  "Leituras válidas processadas localmente por segundo, somando sensores de temperatura e elétricos. Inclui diagnósticos que detectaram falhas no veículo; não comprova gravação na API Java ou nos bancos.",
+    "tags":  [
+                 "mecaniqa",
+                 "oat2",
+                 "14-10-2026"
+             ],
+    "timezone":  "America/Sao_Paulo",
+    "schemaVersion":  41,
+    "version":  1,
+    "editable":  false,
+    "refresh":  "15s",
+    "time":  {
+                 "to":  "now",
+                 "from":  "now-15m"
+             },
+    "links":  [
+                  {
+                      "keepTime":  true,
+                      "tags":  [
+                                   "oat2"
+                               ],
+                      "includeVars":  false,
+                      "type":  "dashboards",
+                      "title":  "Outros dashboards OAT 2",
+                      "asDropdown":  true
+                  }
+              ],
+    "panels":  [
+                   {
+                       "options":  {
+                                       "legend":  {
+                                                      "placement":  "bottom",
+                                                      "calcs":  [
+                                                                    "lastNotNull",
+                                                                    "max"
+                                                                ],
+                                                      "displayMode":  "table"
+                                                  },
+                                       "tooltip":  {
+                                                       "mode":  "single"
+                                                   }
+                                   },
+                       "id":  1,
+                       "type":  "timeseries",
+                       "description":  "Leituras válidas processadas localmente por segundo, somando sensores de temperatura e elétricos. Inclui diagnósticos que detectaram falhas no veículo; não comprova gravação na API Java ou nos bancos.",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "mecaniqa-prometheus"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "custom":  {
+                                                                           "spanNulls":  false,
+                                                                           "lineWidth":  2,
+                                                                           "drawStyle":  "line",
+                                                                           "fillOpacity":  15
+                                                                       },
+                                                            "color":  {
+                                                                          "fixedColor":  "green",
+                                                                          "mode":  "fixed"
+                                                                      },
+                                                            "min":  0,
+                                                            "unit":  "ops"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "editorMode":  "code",
+                                           "legendFormat":  "Leituras processadas/s",
+                                           "expr":  "sum(rate(iot_readings_total{job=\"iot-simulator\"}[$__rate_interval]))",
+                                           "refId":  "A",
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Sucesso na aplicação",
+                       "gridPos":  {
+                                       "y":  0,
+                                       "w":  24,
+                                       "x":  0,
+                                       "h":  16
+                                   }
+                   }
+               ]
+}
