@@ -43,6 +43,7 @@ Até a entrega de 21/10/2026, esta branch possui:
 - Grafana com exatamente quatro dashboards: CPU, Memória, Erro e Sucesso;
 - quatro alarmes ativos no Grafana, HPA e coleta individual das réplicas;
 - teste de estresse com evidências de disparo, escala e recuperação;
+- quatro runbooks e acordo operacional com metas de continuidade;
 - scripts e registros de validação para reproduzir e auditar as entregas.
 
 A API Java demonstra conectividade TCP com MySQL e Redis. Ela não implementa as funções completas de gestão de oficinas, não executa consultas de negócio e não recebe os dados gerados pelo simulador IoT. O simulador e a stack de monitoração formam uma demonstração separada de observabilidade.
@@ -245,7 +246,29 @@ Commit principal: `d7ae88e` (`feat: entrega de 21/10 com HPA alarmes e evidencia
 
 ## 21/10/2026 — Encontro 4: runbooks e continuidade dos negócios
 
-A segunda entrega está na branch `entrega-oat2-21-10-runbooks-continuidade`, com os quatro runbooks e o acordo de SLA, SLO, SLI, RTO e RPO. A documentação complementar não faz parte desta branch da primeira entrega.
+### Papéis registrados
+
+- Piloto: Juan Pablo Barros Carvalho
+- Co-Piloto: Matheus Espírito Santo dos Santos
+- QA: Rafael Pires Araújo
+- Arquiteto / Documentador: não preenchido no caderno
+- Scrum Master: Albert Santos Soares
+
+### Decisões, código e entrega
+
+A equipe definiu um runbook para cada alarme, com condição de disparo, impacto, responsável, comandos de diagnóstico, ações de recuperação, critérios de encerramento e evidências. O acordo operacional adota SLA de 99,9%, SLO de 99,95%, SLI baseado em verificações externas bem-sucedidas, RTO de 30 minutos e RPO de 15 minutos.
+
+Foram entregues:
+
+- quatro runbooks: [CPU](docs/runbooks/cpu.md), [Memória](docs/runbooks/memoria.md), [Erro](docs/runbooks/erro.md) e [Sucesso](docs/runbooks/sucesso.md);
+- [acordo operacional](docs/acordo-operacional.md), com definições, fórmulas, período de apuração e orçamento de indisponibilidade;
+- responsabilidades e passos para diagnóstico, recuperação e encerramento de incidentes;
+- análise da queda de 45 minutos: ultrapassa o RTO e consome aproximadamente 8,56% do orçamento anual do SLA, sem determinar a perda de dados;
+- [mapa da entrega](docs/entrega-2026-10-21-continuidade.md), relacionando as decisões aos documentos e às evidências da sessão anterior.
+
+SLA, SLO, RTO e RPO são metas acadêmicas formalizadas. O teste local não demonstra disponibilidade anual, recuperação de uma região inteira ou cumprimento do RPO por restauração de banco de dados.
+
+Commit principal: `4b5cbde` (`docs: entrega de 21/10 com runbooks e acordo de continuidade`). Branch: `entrega-oat2-21-10-runbooks-continuidade`. Esta branch inclui a implementação e as evidências da primeira entrega.
 
 ## Como executar o ambiente atual
 
@@ -287,6 +310,7 @@ dashboards e as regras. Credenciais de outros ambientes devem ser próprias.
 - CPU e memória representam o processo Python, não todo o nó.
 - Em 21/10, a coleta passa a descobrir cada réplica via DNS headless; a validação atual está no relatório dessa sessão.
 - As capturas de 14/10 representam carga sintética normal, não teste de estresse.
+- As metas de continuidade estão documentadas; desastre regional e restauração de dados não foram testados.
 - Credenciais versionadas são exclusivamente didáticas.
 
 O README distingue configuração, implementação e validação histórica; a presença de um arquivo não substitui evidência de execução.
