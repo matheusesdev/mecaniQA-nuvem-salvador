@@ -228,8 +228,10 @@ registram a data real de execução, embora atendam à sessão acadêmica de 21/
 
 ## 21/10/2026 — Segunda entrega continuidade
 
-A documentação de runbooks e das metas de SLA, SLO, SLI, RTO e RPO fica na branch
-`entrega-oat2-21-10-runbooks-continuidade`, baseada na primeira entrega.
+Esta branch `entrega-oat2-21-10-runbooks-continuidade` inclui a primeira entrega e
+a documentação complementar: [quatro runbooks e mapa da entrega](docs/entrega-2026-10-21-continuidade.md)
+e [acordo operacional](docs/acordo-operacional.md), com SLA 99,9%, SLO 99,95%,
+SLI externo, RTO de 30 minutos e RPO de 15 minutos.
 As duas branches são locais para revisão; integração na main e publicação não
 fazem parte desta preparação.
 
