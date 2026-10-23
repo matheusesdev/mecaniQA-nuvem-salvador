@@ -4,7 +4,8 @@ $utf8 = [System.Text.UTF8Encoding]::new($false)
 $resources = @(
     @{ Name = 'grafana-provisioning'; Files = @(
         @{ Key = 'prometheus.yaml'; Path = 'grafana/provisioning/datasources/prometheus.yaml' },
-        @{ Key = 'provider.yaml'; Path = 'grafana/provisioning/dashboards/provider.yaml' }
+        @{ Key = 'provider.yaml'; Path = 'grafana/provisioning/dashboards/provider.yaml' },
+        @{ Key = 'alerts.yaml'; Path = 'grafana/provisioning/alerting/alerts.yaml' }
     ) },
     @{ Name = 'grafana-dashboards'; Files = @(
         Get-ChildItem (Join-Path $projectRoot 'grafana/dashboards') -Filter '*.json' |

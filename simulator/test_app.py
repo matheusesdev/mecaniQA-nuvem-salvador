@@ -1,4 +1,5 @@
 import math
+import threading
 import unittest
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -13,10 +14,36 @@ from app import (
     load_settings,
     peak_is_active,
     process_reading,
+    run,
 )
 
 
 class SimulatorTests(unittest.TestCase):
+    def test_injected_invalid_reading_counts_as_application_error(self):
+        stop = threading.Event()
+        before = iot_processing_errors_total._value.get()
+
+        def one_reading():
+            stop.set()
+            return {"sensor_type": "temperature", "value": 90, "fault": False}
+
+        run(Settings(1, 1, "off", 0, 1, 1), stop, one_reading)
+        self.assertEqual(iot_processing_errors_total._value.get(), before + 1)
+        self.assertEqual(iot_readings_in_progress._value.get(), 0)
+
+    def test_fault_injection_is_disabled_by_default_and_bounded(self):
+        settings = load_settings({})
+        self.assertEqual(settings.stress_cpu_ms, 0)
+        self.assertEqual(settings.stress_memory_mib, 0)
+        self.assertEqual(settings.stress_error_ratio, 0)
+        for name, invalid in (("STRESS_CPU_MS", "1001"),
+                              ("STRESS_MEMORY_MIB", "81"),
+                              ("STRESS_MEMORY_MIB", "1.5"),
+                              ("STRESS_ERROR_RATIO", "1.1"),
+                              ("STRESS_ERROR_RATIO", "nan")):
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                load_settings({name: invalid})
+
     def test_valid_reading_updates_counter_and_latest_value(self):
         before = iot_readings_total.labels(sensor_type="temperature")._value.get()
         process_reading(

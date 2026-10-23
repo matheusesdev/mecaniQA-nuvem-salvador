@@ -60,6 +60,9 @@ class Settings:
     readings_per_second: float
     peak_multiplier: float
     peak_mode: str
+    stress_cpu_ms: float = 0
+    stress_memory_mib: int = 0
+    stress_error_ratio: float = 0
 
 
 def _positive_number(name: str, raw_value: str) -> float:
@@ -91,7 +94,17 @@ def load_settings(environ: dict[str, str] | None = None) -> Settings:
     peak_mode = values.get("PEAK_MODE", "scheduled").strip().lower()
     if peak_mode not in PEAK_MODES:
         raise ValueError(f"PEAK_MODE must be one of: {', '.join(PEAK_MODES)}")
-    return Settings(readings_per_second, peak_multiplier, peak_mode)
+    stress = []
+    for name, maximum in (("STRESS_CPU_MS", 1000), ("STRESS_MEMORY_MIB", 80),
+                          ("STRESS_ERROR_RATIO", 1)):
+        value = float(values.get(name, "0"))
+        if not math.isfinite(value) or not 0 <= value <= maximum:
+            raise ValueError(f"{name} must be between 0 and {maximum}")
+        if name == "STRESS_MEMORY_MIB" and not value.is_integer():
+            raise ValueError("STRESS_MEMORY_MIB must be an integer")
+        stress.append(value)
+    return Settings(readings_per_second, peak_multiplier, peak_mode,
+                    stress[0], int(stress[1]), stress[2])
 
 
 def peak_is_active(
@@ -163,6 +176,11 @@ def run(
     stop_event: threading.Event,
     reading_factory: Callable[[], dict[str, object]] = generate_reading,
 ) -> None:
+    # Explicit, bounded fault injection for the local academic stress exercise.
+    # Keep this buffer referenced until shutdown and touch all pages.
+    memory_load = bytearray(settings.stress_memory_mib * 1024 * 1024)
+    for offset in range(0, len(memory_load), 4096):
+        memory_load[offset] = 1
     next_reading_at = time.monotonic()
     while not stop_event.is_set():
         active_peak = peak_is_active(settings.peak_mode)
@@ -176,7 +194,13 @@ def run(
         now = time.monotonic()
         if now >= next_reading_at:
             try:
-                process_reading(reading_factory())
+                busy_until = time.process_time() + settings.stress_cpu_ms / 1000
+                while time.process_time() < busy_until and not stop_event.is_set():
+                    pass
+                reading = reading_factory()
+                if random.random() < settings.stress_error_ratio:
+                    reading = {**reading, "value": "injected-invalid-value"}
+                process_reading(reading)
             except ValueError as exc:
                 LOGGER.warning("Rejected sensor reading: %s", exc)
             next_reading_at = max(next_reading_at + interval, time.monotonic())

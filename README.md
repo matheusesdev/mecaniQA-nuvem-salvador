@@ -32,7 +32,7 @@ composição devem ser confirmadas com o professor.
 
 ## Estado atual
 
-Até 14/10/2026, o projeto possui:
+Até a entrega de 21/10/2026, esta branch possui:
 
 - API Java conteinerizada, com endpoint `/health`;
 - MySQL e Redis em contêineres próprios;
@@ -41,6 +41,8 @@ Até 14/10/2026, o projeto possui:
 - simulador Python de sensores IoT instrumentado com `prometheus-client`;
 - Prometheus coletando métricas do simulador;
 - Grafana com exatamente quatro dashboards: CPU, Memória, Erro e Sucesso;
+- quatro alarmes ativos no Grafana, HPA e coleta individual das réplicas;
+- teste de estresse com evidências de disparo, escala e recuperação;
 - scripts e registros de validação para reproduzir e auditar as entregas.
 
 A API Java demonstra conectividade TCP com MySQL e Redis. Ela não implementa as funções completas de gestão de oficinas, não executa consultas de negócio e não recebe os dados gerados pelo simulador IoT. O simulador e a stack de monitoração formam uma demonstração separada de observabilidade.
@@ -212,18 +214,38 @@ Foram entregues:
 
 Commit principal: `62faab1` (`feat: entrega OAT2 de 14/10 com Grafana e quatro dashboards`). Veja [docs/entrega-2026-10-14.md](docs/entrega-2026-10-14.md) e [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
 
-## 21/10/2026 — Próximas sessões previstas
+## 21/10/2026 — Encontro 3: HPA, quatro alarmes e teste de estresse
 
-O caderno contém duas sessões futuras com a mesma data de 21/10/2026. Os campos de decisões e papéis ainda estão vazios. As próximas entregas previstas são:
+### Papéis registrados
 
-1. quatro alarmes no Grafana — CPU, Memória e duas métricas da aplicação;
-2. HPA baseado em CPU e memória;
-3. teste de estresse com evidências do escalonamento e dos alarmes;
-4. runbooks para os quatro alarmes;
-5. definições de SLA, SLO, SLI, RTO e RPO;
-6. documentação e evidências consolidadas na `main`.
+- Piloto: Juan Pablo Barros Carvalho
+- Co-Piloto: Matheus Espírito Santo dos Santos
+- QA: Rafael Pires Araújo
+- Arquiteto / Documentador: não preenchido no caderno
+- Scrum Master: Albert Santos Soares
 
-Esses itens **não estão declarados como implementados**.
+### Decisões, código e entrega
+
+A equipe definiu o HPA com uma a cinco réplicas do simulador, CPU em 70% e memória em 80% dos requests, com estabilização de 300 segundos para reduzir as réplicas. Os quatro alarmes do Grafana avaliam condições sustentadas por dois minutos: CPU acima de 80% do limite de 250m, memória acima de 102,4 MiB, erros acima de 5% com pelo menos vinte tentativas e sucesso abaixo de 80% da taxa esperada enquanto houver carga.
+
+Foram entregues:
+
+- manifesto `autoscaling/v2` em `k8s/simulator-hpa.yaml`;
+- quatro regras ativas em `grafana/provisioning/alerting/alerts.yaml`, avaliadas a cada 20 segundos;
+- Service headless e descoberta DNS para o Prometheus coletar cada réplica individualmente;
+- preparação do Metrics Server para o Kind local;
+- injeção sintética limitada de CPU, memória e erros, desativada por padrão;
+- script de teste com restauração automática da configuração original;
+- oito testes automatizados do simulador;
+- logs, eventos, estados das regras e capturas em `docs/evidencias/2026-10-21-estresse/`.
+
+Na execução de 23/10/2026, o HPA aumentou de uma para cinco réplicas, os quatro alarmes dispararam e, após a retirada da carga, as regras voltaram ao normal e o HPA reduziu para uma réplica. A data da sessão é 21/10; os arquivos preservam a data real da validação. O teste utiliza um gerador sintético por réplica e não mede a capacidade de ingestão de sensores reais.
+
+Commit principal: `d7ae88e` (`feat: entrega de 21/10 com HPA alarmes e evidencias de estresse`). Branch: `entrega-oat2-21-10-hpa-alarmes`. Veja [implementação e reprodução](docs/entrega-2026-10-21-hpa-alarmes.md) e [validação da sessão](docs/validacao-2026-10-21.md).
+
+## 21/10/2026 — Encontro 4: runbooks e continuidade dos negócios
+
+A segunda entrega está na branch `entrega-oat2-21-10-runbooks-continuidade`, com os quatro runbooks e o acordo de SLA, SLO, SLI, RTO e RPO. A documentação complementar não faz parte desta branch da primeira entrega.
 
 ## Como executar o ambiente atual
 
@@ -243,15 +265,27 @@ kubectl --context kind-mecaniqa -n mecaniqa port-forward service/prometheus 9090
 kubectl --context kind-mecaniqa -n mecaniqa port-forward service/grafana 3000:3000
 ```
 
-Abra `http://localhost:9090` para consultar as métricas e `http://localhost:3000` para visualizar a pasta **MecaniQA OAT 2**. A senha do Grafana fica no Secret local e não deve ser exibida em gravações ou commits.
+Abra `http://localhost:9090` para consultar as métricas e `http://localhost:3000` para visualizar a pasta **MecaniQA OAT 2**.
+
+O acesso padrão do Grafana local é usuário **`admin`** e senha **`MecaniQA@2026!`**.
+Essa credencial é pública e exclusiva do laboratório local. Novas instalações
+recebem esse padrão; instalações existentes mantêm sua senha até executar:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-grafana.ps1 -ResetLocalCredentials
+```
+
+O comando atualiza o Secret e a senha já persistida no Grafana, preservando os
+dashboards e as regras. Credenciais de outros ambientes devem ser próprias.
 
 ## Evidências e limites
 
 - Docker, Compose, Kubernetes e K9s: [docs/validacao-2026-10-06.md](docs/validacao-2026-10-06.md).
 - Simulador e Prometheus: [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
 - Grafana e dashboards: [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
+- HPA, alarmes e estresse: [docs/validacao-2026-10-21.md](docs/validacao-2026-10-21.md), com execução registrada em 23/10/2026.
 - CPU e memória representam o processo Python, não todo o nó.
-- A coleta estática atual foi validada com uma réplica do simulador.
+- Em 21/10, a coleta passa a descobrir cada réplica via DNS headless; a validação atual está no relatório dessa sessão.
 - As capturas de 14/10 representam carga sintética normal, não teste de estresse.
 - Credenciais versionadas são exclusivamente didáticas.
 

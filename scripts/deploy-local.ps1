@@ -24,7 +24,7 @@ Assert-DiskSpace
 foreach ($service in @('api', 'mysql', 'redis')) {
     Run docker @('build', '-t', "mecaniqa-${service}:encontro1", "./$service")
 }
-Run docker @('build', '-t', 'mecaniqa-simulator:metrics-v1', './simulator')
+Run docker @('build', '-t', 'mecaniqa-simulator:autoscaling-v2', './simulator')
 Assert-DiskSpace
 $clusters = & $kind get clusters
 if ($LASTEXITCODE -ne 0) { throw 'Não foi possível consultar os clusters Kind.' }
@@ -37,7 +37,7 @@ Assert-DiskSpace
 foreach ($service in @('api', 'mysql', 'redis')) {
     Run $kind @('load', 'docker-image', '--name', 'mecaniqa', "mecaniqa-${service}:encontro1")
 }
-Run $kind @('load', 'docker-image', '--name', 'mecaniqa', 'mecaniqa-simulator:metrics-v1')
+Run $kind @('load', 'docker-image', '--name', 'mecaniqa', 'mecaniqa-simulator:autoscaling-v2')
 Run kubectl @('--context', 'kind-mecaniqa', 'apply', '-f', 'k8s/namespace.yaml')
 & "$PSScriptRoot/prepare-grafana.ps1"
 Run kubectl @('--context', 'kind-mecaniqa', 'apply', '--dry-run=server', '-f', 'k8s/')

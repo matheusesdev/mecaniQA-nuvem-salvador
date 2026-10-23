@@ -29,6 +29,236 @@ data:
         updateIntervalSeconds: 15
         options:
           path: /var/lib/grafana/dashboards
+  alerts.yaml: |
+    {
+      "apiVersion": 1,
+      "groups": [
+        {
+          "orgId": 1,
+          "name": "mecaniqa-oat2",
+          "folder": "MecaniQA OAT 2",
+          "interval": "20s",
+          "rules": [
+            {
+              "uid": "mecaniqa-alert-cpu",
+              "title": "CPU acima de 80 por cento do limite",
+              "condition": "C",
+              "for": "2m",
+              "noDataState": "NoData",
+              "execErrState": "Error",
+              "isPaused": false,
+              "labels": {
+                "team": "salvador",
+                "severity": "warning"
+              },
+              "annotations": {
+                "summary": "CPU acima de 80 por cento do limite",
+                "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/cpu.md"
+              },
+              "data": [
+                {
+                  "refId": "A",
+                  "relativeTimeRange": {
+                    "from": 180,
+                    "to": 0
+                  },
+                  "datasourceUid": "mecaniqa-prometheus",
+                  "model": {
+                    "refId": "A",
+                    "expr": "max(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[1m])) / 0.25 * 100",
+                    "instant": true,
+                    "range": false,
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200,
+                    "datasource": {
+                      "type": "prometheus",
+                      "uid": "mecaniqa-prometheus"
+                    }
+                  }
+                },
+                {
+                  "refId": "C",
+                  "relativeTimeRange": {
+                    "from": 0,
+                    "to": 0
+                  },
+                  "datasourceUid": "__expr__",
+                  "model": {
+                    "refId": "C",
+                    "type": "math",
+                    "expression": "$A > 80",
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200
+                  }
+                }
+              ]
+            },
+            {
+              "uid": "mecaniqa-alert-memoria",
+              "title": "Memoria acima de 102.4 MiB",
+              "condition": "C",
+              "for": "2m",
+              "noDataState": "NoData",
+              "execErrState": "Error",
+              "isPaused": false,
+              "labels": {
+                "team": "salvador",
+                "severity": "warning"
+              },
+              "annotations": {
+                "summary": "Memoria acima de 102.4 MiB",
+                "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/memoria.md"
+              },
+              "data": [
+                {
+                  "refId": "A",
+                  "relativeTimeRange": {
+                    "from": 180,
+                    "to": 0
+                  },
+                  "datasourceUid": "mecaniqa-prometheus",
+                  "model": {
+                    "refId": "A",
+                    "expr": "max(process_resident_memory_bytes{job=\"iot-simulator\"}) / 1024 / 1024",
+                    "instant": true,
+                    "range": false,
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200,
+                    "datasource": {
+                      "type": "prometheus",
+                      "uid": "mecaniqa-prometheus"
+                    }
+                  }
+                },
+                {
+                  "refId": "C",
+                  "relativeTimeRange": {
+                    "from": 0,
+                    "to": 0
+                  },
+                  "datasourceUid": "__expr__",
+                  "model": {
+                    "refId": "C",
+                    "type": "math",
+                    "expression": "$A > 102.4",
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200
+                  }
+                }
+              ]
+            },
+            {
+              "uid": "mecaniqa-alert-erro",
+              "title": "Erros acima de 5 por cento com vinte tentativas",
+              "condition": "C",
+              "for": "2m",
+              "noDataState": "NoData",
+              "execErrState": "Error",
+              "isPaused": false,
+              "labels": {
+                "team": "salvador",
+                "severity": "warning"
+              },
+              "annotations": {
+                "summary": "Erros acima de 5 por cento com vinte tentativas",
+                "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/erro.md"
+              },
+              "data": [
+                {
+                  "refId": "A",
+                  "relativeTimeRange": {
+                    "from": 180,
+                    "to": 0
+                  },
+                  "datasourceUid": "mecaniqa-prometheus",
+                  "model": {
+                    "refId": "A",
+                    "expr": "((sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[1m])) / clamp_min((sum(rate(iot_readings_total{job=\"iot-simulator\"}[1m])) + sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[1m]))), 0.000001)) > bool 0.05) * (sum(increase(iot_processing_errors_total{job=\"iot-simulator\"}[1m])) + sum(increase(iot_readings_total{job=\"iot-simulator\"}[1m])) >= bool 20)",
+                    "instant": true,
+                    "range": false,
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200,
+                    "datasource": {
+                      "type": "prometheus",
+                      "uid": "mecaniqa-prometheus"
+                    }
+                  }
+                },
+                {
+                  "refId": "C",
+                  "relativeTimeRange": {
+                    "from": 0,
+                    "to": 0
+                  },
+                  "datasourceUid": "__expr__",
+                  "model": {
+                    "refId": "C",
+                    "type": "math",
+                    "expression": "$A > 0.5",
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200
+                  }
+                }
+              ]
+            },
+            {
+              "uid": "mecaniqa-alert-sucesso",
+              "title": "Sucesso abaixo de 80 por cento da taxa esperada",
+              "condition": "C",
+              "for": "2m",
+              "noDataState": "NoData",
+              "execErrState": "Error",
+              "isPaused": false,
+              "labels": {
+                "team": "salvador",
+                "severity": "warning"
+              },
+              "annotations": {
+                "summary": "Sucesso abaixo de 80 por cento da taxa esperada",
+                "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/sucesso.md"
+              },
+              "data": [
+                {
+                  "refId": "A",
+                  "relativeTimeRange": {
+                    "from": 180,
+                    "to": 0
+                  },
+                  "datasourceUid": "mecaniqa-prometheus",
+                  "model": {
+                    "refId": "A",
+                    "expr": "(sum(rate(iot_readings_total{job=\"iot-simulator\"}[1m])) < bool (0.8 * sum(iot_target_readings_per_second{job=\"iot-simulator\"}))) * (sum(iot_target_readings_per_second{job=\"iot-simulator\"}) > bool 0)",
+                    "instant": true,
+                    "range": false,
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200,
+                    "datasource": {
+                      "type": "prometheus",
+                      "uid": "mecaniqa-prometheus"
+                    }
+                  }
+                },
+                {
+                  "refId": "C",
+                  "relativeTimeRange": {
+                    "from": 0,
+                    "to": 0
+                  },
+                  "datasourceUid": "__expr__",
+                  "model": {
+                    "refId": "C",
+                    "type": "math",
+                    "expression": "$A > 0.5",
+                    "intervalMs": 1000,
+                    "maxDataPoints": 43200
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
 ---
 apiVersion: v1
 kind: ConfigMap
