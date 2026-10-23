@@ -1,0 +1,369 @@
+NAME                                            REFERENCE              TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/simulator   Deployment/simulator   cpu: 4%/70%, memory: 34%/80%   1         5         1          34m
+
+NAME                              READY   STATUS    RESTARTS      AGE
+pod/api-df7f9b654-nbgtr           1/1     Running   3 (57m ago)   15d
+pod/grafana-59d584bbdd-76lv8      1/1     Running   0             29m
+pod/mysql-755dc77787-jq5xl        1/1     Running   3 (57m ago)   15d
+pod/prometheus-7b8f7c5654-nr6f5   1/1     Running   0             30m
+pod/redis-8696fc58f-th9dx         1/1     Running   3 (57m ago)   15d
+pod/simulator-5c98899664-9h62r    1/1     Running   0             10m
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/api          1/1     1            1           15d
+deployment.apps/grafana      1/1     1            1           34m
+deployment.apps/mysql        1/1     1            1           15d
+deployment.apps/prometheus   1/1     1            1           34m
+deployment.apps/redis        1/1     1            1           15d
+deployment.apps/simulator    1/1     1            1           34m
+
+LAST SEEN   TYPE      REASON                         OBJECT                                  MESSAGE
+10m         Normal    Scheduled                      pod/simulator-5c98899664-tfpnw          Successfully assigned mecaniqa/simulator-5c98899664-tfpnw to mecaniqa-control-plane
+27m         Normal    Scheduled                      pod/simulator-785c56b498-kgmvc          Successfully assigned mecaniqa/simulator-785c56b498-kgmvc to mecaniqa-control-plane
+24m         Normal    Scheduled                      pod/simulator-5c98899664-rk7k7          Successfully assigned mecaniqa/simulator-5c98899664-rk7k7 to mecaniqa-control-plane
+34m         Normal    Scheduled                      pod/prometheus-6fffcf878c-6qdj5         Successfully assigned mecaniqa/prometheus-6fffcf878c-6qdj5 to mecaniqa-control-plane
+13m         Normal    Scheduled                      pod/simulator-785c56b498-j4rdh          Successfully assigned mecaniqa/simulator-785c56b498-j4rdh to mecaniqa-control-plane
+34m         Normal    Scheduled                      pod/simulator-77897c4596-8cvhs          Successfully assigned mecaniqa/simulator-77897c4596-8cvhs to mecaniqa-control-plane
+28m         Normal    Scheduled                      pod/simulator-785c56b498-hshxl          Successfully assigned mecaniqa/simulator-785c56b498-hshxl to mecaniqa-control-plane
+30m         Normal    Scheduled                      pod/grafana-95b99bdf-vgkkp              Successfully assigned mecaniqa/grafana-95b99bdf-vgkkp to mecaniqa-control-plane
+10m         Normal    Scheduled                      pod/simulator-5c98899664-rb6vs          Successfully assigned mecaniqa/simulator-5c98899664-rb6vs to mecaniqa-control-plane
+10m         Normal    Scheduled                      pod/simulator-5c98899664-9h62r          Successfully assigned mecaniqa/simulator-5c98899664-9h62r to mecaniqa-control-plane
+10m         Normal    Scheduled                      pod/simulator-5c98899664-jp2fd          Successfully assigned mecaniqa/simulator-5c98899664-jp2fd to mecaniqa-control-plane
+13m         Normal    Scheduled                      pod/simulator-785c56b498-44d44          Successfully assigned mecaniqa/simulator-785c56b498-44d44 to mecaniqa-control-plane
+13m         Normal    Scheduled                      pod/simulator-785c56b498-fl4fk          Successfully assigned mecaniqa/simulator-785c56b498-fl4fk to mecaniqa-control-plane
+27m         Normal    Scheduled                      pod/simulator-785c56b498-h8fcl          Successfully assigned mecaniqa/simulator-785c56b498-h8fcl to mecaniqa-control-plane
+24m         Normal    Scheduled                      pod/simulator-5c98899664-qh9kb          Successfully assigned mecaniqa/simulator-5c98899664-qh9kb to mecaniqa-control-plane
+24m         Normal    Scheduled                      pod/simulator-5c98899664-7mh4x          Successfully assigned mecaniqa/simulator-5c98899664-7mh4x to mecaniqa-control-plane
+34m         Normal    Scheduled                      pod/grafana-5b584b447b-s97mb            Successfully assigned mecaniqa/grafana-5b584b447b-s97mb to mecaniqa-control-plane
+24m         Normal    Scheduled                      pod/simulator-5c98899664-vvl7g          Successfully assigned mecaniqa/simulator-5c98899664-vvl7g to mecaniqa-control-plane
+30m         Normal    Scheduled                      pod/prometheus-7b8f7c5654-nr6f5         Successfully assigned mecaniqa/prometheus-7b8f7c5654-nr6f5 to mecaniqa-control-plane
+24m         Normal    Scheduled                      pod/simulator-5c98899664-l274c          Successfully assigned mecaniqa/simulator-5c98899664-l274c to mecaniqa-control-plane
+28m         Normal    Scheduled                      pod/simulator-785c56b498-zbldk          Successfully assigned mecaniqa/simulator-785c56b498-zbldk to mecaniqa-control-plane
+30m         Normal    Scheduled                      pod/simulator-5c98899664-264z9          Successfully assigned mecaniqa/simulator-5c98899664-264z9 to mecaniqa-control-plane
+31m         Normal    Scheduled                      pod/simulator-6c9665b984-gzr55          Successfully assigned mecaniqa/simulator-6c9665b984-gzr55 to mecaniqa-control-plane
+29m         Normal    Scheduled                      pod/grafana-59d584bbdd-76lv8            Successfully assigned mecaniqa/grafana-59d584bbdd-76lv8 to mecaniqa-control-plane
+13m         Normal    Scheduled                      pod/simulator-785c56b498-ltj6s          Successfully assigned mecaniqa/simulator-785c56b498-ltj6s to mecaniqa-control-plane
+27m         Normal    Scheduled                      pod/simulator-785c56b498-knrq2          Successfully assigned mecaniqa/simulator-785c56b498-knrq2 to mecaniqa-control-plane
+10m         Normal    Scheduled                      pod/simulator-5c98899664-m55v4          Successfully assigned mecaniqa/simulator-5c98899664-m55v4 to mecaniqa-control-plane
+13m         Normal    Scheduled                      pod/simulator-785c56b498-j4szv          Successfully assigned mecaniqa/simulator-785c56b498-j4szv to mecaniqa-control-plane
+15d         Normal    SuccessfulCreate               replicaset/redis-8696fc58f              Created pod: redis-8696fc58f-th9dx
+15d         Normal    ScalingReplicaSet              deployment/redis                        Scaled up replica set redis-8696fc58f from 0 to 1
+15d         Normal    SuccessfulCreate               replicaset/mysql-755dc77787             Created pod: mysql-755dc77787-jq5xl
+15d         Normal    SuccessfulCreate               replicaset/api-df7f9b654                Created pod: api-df7f9b654-bkbzz
+15d         Normal    WaitForFirstConsumer           persistentvolumeclaim/mysql-data        waiting for first consumer to be created before binding
+15d         Normal    ScalingReplicaSet              deployment/api                          Scaled up replica set api-df7f9b654 from 0 to 1
+15d         Normal    Provisioning                   persistentvolumeclaim/mysql-data        External provisioner is provisioning volume for claim "mecaniqa/mysql-data"
+15d         Normal    Scheduled                      pod/api-df7f9b654-bkbzz                 Successfully assigned mecaniqa/api-df7f9b654-bkbzz to mecaniqa-control-plane
+15d         Normal    Provisioning                   persistentvolumeclaim/redis-data        External provisioner is provisioning volume for claim "mecaniqa/redis-data"
+15d         Normal    WaitForFirstConsumer           persistentvolumeclaim/redis-data        waiting for first consumer to be created before binding
+15d         Normal    ScalingReplicaSet              deployment/mysql                        Scaled up replica set mysql-755dc77787 from 0 to 1
+15d         Normal    Started                        pod/api-df7f9b654-bkbzz                 Started container api
+15d         Normal    ExternalProvisioning           persistentvolumeclaim/redis-data        Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+15d         Normal    ExternalProvisioning           persistentvolumeclaim/mysql-data        Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+15d         Normal    Pulled                         pod/api-df7f9b654-bkbzz                 Container image "mecaniqa-api:encontro1" already present on machine
+15d         Normal    Created                        pod/api-df7f9b654-bkbzz                 Created container: api
+15d         Normal    ProvisioningSucceeded          persistentvolumeclaim/mysql-data        Successfully provisioned volume pvc-4f1ec14a-de9c-4c54-97f5-59b4e934d315
+15d         Normal    ProvisioningSucceeded          persistentvolumeclaim/redis-data        Successfully provisioned volume pvc-f5660c1a-8b26-470c-923c-613537714aaf
+15d         Normal    Scheduled                      pod/mysql-755dc77787-jq5xl              Successfully assigned mecaniqa/mysql-755dc77787-jq5xl to mecaniqa-control-plane
+15d         Normal    Scheduled                      pod/redis-8696fc58f-th9dx               Successfully assigned mecaniqa/redis-8696fc58f-th9dx to mecaniqa-control-plane
+15d         Normal    Pulled                         pod/mysql-755dc77787-jq5xl              Container image "mecaniqa-mysql:encontro1" already present on machine
+15d         Normal    Created                        pod/mysql-755dc77787-jq5xl              Created container: mysql
+15d         Normal    Pulled                         pod/redis-8696fc58f-th9dx               Container image "mecaniqa-redis:encontro1" already present on machine
+15d         Normal    Created                        pod/redis-8696fc58f-th9dx               Created container: redis
+15d         Normal    Started                        pod/redis-8696fc58f-th9dx               Started container redis
+15d         Normal    Started                        pod/mysql-755dc77787-jq5xl              Started container mysql
+15d         Warning   Unhealthy                      pod/mysql-755dc77787-jq5xl              Startup probe failed:
+15d         Warning   Unhealthy                      pod/api-df7f9b654-bkbzz                 Readiness probe failed: HTTP probe failed with statuscode: 503
+15d         Normal    Killing                        pod/api-df7f9b654-bkbzz                 Stopping container api
+15d         Normal    SuccessfulCreate               replicaset/api-df7f9b654                Created pod: api-df7f9b654-nbgtr
+15d         Normal    Scheduled                      pod/api-df7f9b654-nbgtr                 Successfully assigned mecaniqa/api-df7f9b654-nbgtr to mecaniqa-control-plane
+15d         Normal    Pulled                         pod/api-df7f9b654-nbgtr                 Container image "mecaniqa-api:encontro1" already present on machine
+15d         Normal    Created                        pod/api-df7f9b654-nbgtr                 Created container: api
+15d         Normal    Started                        pod/api-df7f9b654-nbgtr                 Started container api
+13d         Normal    SandboxChanged                 pod/redis-8696fc58f-th9dx               Pod sandbox changed, it will be killed and re-created.
+13d         Normal    SandboxChanged                 pod/api-df7f9b654-nbgtr                 Pod sandbox changed, it will be killed and re-created.
+13d         Normal    SandboxChanged                 pod/mysql-755dc77787-jq5xl              Pod sandbox changed, it will be killed and re-created.
+13d         Normal    Pulled                         pod/redis-8696fc58f-th9dx               Container image "mecaniqa-redis:encontro1" already present on machine
+13d         Normal    Created                        pod/redis-8696fc58f-th9dx               Created container: redis
+13d         Normal    Pulled                         pod/mysql-755dc77787-jq5xl              Container image "mecaniqa-mysql:encontro1" already present on machine
+13d         Normal    Pulled                         pod/api-df7f9b654-nbgtr                 Container image "mecaniqa-api:encontro1" already present on machine
+13d         Normal    Created                        pod/api-df7f9b654-nbgtr                 Created container: api
+13d         Normal    Created                        pod/mysql-755dc77787-jq5xl              Created container: mysql
+13d         Normal    Started                        pod/redis-8696fc58f-th9dx               Started container redis
+13d         Normal    Started                        pod/api-df7f9b654-nbgtr                 Started container api
+13d         Normal    Started                        pod/mysql-755dc77787-jq5xl              Started container mysql
+13d         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Startup probe failed: dial tcp 10.244.0.5:8080: connect: connection refused
+13d         Warning   Unhealthy                      pod/mysql-755dc77787-jq5xl              Startup probe failed: command timed out: "sh -c mysqladmin ping -h 127.0.0.1 --silent" timed out after 5s
+13d         Warning   Unhealthy                      pod/redis-8696fc58f-th9dx               Readiness probe failed: command timed out: "redis-cli ping" timed out after 3s
+13d         Warning   Unhealthy                      pod/redis-8696fc58f-th9dx               Liveness probe failed: command timed out: "redis-cli ping" timed out after 3s
+13d         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: Get "http://10.244.0.5:8080/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+13d         Warning   Unhealthy                      pod/mysql-755dc77787-jq5xl              Startup probe failed:
+13d         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: HTTP probe failed with statuscode: 503
+9d          Normal    SandboxChanged                 pod/redis-8696fc58f-th9dx               Pod sandbox changed, it will be killed and re-created.
+9d          Normal    SandboxChanged                 pod/mysql-755dc77787-jq5xl              Pod sandbox changed, it will be killed and re-created.
+9d          Normal    SandboxChanged                 pod/api-df7f9b654-nbgtr                 Pod sandbox changed, it will be killed and re-created.
+9d          Normal    Pulled                         pod/mysql-755dc77787-jq5xl              Container image "mecaniqa-mysql:encontro1" already present on machine
+9d          Normal    Created                        pod/mysql-755dc77787-jq5xl              Created container: mysql
+9d          Normal    Pulled                         pod/api-df7f9b654-nbgtr                 Container image "mecaniqa-api:encontro1" already present on machine
+9d          Normal    Pulled                         pod/redis-8696fc58f-th9dx               Container image "mecaniqa-redis:encontro1" already present on machine
+9d          Normal    Created                        pod/redis-8696fc58f-th9dx               Created container: redis
+9d          Normal    Created                        pod/api-df7f9b654-nbgtr                 Created container: api
+9d          Normal    Started                        pod/mysql-755dc77787-jq5xl              Started container mysql
+9d          Normal    Started                        pod/api-df7f9b654-nbgtr                 Started container api
+9d          Normal    Started                        pod/redis-8696fc58f-th9dx               Started container redis
+9d          Warning   Unhealthy                      pod/redis-8696fc58f-th9dx               Startup probe failed: Could not connect to Redis at 127.0.0.1:6379: Connection refused
+9d          Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Startup probe failed: dial tcp 10.244.0.5:8080: connect: connection refused
+9d          Warning   Unhealthy                      pod/redis-8696fc58f-th9dx               Readiness probe failed: command timed out: "redis-cli ping" timed out after 3s
+9d          Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: Get "http://10.244.0.5:8080/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+9d          Warning   Unhealthy                      pod/mysql-755dc77787-jq5xl              Startup probe failed:
+9d          Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: HTTP probe failed with statuscode: 503
+39m         Normal    SandboxChanged                 pod/api-df7f9b654-nbgtr                 Pod sandbox changed, it will be killed and re-created.
+39m         Normal    SandboxChanged                 pod/redis-8696fc58f-th9dx               Pod sandbox changed, it will be killed and re-created.
+39m         Normal    SandboxChanged                 pod/mysql-755dc77787-jq5xl              Pod sandbox changed, it will be killed and re-created.
+39m         Normal    Pulled                         pod/api-df7f9b654-nbgtr                 Container image "mecaniqa-api:encontro1" already present on machine
+39m         Normal    Pulled                         pod/mysql-755dc77787-jq5xl              Container image "mecaniqa-mysql:encontro1" already present on machine
+39m         Normal    Created                        pod/mysql-755dc77787-jq5xl              Created container: mysql
+39m         Normal    Pulled                         pod/redis-8696fc58f-th9dx               Container image "mecaniqa-redis:encontro1" already present on machine
+39m         Normal    Created                        pod/api-df7f9b654-nbgtr                 Created container: api
+39m         Normal    Created                        pod/redis-8696fc58f-th9dx               Created container: redis
+39m         Normal    Started                        pod/mysql-755dc77787-jq5xl              Started container mysql
+39m         Normal    Started                        pod/redis-8696fc58f-th9dx               Started container redis
+39m         Normal    Started                        pod/api-df7f9b654-nbgtr                 Started container api
+39m         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Startup probe failed: dial tcp 10.244.0.6:8080: connect: connection refused
+38m         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: Get "http://10.244.0.6:8080/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+38m         Warning   Unhealthy                      pod/api-df7f9b654-nbgtr                 Readiness probe failed: HTTP probe failed with statuscode: 503
+38m         Warning   Unhealthy                      pod/mysql-755dc77787-jq5xl              Startup probe failed:
+34m         Normal    WaitForFirstConsumer           persistentvolumeclaim/grafana-data      waiting for first consumer to be created before binding
+34m         Normal    Provisioning                   persistentvolumeclaim/grafana-data      External provisioner is provisioning volume for claim "mecaniqa/grafana-data"
+34m         Normal    SuccessfulCreate               replicaset/grafana-5b584b447b           Created pod: grafana-5b584b447b-s97mb
+34m         Normal    ScalingReplicaSet              deployment/grafana                      Scaled up replica set grafana-5b584b447b from 0 to 1
+34m         Normal    WaitForFirstConsumer           persistentvolumeclaim/prometheus-data   waiting for first consumer to be created before binding
+34m         Normal    SuccessfulCreate               replicaset/prometheus-6fffcf878c        Created pod: prometheus-6fffcf878c-6qdj5
+34m         Normal    ScalingReplicaSet              deployment/prometheus                   Scaled up replica set prometheus-6fffcf878c from 0 to 1
+34m         Normal    Provisioning                   persistentvolumeclaim/prometheus-data   External provisioner is provisioning volume for claim "mecaniqa/prometheus-data"
+34m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-77897c4596 from 0 to 1
+34m         Normal    ExternalProvisioning           persistentvolumeclaim/grafana-data      Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+34m         Normal    SuccessfulCreate               replicaset/simulator-77897c4596         Created pod: simulator-77897c4596-8cvhs
+34m         Normal    ExternalProvisioning           persistentvolumeclaim/prometheus-data   Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+34m         Normal    ProvisioningSucceeded          persistentvolumeclaim/grafana-data      Successfully provisioned volume pvc-d1c5c289-9f9c-4fdd-b36f-625d0606e234
+34m         Warning   Failed                         pod/simulator-77897c4596-8cvhs          Error: ImagePullBackOff
+34m         Normal    BackOff                        pod/simulator-77897c4596-8cvhs          Back-off pulling image "mecaniqa-simulator:autoscaling-v2"
+34m         Normal    Pulling                        pod/grafana-5b584b447b-s97mb            Pulling image "grafana/grafana:12.2.0"
+34m         Normal    ProvisioningSucceeded          persistentvolumeclaim/prometheus-data   Successfully provisioned volume pvc-ac6ebc03-922f-42d7-8cde-54dcb3df8a01
+34m         Normal    Pulling                        pod/prometheus-6fffcf878c-6qdj5         Pulling image "prom/prometheus:v3.5.0"
+34m         Normal    Pulling                        pod/simulator-77897c4596-8cvhs          Pulling image "mecaniqa-simulator:autoscaling-v2"
+32m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/simulator       failed to get memory utilization: unable to get metrics for resource memory: no metrics returned from resource metrics API
+32m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/simulator       invalid metrics (2 invalid out of 2), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+32m         Normal    Pulled                         pod/grafana-5b584b447b-s97mb            Successfully pulled image "grafana/grafana:12.2.0" in 2m13.161s (2m13.161s including waiting). Image size: 204417617 bytes.
+32m         Normal    Created                        pod/grafana-5b584b447b-s97mb            Created container: grafana
+32m         Normal    Started                        pod/grafana-5b584b447b-s97mb            Started container grafana
+31m         Normal    Created                        pod/prometheus-6fffcf878c-6qdj5         Created container: prometheus
+31m         Normal    Pulled                         pod/prometheus-6fffcf878c-6qdj5         Successfully pulled image "prom/prometheus:v3.5.0" in 41.568s (2m50.525s including waiting). Image size: 123797512 bytes.
+31m         Normal    Started                        pod/prometheus-6fffcf878c-6qdj5         Started container prometheus
+31m         Warning   Failed                         pod/simulator-77897c4596-8cvhs          Error: ErrImagePull
+31m         Warning   Failed                         pod/simulator-77897c4596-8cvhs          Failed to pull image "mecaniqa-simulator:autoscaling-v2": failed to pull and unpack image "docker.io/library/mecaniqa-simulator:autoscaling-v2": failed to resolve reference "docker.io/library/mecaniqa-simulator:autoscaling-v2": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+31m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-6c9665b984 from 0 to 1
+31m         Normal    SuccessfulCreate               replicaset/simulator-6c9665b984         Created pod: simulator-6c9665b984-gzr55
+31m         Normal    Pulled                         pod/simulator-6c9665b984-gzr55          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+31m         Normal    Created                        pod/simulator-6c9665b984-gzr55          Created container: simulator
+31m         Normal    Started                        pod/simulator-6c9665b984-gzr55          Started container simulator
+31m         Warning   Unhealthy                      pod/simulator-6c9665b984-gzr55          Startup probe failed: Get "http://10.244.0.15:8000/metrics": dial tcp 10.244.0.15:8000: connect: connection refused
+31m         Normal    Pulled                         pod/simulator-77897c4596-8cvhs          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+31m         Normal    Created                        pod/simulator-77897c4596-8cvhs          Created container: simulator
+31m         Normal    Started                        pod/simulator-77897c4596-8cvhs          Started container simulator
+31m         Normal    SuccessfulDelete               replicaset/simulator-77897c4596         Deleted pod: simulator-77897c4596-8cvhs
+31m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled down replica set simulator-77897c4596 from 1 to 0
+31m         Normal    Killing                        pod/simulator-77897c4596-8cvhs          Stopping container simulator
+31m         Warning   Unhealthy                      pod/grafana-5b584b447b-s97mb            Startup probe failed: Get "http://10.244.0.13:3000/api/health": dial tcp 10.244.0.13:3000: connect: connection refused
+30m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-5c98899664 from 0 to 1
+30m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-264z9
+30m         Normal    SuccessfulDelete               replicaset/prometheus-6fffcf878c        Deleted pod: prometheus-6fffcf878c-6qdj5
+30m         Normal    Killing                        pod/prometheus-6fffcf878c-6qdj5         Stopping container prometheus
+30m         Normal    Pulled                         pod/simulator-5c98899664-264z9          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+30m         Normal    SuccessfulDelete               replicaset/grafana-5b584b447b           Deleted pod: grafana-5b584b447b-s97mb
+30m         Normal    Killing                        pod/grafana-5b584b447b-s97mb            Stopping container grafana
+30m         Normal    ScalingReplicaSet              deployment/grafana                      Scaled down replica set grafana-5b584b447b from 1 to 0
+30m         Normal    Created                        pod/simulator-5c98899664-264z9          Created container: simulator
+30m         Normal    ScalingReplicaSet              deployment/prometheus                   Scaled down replica set prometheus-6fffcf878c from 1 to 0
+30m         Normal    SuccessfulCreate               replicaset/prometheus-7b8f7c5654        Created pod: prometheus-7b8f7c5654-nr6f5
+30m         Normal    Started                        pod/simulator-5c98899664-264z9          Started container simulator
+30m         Normal    ScalingReplicaSet              deployment/prometheus                   Scaled up replica set prometheus-7b8f7c5654 from 0 to 1
+30m         Normal    Pulled                         pod/prometheus-7b8f7c5654-nr6f5         Container image "prom/prometheus:v3.5.0" already present on machine
+30m         Warning   Unhealthy                      pod/grafana-5b584b447b-s97mb            Readiness probe failed: Get "http://10.244.0.13:3000/api/health": dial tcp 10.244.0.13:3000: connect: connection refused
+30m         Normal    Created                        pod/prometheus-7b8f7c5654-nr6f5         Created container: prometheus
+30m         Normal    Started                        pod/prometheus-7b8f7c5654-nr6f5         Started container prometheus
+30m         Warning   Unhealthy                      pod/simulator-5c98899664-264z9          Startup probe failed: Get "http://10.244.0.16:8000/metrics": dial tcp 10.244.0.16:8000: connect: connection refused
+30m         Normal    ScalingReplicaSet              deployment/grafana                      Scaled up replica set grafana-95b99bdf from 0 to 1
+30m         Normal    SuccessfulCreate               replicaset/grafana-95b99bdf             Created pod: grafana-95b99bdf-vgkkp
+30m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled down replica set simulator-6c9665b984 from 1 to 0
+30m         Normal    Killing                        pod/simulator-6c9665b984-gzr55          Stopping container simulator
+30m         Normal    SuccessfulDelete               replicaset/simulator-6c9665b984         Deleted pod: simulator-6c9665b984-gzr55
+30m         Warning   Unhealthy                      pod/grafana-95b99bdf-vgkkp              Startup probe failed: Get "http://10.244.0.18:3000/api/health": dial tcp 10.244.0.18:3000: connect: connection refused
+29m         Normal    Created                        pod/grafana-95b99bdf-vgkkp              Created container: grafana
+29m         Normal    Started                        pod/grafana-95b99bdf-vgkkp              Started container grafana
+29m         Normal    Pulled                         pod/grafana-95b99bdf-vgkkp              Container image "grafana/grafana:12.2.0" already present on machine
+29m         Warning   BackOff                        pod/grafana-95b99bdf-vgkkp              Back-off restarting failed container grafana in pod grafana-95b99bdf-vgkkp_mecaniqa(28a5428c-2496-4113-8bdc-5f61e1fe17f1)
+29m         Normal    SuccessfulDelete               replicaset/grafana-95b99bdf             Deleted pod: grafana-95b99bdf-vgkkp
+29m         Normal    ScalingReplicaSet              deployment/grafana                      Scaled down replica set grafana-95b99bdf from 1 to 0
+29m         Normal    ScalingReplicaSet              deployment/grafana                      Scaled up replica set grafana-59d584bbdd from 0 to 1
+29m         Normal    SuccessfulCreate               replicaset/grafana-59d584bbdd           Created pod: grafana-59d584bbdd-76lv8
+29m         Normal    Pulled                         pod/grafana-59d584bbdd-76lv8            Container image "grafana/grafana:12.2.0" already present on machine
+29m         Normal    Created                        pod/grafana-59d584bbdd-76lv8            Created container: grafana
+29m         Normal    Started                        pod/grafana-59d584bbdd-76lv8            Started container grafana
+28m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-zbldk
+28m         Normal    Created                        pod/simulator-785c56b498-zbldk          Created container: simulator
+28m         Normal    Started                        pod/simulator-785c56b498-zbldk          Started container simulator
+28m         Normal    Pulled                         pod/simulator-785c56b498-zbldk          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+28m         Warning   Unhealthy                      pod/simulator-785c56b498-zbldk          Startup probe failed: Get "http://10.244.0.20:8000/metrics": dial tcp 10.244.0.20:8000: connect: connection refused
+28m         Normal    Killing                        pod/simulator-5c98899664-264z9          Stopping container simulator
+28m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-264z9
+28m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/simulator       failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+28m         Normal    Pulled                         pod/simulator-785c56b498-hshxl          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+28m         Normal    Created                        pod/simulator-785c56b498-hshxl          Created container: simulator
+28m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-hshxl
+28m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-785c56b498 from 1 to 2
+28m         Normal    Started                        pod/simulator-785c56b498-hshxl          Started container simulator
+27m         Normal    Pulled                         pod/simulator-785c56b498-h8fcl          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+27m         Normal    Created                        pod/simulator-785c56b498-knrq2          Created container: simulator
+27m         Normal    Created                        pod/simulator-785c56b498-kgmvc          Created container: simulator
+27m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-kgmvc
+27m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-h8fcl
+27m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-knrq2
+27m         Normal    Pulled                         pod/simulator-785c56b498-kgmvc          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+27m         Normal    Created                        pod/simulator-785c56b498-h8fcl          Created container: simulator
+27m         Normal    Pulled                         pod/simulator-785c56b498-knrq2          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+27m         Normal    Started                        pod/simulator-785c56b498-kgmvc          Started container simulator
+27m         Normal    Started                        pod/simulator-785c56b498-knrq2          Started container simulator
+27m         Normal    Started                        pod/simulator-785c56b498-h8fcl          Started container simulator
+27m         Warning   Unhealthy                      pod/simulator-785c56b498-h8fcl          Startup probe failed: Get "http://10.244.0.23:8000/metrics": dial tcp 10.244.0.23:8000: connect: connection refused
+27m         Warning   Unhealthy                      pod/simulator-785c56b498-knrq2          Startup probe failed: Get "http://10.244.0.22:8000/metrics": dial tcp 10.244.0.22:8000: connect: connection refused
+27m         Warning   Unhealthy                      pod/simulator-785c56b498-kgmvc          Startup probe failed: Get "http://10.244.0.24:8000/metrics": dial tcp 10.244.0.24:8000: connect: connection refused
+27m         Warning   Unhealthy                      pod/simulator-785c56b498-knrq2          Startup probe failed: Get "http://10.244.0.22:8000/metrics": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+27m         Warning   Unhealthy                      pod/simulator-785c56b498-kgmvc          Startup probe failed: Get "http://10.244.0.24:8000/metrics": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+24m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-vvl7g
+24m         Normal    Killing                        pod/simulator-785c56b498-knrq2          Stopping container simulator
+24m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-rk7k7
+24m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-7mh4x
+24m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-knrq2
+24m         Normal    Pulled                         pod/simulator-5c98899664-7mh4x          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+24m         Normal    Pulled                         pod/simulator-5c98899664-vvl7g          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+24m         Normal    Pulled                         pod/simulator-5c98899664-rk7k7          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+24m         Normal    Created                        pod/simulator-5c98899664-rk7k7          Created container: simulator
+24m         Normal    Created                        pod/simulator-5c98899664-7mh4x          Created container: simulator
+24m         Normal    Created                        pod/simulator-5c98899664-vvl7g          Created container: simulator
+24m         Normal    Started                        pod/simulator-5c98899664-7mh4x          Started container simulator
+24m         Normal    Started                        pod/simulator-5c98899664-rk7k7          Started container simulator
+24m         Normal    Started                        pod/simulator-5c98899664-vvl7g          Started container simulator
+24m         Warning   Unhealthy                      pod/simulator-5c98899664-vvl7g          Startup probe failed: Get "http://10.244.0.25:8000/metrics": dial tcp 10.244.0.25:8000: connect: connection refused
+24m         Warning   Unhealthy                      pod/simulator-5c98899664-rk7k7          Startup probe failed: Get "http://10.244.0.27:8000/metrics": dial tcp 10.244.0.27:8000: connect: connection refused
+24m         Warning   Unhealthy                      pod/simulator-5c98899664-7mh4x          Startup probe failed: Get "http://10.244.0.26:8000/metrics": dial tcp 10.244.0.26:8000: connect: connection refused
+24m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-zbldk
+24m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-qh9kb
+24m         Normal    Killing                        pod/simulator-785c56b498-zbldk          Stopping container simulator
+24m         Normal    Killing                        pod/simulator-785c56b498-kgmvc          Stopping container simulator
+24m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-kgmvc
+24m         Normal    Pulled                         pod/simulator-5c98899664-l274c          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+24m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-h8fcl
+24m         Normal    Created                        pod/simulator-5c98899664-l274c          Created container: simulator
+24m         Normal    Killing                        pod/simulator-785c56b498-h8fcl          Stopping container simulator
+24m         Normal    Pulled                         pod/simulator-5c98899664-qh9kb          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+24m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-l274c
+24m         Normal    Created                        pod/simulator-5c98899664-qh9kb          Created container: simulator
+24m         Normal    Started                        pod/simulator-5c98899664-qh9kb          Started container simulator
+24m         Normal    Started                        pod/simulator-5c98899664-l274c          Started container simulator
+24m         Warning   Unhealthy                      pod/simulator-5c98899664-qh9kb          Startup probe failed: Get "http://10.244.0.28:8000/metrics": dial tcp 10.244.0.28:8000: connect: connection refused
+24m         Warning   Unhealthy                      pod/simulator-5c98899664-l274c          Startup probe failed: Get "http://10.244.0.29:8000/metrics": dial tcp 10.244.0.29:8000: connect: connection refused
+24m         Normal    Killing                        pod/simulator-785c56b498-hshxl          Stopping container simulator
+24m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-hshxl
+19m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-7mh4x
+19m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-vvl7g
+19m         Normal    Killing                        pod/simulator-5c98899664-vvl7g          Stopping container simulator
+19m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-rk7k7
+19m         Normal    Killing                        pod/simulator-5c98899664-rk7k7          Stopping container simulator
+19m         Normal    Killing                        pod/simulator-5c98899664-7mh4x          Stopping container simulator
+14m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-qh9kb
+14m         Normal    Killing                        pod/simulator-5c98899664-qh9kb          Stopping container simulator
+13m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-785c56b498 from 0 to 1
+13m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-fl4fk
+13m         Normal    Pulled                         pod/simulator-785c56b498-fl4fk          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+13m         Normal    Created                        pod/simulator-785c56b498-fl4fk          Created container: simulator
+13m         Normal    Started                        pod/simulator-785c56b498-fl4fk          Started container simulator
+13m         Warning   Unhealthy                      pod/simulator-785c56b498-fl4fk          Startup probe failed: Get "http://10.244.0.30:8000/metrics": dial tcp 10.244.0.30:8000: connect: connection refused
+13m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled down replica set simulator-5c98899664 from 1 to 0
+13m         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-l274c
+13m         Normal    Killing                        pod/simulator-5c98899664-l274c          Stopping container simulator
+13m         Normal    SuccessfulRescale              horizontalpodautoscaler/simulator       New size: 2; reason: memory resource utilization (percentage of request) above target
+13m         Normal    Created                        pod/simulator-785c56b498-j4rdh          Created container: simulator
+13m         Normal    Pulled                         pod/simulator-785c56b498-j4rdh          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+13m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-j4rdh
+13m         Normal    Started                        pod/simulator-785c56b498-j4rdh          Started container simulator
+13m         Normal    Pulled                         pod/simulator-785c56b498-44d44          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+13m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-j4szv
+13m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-785c56b498 from 2 to 5
+13m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-ltj6s
+13m         Normal    SuccessfulCreate               replicaset/simulator-785c56b498         Created pod: simulator-785c56b498-44d44
+13m         Normal    SuccessfulRescale              horizontalpodautoscaler/simulator       New size: 5; reason: cpu resource utilization (percentage of request) above target
+13m         Normal    Pulled                         pod/simulator-785c56b498-j4szv          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+13m         Normal    Created                        pod/simulator-785c56b498-ltj6s          Created container: simulator
+13m         Normal    Pulled                         pod/simulator-785c56b498-ltj6s          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+13m         Normal    Started                        pod/simulator-785c56b498-44d44          Started container simulator
+13m         Normal    Created                        pod/simulator-785c56b498-j4szv          Created container: simulator
+13m         Normal    Created                        pod/simulator-785c56b498-44d44          Created container: simulator
+13m         Normal    Started                        pod/simulator-785c56b498-j4szv          Started container simulator
+13m         Normal    Started                        pod/simulator-785c56b498-ltj6s          Started container simulator
+13m         Warning   Unhealthy                      pod/simulator-785c56b498-44d44          Startup probe failed: Get "http://10.244.0.32:8000/metrics": dial tcp 10.244.0.32:8000: connect: connection refused
+13m         Warning   Unhealthy                      pod/simulator-785c56b498-j4szv          Startup probe failed: Get "http://10.244.0.33:8000/metrics": dial tcp 10.244.0.33:8000: connect: connection refused
+13m         Warning   Unhealthy                      pod/simulator-785c56b498-ltj6s          Startup probe failed: Get "http://10.244.0.34:8000/metrics": dial tcp 10.244.0.34:8000: connect: connection refused
+13m         Warning   Unhealthy                      pod/simulator-785c56b498-ltj6s          Startup probe failed: Get "http://10.244.0.34:8000/metrics": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+10m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-9h62r
+10m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-rb6vs
+10m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-44d44
+10m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-tfpnw
+10m         Normal    Killing                        pod/simulator-785c56b498-44d44          Stopping container simulator
+10m         Normal    Pulled                         pod/simulator-5c98899664-9h62r          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+10m         Normal    Created                        pod/simulator-5c98899664-tfpnw          Created container: simulator
+10m         Normal    Created                        pod/simulator-5c98899664-9h62r          Created container: simulator
+10m         Normal    Pulled                         pod/simulator-5c98899664-tfpnw          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+10m         Normal    Pulled                         pod/simulator-5c98899664-rb6vs          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+10m         Warning   Unhealthy                      pod/simulator-785c56b498-44d44          Readiness probe failed: Get "http://10.244.0.32:8000/metrics": dial tcp 10.244.0.32:8000: connect: connection refused
+10m         Normal    Created                        pod/simulator-5c98899664-rb6vs          Created container: simulator
+10m         Normal    Started                        pod/simulator-5c98899664-tfpnw          Started container simulator
+10m         Normal    Started                        pod/simulator-5c98899664-9h62r          Started container simulator
+10m         Normal    Started                        pod/simulator-5c98899664-rb6vs          Started container simulator
+10m         Warning   Unhealthy                      pod/simulator-5c98899664-tfpnw          Startup probe failed: Get "http://10.244.0.35:8000/metrics": dial tcp 10.244.0.35:8000: connect: connection refused
+10m         Warning   Unhealthy                      pod/simulator-5c98899664-9h62r          Startup probe failed: Get "http://10.244.0.36:8000/metrics": dial tcp 10.244.0.36:8000: connect: connection refused
+10m         Warning   Unhealthy                      pod/simulator-5c98899664-rb6vs          Startup probe failed: Get "http://10.244.0.37:8000/metrics": dial tcp 10.244.0.37:8000: connect: connection refused
+10m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-j4szv
+10m         Normal    Killing                        pod/simulator-785c56b498-fl4fk          Stopping container simulator
+10m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-m55v4
+10m         Normal    SuccessfulCreate               replicaset/simulator-5c98899664         Created pod: simulator-5c98899664-jp2fd
+10m         Normal    Killing                        pod/simulator-785c56b498-j4szv          Stopping container simulator
+10m         Normal    Killing                        pod/simulator-785c56b498-j4rdh          Stopping container simulator
+10m         Normal    ScalingReplicaSet              deployment/simulator                    Scaled up replica set simulator-5c98899664 from 3 to 4
+10m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-fl4fk
+10m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-j4rdh
+10m         Normal    Created                        pod/simulator-5c98899664-m55v4          Created container: simulator
+10m         Normal    Created                        pod/simulator-5c98899664-jp2fd          Created container: simulator
+10m         Normal    Pulled                         pod/simulator-5c98899664-jp2fd          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+10m         Normal    Pulled                         pod/simulator-5c98899664-m55v4          Container image "mecaniqa-simulator:autoscaling-v2" already present on machine
+10m         Normal    Started                        pod/simulator-5c98899664-m55v4          Started container simulator
+10m         Normal    Started                        pod/simulator-5c98899664-jp2fd          Started container simulator
+10m         Warning   Unhealthy                      pod/simulator-5c98899664-m55v4          Startup probe failed: Get "http://10.244.0.38:8000/metrics": dial tcp 10.244.0.38:8000: connect: connection refused
+10m         Warning   Unhealthy                      pod/simulator-5c98899664-jp2fd          Startup probe failed: Get "http://10.244.0.39:8000/metrics": dial tcp 10.244.0.39:8000: connect: connection refused
+10m         Normal    SuccessfulDelete               replicaset/simulator-785c56b498         Deleted pod: simulator-785c56b498-ltj6s
+10m         Normal    Killing                        pod/simulator-785c56b498-ltj6s          Stopping container simulator
+10m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/simulator       invalid metrics (1 invalid out of 2), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+10m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/simulator       failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+5m18s       Normal    Killing                        pod/simulator-5c98899664-m55v4          Stopping container simulator
+5m18s       Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-m55v4
+5m18s       Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-rb6vs
+5m18s       Normal    SuccessfulDelete               replicaset/simulator-5c98899664         Deleted pod: simulator-5c98899664-jp2fd
+5m18s       Normal    Killing                        pod/simulator-5c98899664-jp2fd          Stopping container simulator
+5m18s       Normal    Killing                        pod/simulator-5c98899664-rb6vs          Stopping container simulator
+5m18s       Normal    SuccessfulRescale              horizontalpodautoscaler/simulator       New size: 2; reason: All metrics below target
+5m17s       Warning   Unhealthy                      pod/simulator-5c98899664-m55v4          Readiness probe failed: Get "http://10.244.0.38:8000/metrics": dial tcp 10.244.0.38:8000: connect: connection refused
+5m17s       Warning   Unhealthy                      pod/simulator-5c98899664-jp2fd          Readiness probe failed: Get "http://10.244.0.39:8000/metrics": read tcp 10.244.0.1:35288->10.244.0.39:8000: read: connection reset by peer
+17s         Normal    SuccessfulDelete               replicaset/simulator-5c98899664         (combined from similar events): Deleted pod: simulator-5c98899664-tfpnw
+17s         Normal    Killing                        pod/simulator-5c98899664-tfpnw          Stopping container simulator
+17s         Normal    ScalingReplicaSet              deployment/simulator                    (combined from similar events): Scaled down replica set simulator-5c98899664 from 2 to 1
+17s         Normal    SuccessfulRescale              horizontalpodautoscaler/simulator       New size: 1; reason: All metrics below target

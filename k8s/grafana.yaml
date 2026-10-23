@@ -102,6 +102,10 @@ spec:
             - name: dashboards
               mountPath: /var/lib/grafana/dashboards
               readOnly: true
+            - name: provisioning
+              mountPath: /etc/grafana/provisioning/alerting/alerts.yaml
+              subPath: alerts.yaml
+              readOnly: true
             - name: tmp
               mountPath: /tmp
       volumes:

@@ -32,7 +32,7 @@ composição devem ser confirmadas com o professor.
 
 ## Estado atual
 
-Até 14/10/2026, o projeto possui:
+A base de 14/10/2026 possui os componentes abaixo; a seção de 21/10 registra a evolução nesta branch:
 
 - API Java conteinerizada, com endpoint `/health`;
 - MySQL e Redis em contêineres próprios;
@@ -212,18 +212,26 @@ Foram entregues:
 
 Commit principal: `62faab1` (`feat: entrega OAT2 de 14/10 com Grafana e quatro dashboards`). Veja [docs/entrega-2026-10-14.md](docs/entrega-2026-10-14.md) e [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
 
-## 21/10/2026 — Próximas sessões previstas
+## 21/10/2026 — Primeira entrega HPA alarmes e estresse
 
-O caderno contém duas sessões futuras com a mesma data de 21/10/2026. Os campos de decisões e papéis ainda estão vazios. As próximas entregas previstas são:
+Branch: `entrega-oat2-21-10-hpa-alarmes`.
 
-1. quatro alarmes no Grafana — CPU, Memória e duas métricas da aplicação;
-2. HPA baseado em CPU e memória;
-3. teste de estresse com evidências do escalonamento e dos alarmes;
-4. runbooks para os quatro alarmes;
-5. definições de SLA, SLO, SLI, RTO e RPO;
-6. documentação e evidências consolidadas na `main`.
+- HPA de uma a cinco réplicas, CPU em 70% e memória em 80% dos requests;
+- quatro alarmes provisionados no Grafana, com condições sustentadas por dois minutos;
+- descoberta DNS individual das réplicas pelo Prometheus;
+- injeção sintética limitada e desativada por padrão;
+- script de estresse com restauração automática e coleta de logs, estados e capturas.
 
-Esses itens **não estão declarados como implementados**.
+Veja [implementação e reprodução](docs/entrega-2026-10-21-hpa-alarmes.md) e
+[validação da sessão](docs/validacao-2026-10-21.md). Os testes e as evidências
+registram a data real de execução, embora atendam à sessão acadêmica de 21/10.
+
+## 21/10/2026 — Segunda entrega continuidade
+
+A documentação de runbooks e das metas de SLA, SLO, SLI, RTO e RPO fica na branch
+`entrega-oat2-21-10-runbooks-continuidade`, baseada na primeira entrega.
+As duas branches são locais para revisão; integração na main e publicação não
+fazem parte desta preparação.
 
 ## Como executar o ambiente atual
 
@@ -251,7 +259,7 @@ Abra `http://localhost:9090` para consultar as métricas e `http://localhost:300
 - Simulador e Prometheus: [docs/validacao-2026-10-07.md](docs/validacao-2026-10-07.md).
 - Grafana e dashboards: [docs/validacao-2026-10-14.md](docs/validacao-2026-10-14.md).
 - CPU e memória representam o processo Python, não todo o nó.
-- A coleta estática atual foi validada com uma réplica do simulador.
+- Em 21/10, a coleta passa a descobrir cada réplica via DNS headless; a validação atual está no relatório dessa sessão.
 - As capturas de 14/10 representam carga sintética normal, não teste de estresse.
 - Credenciais versionadas são exclusivamente didáticas.
 

@@ -1,0 +1,429 @@
+{
+  "health": {
+    "database": "ok",
+    "version": "12.2.0",
+    "commit": "92f1fba9b4b6700328e99e97328d6639df8ddc3d"
+  },
+  "datasource": {
+    "details": {
+      "application": "Prometheus",
+      "features": {
+        "rulerApiEnabled": false
+      }
+    },
+    "message": "Successfully queried the Prometheus API.",
+    "status": "OK"
+  },
+  "dashboards": [
+    {
+      "id": 2,
+      "uid": "mecaniqa-cpu",
+      "orgId": 1,
+      "title": "MecaniQA - CPU",
+      "uri": "db/mecaniqa-cpu",
+      "url": "/d/mecaniqa-cpu/mecaniqa-cpu",
+      "slug": "",
+      "type": "dash-db",
+      "tags": [
+        "14-10-2026",
+        "mecaniqa",
+        "oat2"
+      ],
+      "isStarred": false,
+      "folderId": 1,
+      "folderUid": "eg23b99txvhmod",
+      "folderTitle": "MecaniQA OAT 2",
+      "folderUrl": "/dashboards/f/eg23b99txvhmod/mecaniqa-oat-2",
+      "sortMeta": 0,
+      "isDeleted": false
+    },
+    {
+      "id": 3,
+      "uid": "mecaniqa-erro",
+      "orgId": 1,
+      "title": "MecaniQA - Erro na aplicação",
+      "uri": "db/mecaniqa-erro-na-aplicacao",
+      "url": "/d/mecaniqa-erro/mecaniqa-erro-na-aplicacao",
+      "slug": "",
+      "type": "dash-db",
+      "tags": [
+        "14-10-2026",
+        "mecaniqa",
+        "oat2"
+      ],
+      "isStarred": false,
+      "folderId": 1,
+      "folderUid": "eg23b99txvhmod",
+      "folderTitle": "MecaniQA OAT 2",
+      "folderUrl": "/dashboards/f/eg23b99txvhmod/mecaniqa-oat-2",
+      "sortMeta": 0,
+      "isDeleted": false
+    },
+    {
+      "id": 4,
+      "uid": "mecaniqa-memoria",
+      "orgId": 1,
+      "title": "MecaniQA - Memória",
+      "uri": "db/mecaniqa-memoria",
+      "url": "/d/mecaniqa-memoria/mecaniqa-memoria",
+      "slug": "",
+      "type": "dash-db",
+      "tags": [
+        "14-10-2026",
+        "mecaniqa",
+        "oat2"
+      ],
+      "isStarred": false,
+      "folderId": 1,
+      "folderUid": "eg23b99txvhmod",
+      "folderTitle": "MecaniQA OAT 2",
+      "folderUrl": "/dashboards/f/eg23b99txvhmod/mecaniqa-oat-2",
+      "sortMeta": 0,
+      "isDeleted": false
+    },
+    {
+      "id": 5,
+      "uid": "mecaniqa-sucesso",
+      "orgId": 1,
+      "title": "MecaniQA - Sucesso na aplicação",
+      "uri": "db/mecaniqa-sucesso-na-aplicacao",
+      "url": "/d/mecaniqa-sucesso/mecaniqa-sucesso-na-aplicacao",
+      "slug": "",
+      "type": "dash-db",
+      "tags": [
+        "14-10-2026",
+        "mecaniqa",
+        "oat2"
+      ],
+      "isStarred": false,
+      "folderId": 1,
+      "folderUid": "eg23b99txvhmod",
+      "folderTitle": "MecaniQA OAT 2",
+      "folderUrl": "/dashboards/f/eg23b99txvhmod/mecaniqa-oat-2",
+      "sortMeta": 0,
+      "isDeleted": false
+    }
+  ],
+  "rules": [
+    {
+      "id": 1,
+      "uid": "mecaniqa-alert-cpu",
+      "orgID": 1,
+      "folderUID": "eg23b99txvhmod",
+      "ruleGroup": "mecaniqa-oat2",
+      "title": "CPU acima de 80 por cento do limite",
+      "condition": "C",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 180,
+            "to": 0
+          },
+          "datasourceUid": "mecaniqa-prometheus",
+          "model": {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mecaniqa-prometheus"
+            },
+            "expr": "max(rate(process_cpu_seconds_total{job=\"iot-simulator\"}[1m])) / 0.25 * 100",
+            "instant": true,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "range": false,
+            "refId": "A"
+          }
+        },
+        {
+          "refId": "C",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 0,
+            "to": 0
+          },
+          "datasourceUid": "__expr__",
+          "model": {
+            "expression": "$A > 80",
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "refId": "C",
+            "type": "math"
+          }
+        }
+      ],
+      "updated": "2026-10-23T11:40:40Z",
+      "noDataState": "NoData",
+      "execErrState": "Error",
+      "for": "2m",
+      "keep_firing_for": "0s",
+      "annotations": {
+        "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/cpu.md",
+        "summary": "CPU acima de 80 por cento do limite"
+      },
+      "labels": {
+        "severity": "warning",
+        "team": "salvador"
+      },
+      "provenance": "file",
+      "isPaused": false,
+      "notification_settings": null,
+      "record": null
+    },
+    {
+      "id": 2,
+      "uid": "mecaniqa-alert-memoria",
+      "orgID": 1,
+      "folderUID": "eg23b99txvhmod",
+      "ruleGroup": "mecaniqa-oat2",
+      "title": "Memoria acima de 102.4 MiB",
+      "condition": "C",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 180,
+            "to": 0
+          },
+          "datasourceUid": "mecaniqa-prometheus",
+          "model": {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mecaniqa-prometheus"
+            },
+            "expr": "max(process_resident_memory_bytes{job=\"iot-simulator\"}) / 1024 / 1024",
+            "instant": true,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "range": false,
+            "refId": "A"
+          }
+        },
+        {
+          "refId": "C",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 0,
+            "to": 0
+          },
+          "datasourceUid": "__expr__",
+          "model": {
+            "expression": "$A > 102.4",
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "refId": "C",
+            "type": "math"
+          }
+        }
+      ],
+      "updated": "2026-10-23T11:40:40Z",
+      "noDataState": "NoData",
+      "execErrState": "Error",
+      "for": "2m",
+      "keep_firing_for": "0s",
+      "annotations": {
+        "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/memoria.md",
+        "summary": "Memoria acima de 102.4 MiB"
+      },
+      "labels": {
+        "severity": "warning",
+        "team": "salvador"
+      },
+      "provenance": "file",
+      "isPaused": false,
+      "notification_settings": null,
+      "record": null
+    },
+    {
+      "id": 3,
+      "uid": "mecaniqa-alert-erro",
+      "orgID": 1,
+      "folderUID": "eg23b99txvhmod",
+      "ruleGroup": "mecaniqa-oat2",
+      "title": "Erros acima de 5 por cento com vinte tentativas",
+      "condition": "C",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 180,
+            "to": 0
+          },
+          "datasourceUid": "mecaniqa-prometheus",
+          "model": {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mecaniqa-prometheus"
+            },
+            "expr": "((sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[1m])) / clamp_min((sum(rate(iot_readings_total{job=\"iot-simulator\"}[1m])) + sum(rate(iot_processing_errors_total{job=\"iot-simulator\"}[1m]))), 0.000001)) > bool 0.05) * (sum(increase(iot_processing_errors_total{job=\"iot-simulator\"}[1m])) + sum(increase(iot_readings_total{job=\"iot-simulator\"}[1m])) >= bool 20)",
+            "instant": true,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "range": false,
+            "refId": "A"
+          }
+        },
+        {
+          "refId": "C",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 0,
+            "to": 0
+          },
+          "datasourceUid": "__expr__",
+          "model": {
+            "expression": "$A > 0.5",
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "refId": "C",
+            "type": "math"
+          }
+        }
+      ],
+      "updated": "2026-10-23T11:40:40Z",
+      "noDataState": "NoData",
+      "execErrState": "Error",
+      "for": "2m",
+      "keep_firing_for": "0s",
+      "annotations": {
+        "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/erro.md",
+        "summary": "Erros acima de 5 por cento com vinte tentativas"
+      },
+      "labels": {
+        "severity": "warning",
+        "team": "salvador"
+      },
+      "provenance": "file",
+      "isPaused": false,
+      "notification_settings": null,
+      "record": null
+    },
+    {
+      "id": 4,
+      "uid": "mecaniqa-alert-sucesso",
+      "orgID": 1,
+      "folderUID": "eg23b99txvhmod",
+      "ruleGroup": "mecaniqa-oat2",
+      "title": "Sucesso abaixo de 80 por cento da taxa esperada",
+      "condition": "C",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 180,
+            "to": 0
+          },
+          "datasourceUid": "mecaniqa-prometheus",
+          "model": {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mecaniqa-prometheus"
+            },
+            "expr": "(sum(rate(iot_readings_total{job=\"iot-simulator\"}[1m])) < bool (0.8 * sum(iot_target_readings_per_second{job=\"iot-simulator\"}))) * (sum(iot_target_readings_per_second{job=\"iot-simulator\"}) > bool 0)",
+            "instant": true,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "range": false,
+            "refId": "A"
+          }
+        },
+        {
+          "refId": "C",
+          "queryType": "",
+          "relativeTimeRange": {
+            "from": 0,
+            "to": 0
+          },
+          "datasourceUid": "__expr__",
+          "model": {
+            "expression": "$A > 0.5",
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "refId": "C",
+            "type": "math"
+          }
+        }
+      ],
+      "updated": "2026-10-23T11:40:40Z",
+      "noDataState": "NoData",
+      "execErrState": "Error",
+      "for": "2m",
+      "keep_firing_for": "0s",
+      "annotations": {
+        "runbook_url": "https://github.com/matheusesdev/mecaniQA-nuvem-salvador/blob/entrega-oat2-21-10-runbooks-continuidade/docs/runbooks/sucesso.md",
+        "summary": "Sucesso abaixo de 80 por cento da taxa esperada"
+      },
+      "labels": {
+        "severity": "warning",
+        "team": "salvador"
+      },
+      "provenance": "file",
+      "isPaused": false,
+      "notification_settings": null,
+      "record": null
+    }
+  ],
+  "mecaniqa-alert-cpu": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1792757425.731,
+            "0.4445432318292938"
+          ]
+        }
+      ]
+    }
+  },
+  "mecaniqa-alert-memoria": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1792757425.764,
+            "29.4375"
+          ]
+        }
+      ]
+    }
+  },
+  "mecaniqa-alert-erro": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1792757425.793,
+            "0"
+          ]
+        }
+      ]
+    }
+  },
+  "mecaniqa-alert-sucesso": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1792757425.823,
+            "0"
+          ]
+        }
+      ]
+    }
+  }
+}

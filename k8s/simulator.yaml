@@ -6,7 +6,6 @@ metadata:
   labels:
     app: simulator
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: simulator
@@ -24,7 +23,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: simulator
-          image: mecaniqa-simulator:metrics-v1
+          image: mecaniqa-simulator:autoscaling-v2
           imagePullPolicy: IfNotPresent
           ports:
             - name: metrics
@@ -88,3 +87,17 @@ spec:
       port: 8000
       targetPort: metrics
       protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulator-metrics
+  namespace: mecaniqa
+spec:
+  clusterIP: None
+  selector:
+    app: simulator
+  ports:
+    - name: metrics
+      port: 8000
+      targetPort: metrics
